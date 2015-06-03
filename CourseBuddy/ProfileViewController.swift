@@ -7,18 +7,35 @@
 //
 
 import UIKit
+import Parse
+
+protocol ProfileDelegate {
+    func userDidLogout()
+}
 
 class ProfileViewController: UIViewController {
 
-    @IBOutlet weak var nameLabel: UILabel!
+    var delegate: ProfileDelegate?
     
-    var name: String!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var universityLabel: UILabel!
+    
+    var name: String?
+    var email: String?
+    var university: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if name != nil {
             nameLabel.text = name
+        }
+        if email != nil {
+            emailLabel.text = email
+        }
+        if university != nil {
+            universityLabel.text = university
         }
         // Do any additional setup after loading the view.
     }
@@ -28,6 +45,11 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func logoutButtonPressed(sender: UIButton) {
+        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.userDidLogout()
+
+    }
 
     /*
     // MARK: - Navigation

@@ -406,29 +406,81 @@
                         <viewControllerLayoutGuide type="bottom" id="10z-bW-fB8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PRm-uh-qy5">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-Vv-Z5c">
-                                <rect key="frame" x="254" y="187" width="93" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2G9-yL-fRq">
+                                <rect key="frame" x="0.0" y="260" width="300" height="40"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="A1o-xL-cXp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logoutButtonPressed:" destination="Gm8-52-ouq" eventType="touchUpInside" id="fcw-mU-QBf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CourseBuddy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gdo-0M-T50">
+                                <rect key="frame" x="84" y="8" width="133" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="133" id="OCz-Fz-vEK"/>
+                                    <constraint firstAttribute="height" constant="40" id="fx8-Bj-8aD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-Vv-Z5c">
+                                <rect key="frame" x="104" y="91" width="92" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-es-nil">
+                                <rect key="frame" x="106" y="135" width="88" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFu-tG-7VT">
+                                <rect key="frame" x="87" y="175" width="126" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="bAk-Vv-Z5c" firstAttribute="top" secondItem="7ou-It-BsV" secondAttribute="bottom" constant="167" id="8p3-zJ-Fc6"/>
-                            <constraint firstAttribute="centerX" secondItem="bAk-Vv-Z5c" secondAttribute="centerX" constant="-0.5" id="bby-Am-oEW"/>
+                            <constraint firstItem="dFu-tG-7VT" firstAttribute="top" secondItem="sgl-es-nil" secondAttribute="bottom" constant="20" id="3oR-0X-bF2"/>
+                            <constraint firstAttribute="centerX" secondItem="sgl-es-nil" secondAttribute="centerX" id="4au-YH-f69"/>
+                            <constraint firstItem="10z-bW-fB8" firstAttribute="top" secondItem="2G9-yL-fRq" secondAttribute="bottom" id="5I6-lu-Mm4"/>
+                            <constraint firstItem="Gdo-0M-T50" firstAttribute="top" secondItem="7ou-It-BsV" secondAttribute="bottom" constant="8" id="HZc-Ft-yHd"/>
+                            <constraint firstItem="2G9-yL-fRq" firstAttribute="leading" secondItem="PRm-uh-qy5" secondAttribute="leading" id="ICm-Lr-XFB"/>
+                            <constraint firstItem="sgl-es-nil" firstAttribute="top" secondItem="bAk-Vv-Z5c" secondAttribute="bottom" constant="24" id="Ia4-Xl-iFa"/>
+                            <constraint firstAttribute="centerX" secondItem="bAk-Vv-Z5c" secondAttribute="centerX" id="V16-7u-jpO"/>
+                            <constraint firstAttribute="trailing" secondItem="2G9-yL-fRq" secondAttribute="trailing" id="bdH-Ko-6Pc"/>
+                            <constraint firstItem="bAk-Vv-Z5c" firstAttribute="top" secondItem="Gdo-0M-T50" secondAttribute="bottom" constant="43" id="pBQ-Iy-zKR"/>
+                            <constraint firstAttribute="centerX" secondItem="dFu-tG-7VT" secondAttribute="centerX" id="pJg-WB-Vn8"/>
+                            <constraint firstAttribute="centerX" secondItem="Gdo-0M-T50" secondAttribute="centerX" id="tFt-7M-wok"/>
                         </constraints>
                     </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="300"/>
                     <connections>
+                        <outlet property="emailLabel" destination="sgl-es-nil" id="45l-Kq-h2b"/>
                         <outlet property="nameLabel" destination="bAk-Vv-Z5c" id="8s4-Gq-9oS"/>
+                        <outlet property="universityLabel" destination="dFu-tG-7VT" id="oel-3j-wvo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XpZ-2T-00z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="416" y="-314"/>
+            <point key="canvasLocation" x="416" y="-262"/>
         </scene>
         <!--Notes View Controller-->
         <scene sceneID="YB7-lt-tcM">

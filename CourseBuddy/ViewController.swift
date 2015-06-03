@@ -13,24 +13,29 @@ import ParseUI
 class ViewController: UIViewController, PFLogInViewControllerDelegate {
 
     var defaultData:[String] = ["Welcome to CourseBuddy"]
-    let schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
-    let name = "Owen Monix"
+    var schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
+    var name: String?
+    var email: String?
+    var university: String?
+    var logInController = PFLogInViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //PFUser.logOut()
-        if PFUser.currentUser() == nil {
-            var logInController = PFLogInViewController()
-            logInController.delegate = self
-            logInController.facebookPermissions = [ "public_profile" ]
-            logInController.fields = (PFLogInFields.Facebook)
-            self.presentViewController(logInController, animated: true, completion: nil)
-        } else {
         
-        }
+        logInController.delegate = self
+        logInController.facebookPermissions = [ "public_profile" ]
+        logInController.fields = (PFLogInFields.Facebook)
+        
+        checkUser()
         
         for var i=0; i < 100; i++ {
             defaultData.append("\(i): Welcome to CourseBuddy")
+        }
+    }
+    
+    func checkUser() {
+        if PFUser.currentUser() == nil {
+            self.presentViewController(logInController, animated: true, completion: nil)
         }
     }
 
@@ -51,6 +56,8 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate {
                     let fbUserId = result.objectForKey("id") as! String
                     let name = result.objectForKey("name") as! String
                     if(fbEmail != "") {
+                        self.name = name
+                        self.email = fbEmail
                         PFUser.currentUser()?.username = fbEmail
                         PFUser.currentUser()?.email = fbEmail
                         PFUser.currentUser()?["name"] = name
@@ -93,6 +100,20 @@ extension ViewController: ScheduleDelegate {
     }
 }
 
+extension ViewController: ProfileDelegate {
+    func userDidLogout() {
+        if let user = PFUser.currentUser() {
+            PFUser.logOut()
+            checkUser()
+            self.navigationItem.title = "CourseBuddy"
+            let font = UIFont(name: "Noteworthy-Light", size: 22)
+            if let font = font {
+                self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+            }
+        }
+    }
+}
+
 extension ViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(UIGestureRecognizer,
         shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
@@ -129,6 +150,10 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     @IBAction func profileButtonPressed(sender: UIBarButtonItem) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("Profile") as! ProfileViewController
+        vc.name = self.name
+        vc.email = self.email
+        vc.university = self.university
+        vc.delegate = self
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.barButtonItem = sender
