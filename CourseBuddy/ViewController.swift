@@ -7,19 +7,228 @@
 //
 
 import UIKit
+import Parse
+import ParseUI
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, PFLogInViewControllerDelegate {
+
+    var defaultData:[String] = ["Welcome to CourseBuddy"]
+    let schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
+    let name = "Owen Monix"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        //PFUser.logOut()
+        if PFUser.currentUser() == nil {
+            var logInController = PFLogInViewController()
+            logInController.delegate = self
+            logInController.facebookPermissions = [ "public_profile" ]
+            logInController.fields = (PFLogInFields.Facebook)
+            self.presentViewController(logInController, animated: true, completion: nil)
+        } else {
+        
+        }
+        
+        for var i=0; i < 100; i++ {
+            defaultData.append("\(i): Welcome to CourseBuddy")
+        }
     }
 
+    func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser) -> Void {
+        println("\(user.username) did log in")
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        if (FBSDKAccessToken.currentAccessToken() != nil){
+            var userProfileRequestParams = [ "fields" : "id, name, email"]
+            let userProfileRequest = FBSDKGraphRequest(graphPath: "me", parameters: userProfileRequestParams)
+            let graphConnection = FBSDKGraphRequestConnection()
+            graphConnection.addRequest(userProfileRequest, completionHandler: {
+                (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                if error != nil {
+                    println(error)
+                }
+                else {
+                    let fbEmail = result.objectForKey("email") as! String
+                    let fbUserId = result.objectForKey("id") as! String
+                    let name = result.objectForKey("name") as! String
+                    if(fbEmail != "") {
+                        PFUser.currentUser()?.username = fbEmail
+                        PFUser.currentUser()?.email = fbEmail
+                        PFUser.currentUser()?["name"] = name
+                        PFUser.currentUser()?["facebookId"] = fbUserId
+                        
+                        let emailParts = fbEmail.lowercaseString.componentsSeparatedByString("@")
+                        let domain = emailParts[1] as String
+                        if domain.rangeOfString("edu") != nil {
+                            PFUser.currentUser()?["eduEmail"] = fbEmail
+                        }
+                        
+                        PFUser.currentUser()?.saveEventually(nil)
+                    }
+                }
+            })
+            graphConnection.start()
+        }
+    }
+    
+    func logInViewControllerDidCancelLogIn(controller: PFLogInViewController) -> Void {
+        println("user canceled log in")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
 
+    
 }
+
+extension ViewController: ScheduleDelegate {
+    func didSelectCourseCode(courseCode: String) {
+        self.navigationItem.title = courseCode.uppercaseString
+        let font = UIFont(name: "GeezaPro-Bold", size: 23)
+        if let font = font {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+        }
+    }
+}
+
+extension ViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
+            return true
+    }
+    @IBAction func swipeDownGesture(sender: UISwipeGestureRecognizer) {
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        
+    }
+    
+    @IBAction func swipeUpGesture(sender: UISwipeGestureRecognizer) {
+        self.navigationController?.setToolbarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+    }
+}
+
+extension ViewController: UIPopoverPresentationControllerDelegate {
+    
+    @IBAction func scheduleButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Schedule") as! ScheduleViewController
+        vc.schedule = self.schedule
+        vc.delegate = self
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func profileButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Profile") as! ProfileViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func documentsButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Documents") as! DocumentsViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func resourcesButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Resources") as! ResourcesViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func notesButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Notes") as! NotesViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func imagesButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Images") as! ImagesViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func rosterButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Roster") as! RosterViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func notificationsButtonPressed(sender: UIBarButtonItem) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("Notifications") as! NotificationsViewController
+        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+        popover.barButtonItem = sender
+        popover.delegate = self
+        presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+}
+
+class MainCell: UITableViewCell {
+    @IBOutlet var label: UILabel!
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return defaultData.count
+    }
+    
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("MainCell", forIndexPath: indexPath) as! MainCell
+        
+         cell.label.text = defaultData[indexPath.row]
+        
+        return cell
+    }
+
+}
+
+
+
+
+
+
 

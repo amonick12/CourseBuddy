@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,8 +16,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+
+        Parse.setApplicationId("mqEr9uffiuVDYO78EilxSqW3uyCNmsvSoPGUVjka", clientKey: "E2wb5H05DVZbqe8qwphg7limlHUEajarnIPozH10")
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        
+        let appKey = "5xvrorolpwgr6kv"
+        let appSecret = "lloe2ix3agsjlw3"
+        
+        let dropboxSession = DBSession(appKey: appKey, appSecret: appSecret, root: kDBRootAppFolder)
+        DBSession.setSharedSession(dropboxSession)
+        
+        application.setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+        
         return true
+    }
+    
+    func application(application: UIApplication,
+        openURL url: NSURL,
+        sourceApplication: String?,
+        annotation: AnyObject?) -> Bool {
+            
+            println("return from \(sourceApplication)")
+            println("annotation: \(annotation)")
+            
+            switch sourceApplication! {
+            case "com.facebook.Facebook", "com.apple.mobilesafari":
+                return FBSDKApplicationDelegate.sharedInstance().application(application,
+                    openURL: url,
+                    sourceApplication: sourceApplication,
+                    annotation: annotation)
+            case "com.getdropbox.Dropbox":
+                if DBSession.sharedSession().handleOpenURL(url) {
+                    if DBSession.sharedSession().isLinked() {
+                        NSNotificationCenter.defaultCenter().postNotificationName("didLinkToDropboxAccountNotification", object: nil)
+                        return true
+                    }
+                }
+            default:
+                return false
+            }
+            return false
+    }
+
+    func applicationDidBecomeActive(application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -31,10 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(application: UIApplication) {
