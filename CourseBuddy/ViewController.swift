@@ -22,6 +22,12 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = "CourseBuddy"
+        let font = UIFont(name: "Noteworthy-Light", size: 23)
+        if let font = font {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+        }
+        
         logInController.delegate = self
         logInController.facebookPermissions = [ "public_profile" ]
         logInController.fields = (PFLogInFields.Facebook)
@@ -106,7 +112,7 @@ extension ViewController: ProfileDelegate {
             PFUser.logOut()
             checkUser()
             self.navigationItem.title = "CourseBuddy"
-            let font = UIFont(name: "Noteworthy-Light", size: 22)
+            let font = UIFont(name: "Noteworthy-Light", size: 23)
             if let font = font {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
             }
@@ -163,7 +169,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     
     @IBAction func documentsButtonPressed(sender: UIBarButtonItem) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Documents") as! DocumentsViewController
+        let vc = storyboard.instantiateViewControllerWithIdentifier("DocNav") as! DocNavViewController
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.barButtonItem = sender
@@ -173,7 +179,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     
     @IBAction func resourcesButtonPressed(sender: UIBarButtonItem) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Resources") as! ResourcesViewController
+        let vc = storyboard.instantiateViewControllerWithIdentifier("ResourceNav") as! ResourceNavViewController
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.barButtonItem = sender
@@ -182,13 +188,6 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     }
     
     @IBAction func notesButtonPressed(sender: UIBarButtonItem) {
-//        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewControllerWithIdentifier("Notes") as! NotesViewController
-//        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-//        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-//        popover.barButtonItem = sender
-//        popover.delegate = self
-//        presentViewController(vc, animated: true, completion:nil)
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("NotesNav") as! NotesNavViewController
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
@@ -196,7 +195,6 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
         popover.barButtonItem = sender
         popover.delegate = self
         presentViewController(vc, animated: true, completion:nil)
-
     }
     
     @IBAction func imagesButtonPressed(sender: UIBarButtonItem) {

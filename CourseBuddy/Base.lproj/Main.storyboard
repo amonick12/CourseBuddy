@@ -158,7 +158,29 @@
             </objects>
             <point key="canvasLocation" x="1137" y="365"/>
         </scene>
-        <!--Resources View Controller-->
+        <!--Doc Nav View Controller-->
+        <scene sceneID="Ldp-lr-5L9">
+            <objects>
+                <navigationController storyboardIdentifier="DocNav" id="3f9-Df-sJz" customClass="DocNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bie-nv-y0M">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8Dg-z5-tzu" kind="relationship" relationship="rootViewController" id="awD-2Z-gos"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sw1-pC-1Fp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-678" y="1048"/>
+        </scene>
+        <!--Resources-->
         <scene sceneID="Ik8-G3-Xyq">
             <objects>
                 <tableViewController storyboardIdentifier="Resources" id="h0a-6L-KSI" customClass="ResourcesViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
@@ -193,13 +215,14 @@
                             <outlet property="delegate" destination="h0a-6L-KSI" id="hD0-aa-Uhi"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Resources" id="XGo-nr-jfS"/>
                     <connections>
                         <segue destination="AoQ-Zg-2Su" kind="presentation" identifier="showWebViewSegue" id="WZc-lM-SOC"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xvL-lZ-DEN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="1048"/>
+            <point key="canvasLocation" x="81" y="1756"/>
         </scene>
         <!--Images View Controller-->
         <scene sceneID="dIv-uH-8h0">
@@ -277,8 +300,14 @@
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ogb-De-EFf">
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogb-De-EFf">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Title" id="7hF-88-AXn">
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="fvL-ew-E3j">
@@ -310,9 +339,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wbH-vs-xEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-650" y="1756"/>
+            <point key="canvasLocation" x="-686" y="2464"/>
         </scene>
-        <!--Documents View Controller-->
+        <!--Documents-->
         <scene sceneID="b4A-d2-VpX">
             <objects>
                 <tableViewController storyboardIdentifier="Documents" id="8Dg-z5-tzu" customClass="DocumentsViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
@@ -320,10 +349,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="DtM-zS-D5H">
-                            <rect key="frame" x="0.0" y="-2" width="600" height="2"/>
+                        <progressView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" id="DtM-zS-D5H">
+                            <rect key="frame" x="0.0" y="44" width="600" height="3"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="progressTintColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="trackTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </progressView>
                         <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Sxi-wh-Yd4">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -363,6 +394,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Documents" id="8h6-Ql-02m"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="connectButton" destination="zkN-fR-9I2" id="ana-7F-xF6"/>
@@ -372,16 +404,17 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebU-fD-o4N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-642" y="1048"/>
+            <point key="canvasLocation" x="-678" y="1756"/>
         </scene>
         <!--Schedule View Controller-->
         <scene sceneID="Fpe-LH-pQb">
             <objects>
-                <tableViewController storyboardIdentifier="Schedule" id="Hf4-gf-y6o" customClass="ScheduleViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujx-LC-BN2">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <tableViewController storyboardIdentifier="Schedule" definesPresentationContext="YES" modalPresentationStyle="overCurrentContext" id="Hf4-gf-y6o" customClass="ScheduleViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujx-LC-BN2">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScheduleCell" id="kse-22-6vI" customClass="ScheduleCell" customModule="CourseBuddy" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -389,8 +422,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01S-Ub-o9t">
-                                            <rect key="frame" x="279" y="11" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <rect key="frame" x="76" y="10" width="49" height="24"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -410,10 +443,14 @@
                             <outlet property="delegate" destination="Hf4-gf-y6o" id="6zx-72-ZKn"/>
                         </connections>
                     </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="200" height="300"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLL-gc-Vb5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1858" y="365"/>
+            <point key="canvasLocation" x="1530" y="-186"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="eFA-a8-8PH">
@@ -546,7 +583,7 @@
             </objects>
             <point key="canvasLocation" x="830" y="1756"/>
         </scene>
-        <!--Note Title-->
+        <!--Note Detail-->
         <scene sceneID="aMS-O1-xmb">
             <objects>
                 <viewController id="LRc-tV-opf" customClass="NoteDetailViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
@@ -581,7 +618,7 @@
                             <constraint firstItem="JWZ-Dk-hqB" firstAttribute="top" secondItem="Do5-Fh-MKE" secondAttribute="bottom" id="iDg-uo-Jjs"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Note Title" id="xdG-EP-4iD"/>
+                    <navigationItem key="navigationItem" title="Note Detail" id="xdG-EP-4iD"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="noteTitleItem" destination="xdG-EP-4iD" id="U9k-Wm-HLq"/>
@@ -670,8 +707,14 @@
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uR7-qx-lXR">
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uR7-qx-lXR">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Title" id="Tbi-2q-qZ4">
                                         <barButtonItem key="rightBarButtonItem" title="Done" id="FY1-iN-Ypu">
@@ -703,13 +746,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbR-8j-QVd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="1756"/>
+            <point key="canvasLocation" x="81" y="2464"/>
+        </scene>
+        <!--Resource Nav View Controller-->
+        <scene sceneID="3FN-7I-Pmz">
+            <objects>
+                <navigationController storyboardIdentifier="ResourceNav" id="G6O-k0-5PQ" customClass="ResourceNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Axb-AK-wuf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="h0a-6L-KSI" kind="relationship" relationship="rootViewController" id="z8x-ZZ-HxP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X0z-4m-b7d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="81" y="1048"/>
         </scene>
         <!--Notes Nav View Controller-->
         <scene sceneID="VDO-cZ-8ew">
             <objects>
                 <navigationController storyboardIdentifier="NotesNav" automaticallyAdjustsScrollViewInsets="NO" id="Eze-BR-hGP" customClass="NotesNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="XvP-KC-f6n">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
