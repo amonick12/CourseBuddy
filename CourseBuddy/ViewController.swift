@@ -12,6 +12,7 @@ import ParseUI
 
 class ViewController: UIViewController, PFLogInViewControllerDelegate {
 
+    @IBOutlet weak var scheduleBarButton: UIBarButtonItem!
     var defaultData:[String] = ["Welcome to CourseBuddy"]
     var schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
     var name: String?
@@ -21,7 +22,6 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.title = "CourseBuddy"
         let font = UIFont(name: "Noteworthy-Light", size: 23)
         if let font = font {
@@ -41,14 +41,21 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate {
     
     func checkUser() {
         if PFUser.currentUser() == nil {
+            PFUser.logOut()
             self.presentViewController(logInController, animated: true, completion: nil)
+        } else {
+            self.name = PFUser.currentUser()?["name"] as? String
+            self.email = PFUser.currentUser()?.email
+            checkUniversity(scheduleBarButton)
         }
     }
 
     func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser) -> Void {
         println("\(user.username) did log in")
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-        if (FBSDKAccessToken.currentAccessToken() != nil){
+        self.navigationController?.dismissViewControllerAnimated(true) {
+            self.showUniversitySelector(self.scheduleBarButton)
+        }
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
             var userProfileRequestParams = [ "fields" : "id, name, email"]
             let userProfileRequest = FBSDKGraphRequest(graphPath: "me", parameters: userProfileRequestParams)
             let graphConnection = FBSDKGraphRequestConnection()
@@ -120,6 +127,13 @@ extension ViewController: ProfileDelegate {
     }
 }
 
+extension ViewController: UniversitySelectorDelegate {
+    func userSelectedUniversity(named: String) {
+        self.university = named
+        println(university)
+    }
+}
+
 extension ViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(UIGestureRecognizer,
         shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
@@ -129,9 +143,7 @@ extension ViewController: UIGestureRecognizerDelegate {
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
-        
     }
-    
     @IBAction func swipeUpGesture(sender: UISwipeGestureRecognizer) {
         self.navigationController?.setToolbarHidden(true, animated: true)
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -141,90 +153,126 @@ extension ViewController: UIGestureRecognizerDelegate {
 
 extension ViewController: UIPopoverPresentationControllerDelegate {
     
-    @IBAction func scheduleButtonPressed(sender: UIBarButtonItem) {
+    func checkUniversity(sender: UIBarButtonItem) -> Bool {
+        if self.university != nil {
+            return true
+        } else {
+            showUniversitySelector(sender)
+            return false
+        }
+    }
+    
+    func showUniversitySelector(sender: UIBarButtonItem) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Schedule") as! ScheduleViewController
-        vc.schedule = self.schedule
+        let vc = storyboard.instantiateViewControllerWithIdentifier("UniversitySelector") as! UniversitySelectorViewController
         vc.delegate = self
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.barButtonItem = sender
         popover.delegate = self
         presentViewController(vc, animated: true, completion:nil)
+    }
+    
+    @IBAction func scheduleButtonPressed(sender: UIBarButtonItem) {
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("Schedule") as! ScheduleViewController
+            vc.schedule = self.schedule
+            vc.delegate = self
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func profileButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Profile") as! ProfileViewController
-        vc.name = self.name
-        vc.email = self.email
-        vc.university = self.university
-        vc.delegate = self
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("Profile") as! ProfileViewController
+            vc.name = self.name
+            vc.email = self.email
+            vc.university = self.university
+            vc.delegate = self
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func documentsButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("DocNav") as! DocNavViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("DocNav") as! DocNavViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func resourcesButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("ResourceNav") as! ResourceNavViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ResourceNav") as! ResourceNavViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func notesButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("NotesNav") as! NotesNavViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("NotesNav") as! NotesNavViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func imagesButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Images") as! ImagesViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("Images") as! ImagesViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func rosterButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Roster") as! RosterViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("Roster") as! RosterViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     @IBAction func notificationsButtonPressed(sender: UIBarButtonItem) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Notifications") as! NotificationsViewController
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
-        popover.barButtonItem = sender
-        popover.delegate = self
-        presentViewController(vc, animated: true, completion:nil)
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("Notifications") as! NotificationsViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
     }
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
