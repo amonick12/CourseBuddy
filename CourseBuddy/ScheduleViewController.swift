@@ -45,21 +45,27 @@ class ScheduleViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return schedule.count
+        return schedule.count + 1
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ScheduleCell", forIndexPath: indexPath) as! ScheduleCell
         
-        cell.courseCodeLabel.text = schedule[indexPath.row] as? String
-        
-        return cell
+        if indexPath.row != schedule.count {
+            let cell = tableView.dequeueReusableCellWithIdentifier("ScheduleCell", forIndexPath: indexPath) as! ScheduleCell
+            cell.courseCodeLabel.text = schedule[indexPath.row] as? String
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("AddCourseCell", forIndexPath: indexPath) as? UITableViewCell
+            return cell!
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate?.didSelectCourseCode(schedule[indexPath.row] as! String)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if indexPath.row != schedule.count {
+            delegate?.didSelectCourseCode(schedule[indexPath.row] as! String)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     /*

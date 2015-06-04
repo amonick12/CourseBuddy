@@ -104,8 +104,8 @@ class UniversitySelectorViewController: UITableViewController {
             
             let okAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
                 println("Confirm button tapped")
-                self.delegate?.userSelectedUniversity(univName)
                 self.dismissViewControllerAnimated(true, completion: nil)
+                self.delegate?.userSelectedUniversity(univName)
             })
             alertController.addAction(okAction)
             

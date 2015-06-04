@@ -45,6 +45,8 @@
 		005C58E41B1FEEAC00EC06CD /* DocNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58E31B1FEEAC00EC06CD /* DocNavViewController.swift */; };
 		005C58E61B1FEEBF00EC06CD /* ResourceNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58E51B1FEEBF00EC06CD /* ResourceNavViewController.swift */; };
 		005C58E81B208C0D00EC06CD /* UniversitySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */; };
+		005C58EA1B209A0600EC06CD /* ScheduleNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58E91B209A0600EC06CD /* ScheduleNavViewController.swift */; };
+		005C58EC1B209B1F00EC06CD /* AddCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */; };
 		00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */; };
 		00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */; };
 		00C8A44A1B1E9EAA00D6F273 /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */; };
@@ -108,6 +110,8 @@
 		005C58E31B1FEEAC00EC06CD /* DocNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocNavViewController.swift; sourceTree = "<group>"; };
 		005C58E51B1FEEBF00EC06CD /* ResourceNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceNavViewController.swift; sourceTree = "<group>"; };
 		005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniversitySelectorViewController.swift; sourceTree = "<group>"; };
+		005C58E91B209A0600EC06CD /* ScheduleNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNavViewController.swift; sourceTree = "<group>"; };
+		005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCourseViewController.swift; sourceTree = "<group>"; };
 		00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 				00C8A4461B1E95F800D6F273 /* Menu Features */,
 				005C58DE1B1FDB6800EC06CD /* NoteDetailViewController.swift */,
 				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
+				005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */,
 				005C58D91B1F920200EC06CD /* ModalViewControllers */,
 				0054294D1B1E4D1600EA737C /* Images.xcassets */,
 				0054294F1B1E4D1600EA737C /* LaunchScreen.xib */,
@@ -265,6 +270,7 @@
 		005C58E21B1FEE4800EC06CD /* NavControllers */ = {
 			isa = PBXGroup;
 			children = (
+				005C58E91B209A0600EC06CD /* ScheduleNavViewController.swift */,
 				005C58E31B1FEEAC00EC06CD /* DocNavViewController.swift */,
 				005C58E51B1FEEBF00EC06CD /* ResourceNavViewController.swift */,
 				005C58E01B1FE06500EC06CD /* NotesNavViewController.swift */,
@@ -389,6 +395,7 @@
 				00C8A44E1B1E9EFC00D6F273 /* ImagesViewController.swift in Sources */,
 				00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */,
 				005C58DF1B1FDB6800EC06CD /* NoteDetailViewController.swift in Sources */,
+				005C58EC1B209B1F00EC06CD /* AddCourseViewController.swift in Sources */,
 				005C58E81B208C0D00EC06CD /* UniversitySelectorViewController.swift in Sources */,
 				005429491B1E4D1600EA737C /* ViewController.swift in Sources */,
 				005C58E11B1FE06500EC06CD /* NotesNavViewController.swift in Sources */,
@@ -404,6 +411,7 @@
 				005C58DD1B1FC58900EC06CD /* WebViewController.swift in Sources */,
 				005C58CC1B1F4EA800EC06CD /* temp.m in Sources */,
 				005C58D81B1F8F0700EC06CD /* Helper.swift in Sources */,
+				005C58EA1B209A0600EC06CD /* ScheduleNavViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

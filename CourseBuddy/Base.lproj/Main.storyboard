@@ -409,47 +409,62 @@
             </objects>
             <point key="canvasLocation" x="-678" y="1756"/>
         </scene>
-        <!--Schedule View Controller-->
+        <!--Schedule-->
         <scene sceneID="Fpe-LH-pQb">
             <objects>
                 <tableViewController storyboardIdentifier="Schedule" definesPresentationContext="YES" modalPresentationStyle="overCurrentContext" id="Hf4-gf-y6o" customClass="ScheduleViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujx-LC-BN2">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujx-LC-BN2">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="256"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="sectionIndexBackgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="yxc-zO-J7c">
-                            <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <textAttributes key="titleTextAttributes">
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </textAttributes>
-                            <items>
-                                <navigationItem title="Schedule" id="VOl-8O-jJu"/>
-                            </items>
-                        </navigationBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScheduleCell" id="kse-22-6vI" customClass="ScheduleCell" customModule="CourseBuddy" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddCourseCell" id="FYi-Vd-uw0">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kse-22-6vI" id="zfd-o6-nDG">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FYi-Vd-uw0" id="gMq-Qo-Rpl">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01S-Ub-o9t">
-                                            <rect key="frame" x="76" y="10" width="49" height="24"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Course" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh9-qX-GDP">
+                                            <rect key="frame" x="20" y="12" width="161" height="35"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                            <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="centerX" secondItem="01S-Ub-o9t" secondAttribute="centerX" id="PI6-ve-yVe"/>
-                                        <constraint firstAttribute="centerY" secondItem="01S-Ub-o9t" secondAttribute="centerY" id="ZMb-kI-kGV"/>
+                                        <constraint firstAttribute="bottom" secondItem="hh9-qX-GDP" secondAttribute="bottom" constant="12" id="4aA-OR-9oL"/>
+                                        <constraint firstItem="hh9-qX-GDP" firstAttribute="top" secondItem="gMq-Qo-Rpl" secondAttribute="top" constant="12" id="J3k-2r-1v9"/>
+                                        <constraint firstItem="hh9-qX-GDP" firstAttribute="leading" secondItem="gMq-Qo-Rpl" secondAttribute="leading" constant="20" id="MV2-Bi-q3N"/>
+                                        <constraint firstAttribute="trailing" secondItem="hh9-qX-GDP" secondAttribute="trailing" constant="19" id="gdm-hD-czx"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="courseCodeLabel" destination="01S-Ub-o9t" id="oRK-OK-uLA"/>
+                                    <segue destination="DLH-El-RCR" kind="show" id="kac-5i-qfk"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScheduleCell" id="ahm-N2-UFt" customClass="ScheduleCell" customModule="CourseBuddy" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ahm-N2-UFt" id="9oS-U9-39t">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pr3-a9-LS8">
+                                            <rect key="frame" x="8" y="12" width="184" height="35"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                            <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Pr3-a9-LS8" secondAttribute="bottom" constant="4" id="KQb-Ei-Hs7"/>
+                                        <constraint firstItem="Pr3-a9-LS8" firstAttribute="top" secondItem="9oS-U9-39t" secondAttribute="topMargin" constant="4" id="kHI-ny-hlB"/>
+                                        <constraint firstItem="Pr3-a9-LS8" firstAttribute="leading" secondItem="9oS-U9-39t" secondAttribute="leadingMargin" id="tEA-RL-Phx"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Pr3-a9-LS8" secondAttribute="trailing" id="vbf-XR-kLS"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="courseCodeLabel" destination="Pr3-a9-LS8" id="m7L-ee-0rA"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -458,6 +473,9 @@
                             <outlet property="delegate" destination="Hf4-gf-y6o" id="6zx-72-ZKn"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Schedule" id="p6k-YF-qQ8">
+                        <barButtonItem key="backBarButtonItem" title=" " id="2Zl-OF-3A2"/>
+                    </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="200" height="300"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -465,7 +483,66 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLL-gc-Vb5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1530" y="-186"/>
+            <point key="canvasLocation" x="1439" y="-226"/>
+        </scene>
+        <!--Add Course-->
+        <scene sceneID="nS9-GM-7et">
+            <objects>
+                <viewController title="Add Course" id="DLH-El-RCR" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r0W-Ea-ljM"/>
+                        <viewControllerLayoutGuide type="bottom" id="qGq-fX-sfz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nyR-Hh-2X6">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="136"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.74999999999999978" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="ex: ENG015" textAlignment="center" minimumFontSize="30" translatesAutoresizingMaskIntoConstraints="NO" id="Hm4-Ms-pE6">
+                                <rect key="frame" x="0.0" y="8" width="200" height="70"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="aQQ-OL-ksO"/>
+                                    <constraint firstAttribute="height" constant="70" id="nAo-my-nGR"/>
+                                </constraints>
+                                <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coR-RL-Y7L">
+                                <rect key="frame" x="0.0" y="86" width="200" height="50"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0uK-OE-O0K"/>
+                                    <constraint firstAttribute="width" constant="200" id="qRy-O5-uZB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="coR-RL-Y7L" firstAttribute="top" secondItem="Hm4-Ms-pE6" secondAttribute="bottom" constant="8" id="HFq-dj-H6h"/>
+                            <constraint firstItem="coR-RL-Y7L" firstAttribute="leading" secondItem="nyR-Hh-2X6" secondAttribute="leading" id="M8v-EU-bVp"/>
+                            <constraint firstItem="Hm4-Ms-pE6" firstAttribute="top" secondItem="r0W-Ea-ljM" secondAttribute="bottom" constant="8" id="MA7-aK-RpW"/>
+                            <constraint firstItem="Hm4-Ms-pE6" firstAttribute="leading" secondItem="nyR-Hh-2X6" secondAttribute="leading" id="SAg-pL-BHS"/>
+                            <constraint firstAttribute="trailing" secondItem="Hm4-Ms-pE6" secondAttribute="trailing" id="ZNk-zV-219"/>
+                            <constraint firstItem="qGq-fX-sfz" firstAttribute="top" secondItem="coR-RL-Y7L" secondAttribute="bottom" id="mpH-AB-EXQ"/>
+                            <constraint firstAttribute="trailing" secondItem="coR-RL-Y7L" secondAttribute="trailing" id="wC1-Jw-MGa"/>
+                            <constraint firstItem="coR-RL-Y7L" firstAttribute="top" secondItem="Hm4-Ms-pE6" secondAttribute="bottom" constant="8" id="xIr-bU-f1L"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Course" id="sPf-dL-pbR"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="200" height="180"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="200" height="180"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OUj-jc-yHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1727" y="-226"/>
         </scene>
         <!--University Selector View Controller-->
         <scene sceneID="b4b-wB-VU9">
@@ -513,7 +590,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qE5-mq-vcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1964" y="-121"/>
+            <point key="canvasLocation" x="2776" y="-121"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="eFA-a8-8PH">
@@ -553,19 +630,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-Vv-Z5c">
-                                <rect key="frame" x="104" y="91" width="92" height="20"/>
+                                <rect key="frame" x="104" y="76" width="92" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-es-nil">
-                                <rect key="frame" x="106" y="135" width="88" height="20"/>
+                                <rect key="frame" x="106" y="120" width="88" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFu-tG-7VT">
-                                <rect key="frame" x="87" y="175" width="126" height="21"/>
+                                <rect key="frame" x="87" y="163" width="126" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -573,7 +650,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="dFu-tG-7VT" firstAttribute="top" secondItem="sgl-es-nil" secondAttribute="bottom" constant="20" id="3oR-0X-bF2"/>
+                            <constraint firstItem="dFu-tG-7VT" firstAttribute="top" secondItem="sgl-es-nil" secondAttribute="bottom" constant="23" id="3oR-0X-bF2"/>
                             <constraint firstAttribute="centerX" secondItem="sgl-es-nil" secondAttribute="centerX" id="4au-YH-f69"/>
                             <constraint firstItem="10z-bW-fB8" firstAttribute="top" secondItem="2G9-yL-fRq" secondAttribute="bottom" id="5I6-lu-Mm4"/>
                             <constraint firstItem="Gdo-0M-T50" firstAttribute="top" secondItem="7ou-It-BsV" secondAttribute="bottom" constant="8" id="HZc-Ft-yHd"/>
@@ -581,7 +658,7 @@
                             <constraint firstItem="sgl-es-nil" firstAttribute="top" secondItem="bAk-Vv-Z5c" secondAttribute="bottom" constant="24" id="Ia4-Xl-iFa"/>
                             <constraint firstAttribute="centerX" secondItem="bAk-Vv-Z5c" secondAttribute="centerX" id="V16-7u-jpO"/>
                             <constraint firstAttribute="trailing" secondItem="2G9-yL-fRq" secondAttribute="trailing" id="bdH-Ko-6Pc"/>
-                            <constraint firstItem="bAk-Vv-Z5c" firstAttribute="top" secondItem="Gdo-0M-T50" secondAttribute="bottom" constant="43" id="pBQ-Iy-zKR"/>
+                            <constraint firstItem="bAk-Vv-Z5c" firstAttribute="top" secondItem="Gdo-0M-T50" secondAttribute="bottom" constant="28" id="pBQ-Iy-zKR"/>
                             <constraint firstAttribute="centerX" secondItem="dFu-tG-7VT" secondAttribute="centerX" id="pJg-WB-Vn8"/>
                             <constraint firstAttribute="centerX" secondItem="Gdo-0M-T50" secondAttribute="centerX" id="tFt-7M-wok"/>
                         </constraints>
@@ -598,7 +675,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XpZ-2T-00z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1137" y="-186"/>
+            <point key="canvasLocation" x="592" y="-210"/>
         </scene>
         <!--Shared Notes-->
         <scene sceneID="YB7-lt-tcM">
@@ -856,6 +933,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xrb-ma-WfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="830" y="1048"/>
+        </scene>
+        <!--Schedule Nav View Controller-->
+        <scene sceneID="KUU-8n-oYT">
+            <objects>
+                <navigationController storyboardIdentifier="ScheduleNav" automaticallyAdjustsScrollViewInsets="NO" id="gjR-0S-bg8" customClass="ScheduleNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="200" height="300"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="7Hc-x3-Li5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Hf4-gf-y6o" kind="relationship" relationship="rootViewController" id="qWw-tF-nf6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vpI-72-8ni" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1145" y="-226"/>
         </scene>
     </scenes>
     <resources>

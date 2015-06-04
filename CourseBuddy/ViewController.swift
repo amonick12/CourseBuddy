@@ -131,6 +131,7 @@ extension ViewController: UniversitySelectorDelegate {
     func userSelectedUniversity(named: String) {
         self.university = named
         println(university)
+        scheduleButtonPressed(scheduleBarButton)
     }
 }
 
@@ -176,9 +177,10 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     @IBAction func scheduleButtonPressed(sender: UIBarButtonItem) {
         if checkUniversity(sender) {
             let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("Schedule") as! ScheduleViewController
-            vc.schedule = self.schedule
-            vc.delegate = self
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ScheduleNav") as! ScheduleNavViewController
+            let root = vc.visibleViewController as! ScheduleViewController
+            root.schedule = self.schedule
+            root.delegate = self
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
             let popover: UIPopoverPresentationController = vc.popoverPresentationController!
             popover.barButtonItem = sender
