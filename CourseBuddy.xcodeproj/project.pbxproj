@@ -47,6 +47,11 @@
 		005C58E81B208C0D00EC06CD /* UniversitySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */; };
 		005C58EA1B209A0600EC06CD /* ScheduleNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58E91B209A0600EC06CD /* ScheduleNavViewController.swift */; };
 		005C58EC1B209B1F00EC06CD /* AddCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */; };
+		005C58EF1B20BE5E00EC06CD /* InstructorsNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58EE1B20BE5E00EC06CD /* InstructorsNavViewController.swift */; };
+		005C58F11B20BE6C00EC06CD /* GroupsNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58F01B20BE6C00EC06CD /* GroupsNavViewController.swift */; };
+		005C58F31B20BE7F00EC06CD /* InstructorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58F21B20BE7F00EC06CD /* InstructorsTableViewController.swift */; };
+		005C58F51B20BE8A00EC06CD /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58F41B20BE8A00EC06CD /* GroupsTableViewController.swift */; };
+		005C58F71B20BE9A00EC06CD /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58F61B20BE9A00EC06CD /* PostViewController.swift */; };
 		00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */; };
 		00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */; };
 		00C8A44A1B1E9EAA00D6F273 /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */; };
@@ -112,6 +117,11 @@
 		005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniversitySelectorViewController.swift; sourceTree = "<group>"; };
 		005C58E91B209A0600EC06CD /* ScheduleNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNavViewController.swift; sourceTree = "<group>"; };
 		005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCourseViewController.swift; sourceTree = "<group>"; };
+		005C58EE1B20BE5E00EC06CD /* InstructorsNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructorsNavViewController.swift; sourceTree = "<group>"; };
+		005C58F01B20BE6C00EC06CD /* GroupsNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsNavViewController.swift; sourceTree = "<group>"; };
+		005C58F21B20BE7F00EC06CD /* InstructorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructorsTableViewController.swift; sourceTree = "<group>"; };
+		005C58F41B20BE8A00EC06CD /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
+		005C58F61B20BE9A00EC06CD /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
@@ -189,6 +199,7 @@
 				0054296E1B1E784300EA737C /* ScheduleViewController.swift */,
 				00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */,
 				005C58E21B1FEE4800EC06CD /* NavControllers */,
+				005C58ED1B20BE1000EC06CD /* ToolBarFeatures */,
 				00C8A4461B1E95F800D6F273 /* Menu Features */,
 				005C58DE1B1FDB6800EC06CD /* NoteDetailViewController.swift */,
 				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
@@ -274,8 +285,20 @@
 				005C58E31B1FEEAC00EC06CD /* DocNavViewController.swift */,
 				005C58E51B1FEEBF00EC06CD /* ResourceNavViewController.swift */,
 				005C58E01B1FE06500EC06CD /* NotesNavViewController.swift */,
+				005C58EE1B20BE5E00EC06CD /* InstructorsNavViewController.swift */,
+				005C58F01B20BE6C00EC06CD /* GroupsNavViewController.swift */,
 			);
 			name = NavControllers;
+			sourceTree = "<group>";
+		};
+		005C58ED1B20BE1000EC06CD /* ToolBarFeatures */ = {
+			isa = PBXGroup;
+			children = (
+				005C58F21B20BE7F00EC06CD /* InstructorsTableViewController.swift */,
+				005C58F41B20BE8A00EC06CD /* GroupsTableViewController.swift */,
+				005C58F61B20BE9A00EC06CD /* PostViewController.swift */,
+			);
+			name = ToolBarFeatures;
 			sourceTree = "<group>";
 		};
 		00C8A4461B1E95F800D6F273 /* Menu Features */ = {
@@ -396,6 +419,7 @@
 				00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */,
 				005C58DF1B1FDB6800EC06CD /* NoteDetailViewController.swift in Sources */,
 				005C58EC1B209B1F00EC06CD /* AddCourseViewController.swift in Sources */,
+				005C58EF1B20BE5E00EC06CD /* InstructorsNavViewController.swift in Sources */,
 				005C58E81B208C0D00EC06CD /* UniversitySelectorViewController.swift in Sources */,
 				005429491B1E4D1600EA737C /* ViewController.swift in Sources */,
 				005C58E11B1FE06500EC06CD /* NotesNavViewController.swift in Sources */,
@@ -404,7 +428,10 @@
 				00C8A44C1B1E9EC800D6F273 /* NotesViewController.swift in Sources */,
 				005C58DB1B1F921F00EC06CD /* FileViewController.swift in Sources */,
 				00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */,
+				005C58F31B20BE7F00EC06CD /* InstructorsTableViewController.swift in Sources */,
 				00C8A4521B1E9F3500D6F273 /* NotificationsViewController.swift in Sources */,
+				005C58F71B20BE9A00EC06CD /* PostViewController.swift in Sources */,
+				005C58F51B20BE8A00EC06CD /* GroupsTableViewController.swift in Sources */,
 				005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */,
 				005C58E41B1FEEAC00EC06CD /* DocNavViewController.swift in Sources */,
 				0054296F1B1E784300EA737C /* ScheduleViewController.swift in Sources */,
@@ -412,6 +439,7 @@
 				005C58CC1B1F4EA800EC06CD /* temp.m in Sources */,
 				005C58D81B1F8F0700EC06CD /* Helper.swift in Sources */,
 				005C58EA1B209A0600EC06CD /* ScheduleNavViewController.swift in Sources */,
+				005C58F11B20BE6C00EC06CD /* GroupsNavViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,17 +10,18 @@ import UIKit
 
 protocol ScheduleDelegate {
     func didSelectCourseCode(courseCode: String)
+    func newCourseAdded(courseCode: String)
 }
 
 class ScheduleCell: UITableViewCell {
     @IBOutlet var courseCodeLabel: UILabel!
 }
 
-class ScheduleViewController: UITableViewController {
+class ScheduleViewController: UITableViewController, AddCourseDelegate {
 
     var delegate: ScheduleDelegate?
     
-    var schedule = []
+    var schedule = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,16 @@ class ScheduleViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddCourseSegue" {
+            let vc = segue.destinationViewController as! AddCourseViewController
+            vc.delegate = self
+        }
+    }
+
+    func newCourseAdded(courseCode: String) {
+        delegate?.newCourseAdded(courseCode)
+    }
 
     // MARK: - Table view data source
     
@@ -53,7 +64,7 @@ class ScheduleViewController: UITableViewController {
         
         if indexPath.row != schedule.count {
             let cell = tableView.dequeueReusableCellWithIdentifier("ScheduleCell", forIndexPath: indexPath) as! ScheduleCell
-            cell.courseCodeLabel.text = schedule[indexPath.row] as? String
+            cell.courseCodeLabel.text = schedule[indexPath.row] as String
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("AddCourseCell", forIndexPath: indexPath) as? UITableViewCell
@@ -63,10 +74,32 @@ class ScheduleViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row != schedule.count {
-            delegate?.didSelectCourseCode(schedule[indexPath.row] as! String)
+            delegate?.didSelectCourseCode(schedule[indexPath.row] as String)
             self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if indexPath.row == schedule.count {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath
+        indexPath: NSIndexPath) {
+            
+            let courseCodeToDelete = schedule[indexPath.row] as String
+            if editingStyle == .Delete {
+                tableView.beginUpdates()
+                schedule.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                tableView.endUpdates()
+            }
+            
+    }
+
     
     /*
     // Override to support conditional editing of the table view.

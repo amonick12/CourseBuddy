@@ -122,11 +122,23 @@
                         </connections>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Instructors" id="M2J-8b-uWb"/>
+                        <barButtonItem title="Instructors" id="M2J-8b-uWb">
+                            <connections>
+                                <action selector="instructorsButtonPressed:" destination="jiS-2N-RhK" id="TK0-l4-HHc"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="WnU-qg-UHy"/>
-                        <barButtonItem image="add" id="vXJ-wg-dxI"/>
+                        <barButtonItem image="add" id="vXJ-wg-dxI">
+                            <connections>
+                                <action selector="postButtonPressed:" destination="jiS-2N-RhK" id="NBo-uh-fbT"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="j0T-mG-ccg"/>
-                        <barButtonItem title="Groups" id="qXK-Rq-bjp"/>
+                        <barButtonItem title="Groups" id="qXK-Rq-bjp">
+                            <connections>
+                                <action selector="groupsButtonPressed:" destination="jiS-2N-RhK" id="C2L-dv-sHO"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="CourseBuddy" id="Vhz-fr-A3H">
                         <barButtonItem key="leftBarButtonItem" image="profile" id="Vnl-Yg-p4F">
@@ -425,13 +437,14 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FYi-Vd-uw0" id="gMq-Qo-Rpl">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Course" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh9-qX-GDP">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Course" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hh9-qX-GDP">
                                             <rect key="frame" x="20" y="12" width="161" height="35"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
-                                            <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="hh9-qX-GDP" secondAttribute="bottom" constant="12" id="4aA-OR-9oL"/>
                                         <constraint firstItem="hh9-qX-GDP" firstAttribute="top" secondItem="gMq-Qo-Rpl" secondAttribute="top" constant="12" id="J3k-2r-1v9"/>
@@ -440,7 +453,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="DLH-El-RCR" kind="show" id="kac-5i-qfk"/>
+                                    <segue destination="DLH-El-RCR" kind="show" identifier="AddCourseSegue" id="kac-5i-qfk"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScheduleCell" id="ahm-N2-UFt" customClass="ScheduleCell" customModule="CourseBuddy" customModuleProvider="target">
@@ -488,7 +501,7 @@
         <!--Add Course-->
         <scene sceneID="nS9-GM-7et">
             <objects>
-                <viewController title="Add Course" id="DLH-El-RCR" sceneMemberID="viewController">
+                <viewController title="Add Course" id="DLH-El-RCR" customClass="AddCourseViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="r0W-Ea-ljM"/>
                         <viewControllerLayoutGuide type="bottom" id="qGq-fX-sfz"/>
@@ -507,6 +520,9 @@
                                 <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="DLH-El-RCR" id="G7L-i8-df5"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coR-RL-Y7L">
                                 <rect key="frame" x="0.0" y="86" width="200" height="50"/>
@@ -520,6 +536,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="DLH-El-RCR" eventType="touchUpInside" id="eRY-YY-oGU"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -539,16 +558,83 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="200" height="180"/>
+                    <connections>
+                        <outlet property="courseTextField" destination="Hm4-Ms-pE6" id="sDc-fy-EwI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OUj-jc-yHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1727" y="-226"/>
         </scene>
+        <!--Post View Controller-->
+        <scene sceneID="OPQ-eE-MAU">
+            <objects>
+                <viewController storyboardIdentifier="Post" id="FyR-mT-36M" customClass="PostViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZUO-6Z-j59"/>
+                        <viewControllerLayoutGuide type="bottom" id="mo2-Cw-zqJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ut8-my-TQU">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fxa-Yx-BO6">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="WM5-dG-Qfs"/>
+                                </constraints>
+                                <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Compose Post" id="c5C-Sk-JzT">
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="Kek-mp-25c">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Compose a new post here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hT2-0G-zm4">
+                                <rect key="frame" x="16" y="59" width="268" height="221"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="FyR-mT-36M" id="0kV-ah-OUQ"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Fxa-Yx-BO6" firstAttribute="top" secondItem="ZUO-6Z-j59" secondAttribute="bottom" id="7M2-dx-rqy"/>
+                            <constraint firstItem="hT2-0G-zm4" firstAttribute="top" secondItem="Fxa-Yx-BO6" secondAttribute="bottom" constant="15" id="SYg-dq-r32"/>
+                            <constraint firstItem="Fxa-Yx-BO6" firstAttribute="leading" secondItem="Ut8-my-TQU" secondAttribute="leading" id="XmG-LB-Je4"/>
+                            <constraint firstItem="hT2-0G-zm4" firstAttribute="leading" secondItem="Ut8-my-TQU" secondAttribute="leadingMargin" id="bIy-Md-GOZ"/>
+                            <constraint firstAttribute="bottom" secondItem="hT2-0G-zm4" secondAttribute="bottom" constant="20" symbolic="YES" id="hyc-ab-pGd"/>
+                            <constraint firstItem="Fxa-Yx-BO6" firstAttribute="centerX" secondItem="hT2-0G-zm4" secondAttribute="centerX" id="uR0-z9-0tB"/>
+                            <constraint firstAttribute="trailing" secondItem="Fxa-Yx-BO6" secondAttribute="trailing" id="yIY-SR-N7Q"/>
+                        </constraints>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="300" height="300"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="300"/>
+                    <connections>
+                        <outlet property="postTextField" destination="hT2-0G-zm4" id="k7n-lB-IgV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nat-Wn-ZqP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1784" y="298"/>
+        </scene>
         <!--University Selector View Controller-->
         <scene sceneID="b4b-wB-VU9">
             <objects>
                 <tableViewController storyboardIdentifier="UniversitySelector" id="Ao2-QC-Yre" customClass="UniversitySelectorViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="U8U-gR-zqh">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="U8U-gR-zqh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -590,7 +676,69 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qE5-mq-vcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2776" y="-121"/>
+            <point key="canvasLocation" x="-45" y="-332"/>
+        </scene>
+        <!--Instructors-->
+        <scene sceneID="3Cx-o8-TEu">
+            <objects>
+                <tableViewController id="ow1-ts-DYN" customClass="InstructorsTableViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="5he-DS-WvA">
+                        <rect key="frame" x="0.0" y="44" width="300" height="356"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="InstructorCell" textLabel="IET-l6-grn" rowHeight="60" style="IBUITableViewCellStyleDefault" id="Ppq-nh-oOI">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ppq-nh-oOI" id="Ha9-tj-WiE">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IET-l6-grn">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ow1-ts-DYN" id="3Na-ra-Zgs"/>
+                            <outlet property="delegate" destination="ow1-ts-DYN" id="wf9-tJ-iTN"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Instructors" id="eNx-g7-jpq"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="300" height="356"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="400"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jVh-A5-6j2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2126" y="462"/>
+        </scene>
+        <!--Instructors-->
+        <scene sceneID="OlZ-IN-v8M">
+            <objects>
+                <navigationController storyboardIdentifier="InstructorsNav" title="Instructors" id="iBU-3a-v1I" customClass="InstructorsNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="e0g-r1-5On">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ow1-ts-DYN" kind="relationship" relationship="rootViewController" id="PKo-Z6-gHX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AUC-Ei-8EG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2126" y="-276"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="eFA-a8-8PH">
@@ -768,6 +916,68 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nOb-We-cci" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="830" y="2449"/>
+        </scene>
+        <!--Groups-->
+        <scene sceneID="3gQ-ES-yqY">
+            <objects>
+                <tableViewController id="Kop-4b-eyp" customClass="GroupsTableViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="lyw-qY-5Sh">
+                        <rect key="frame" x="0.0" y="44" width="300" height="356"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" textLabel="D77-69-g5u" rowHeight="60" style="IBUITableViewCellStyleDefault" id="kdf-A1-WZc">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kdf-A1-WZc" id="aVI-T0-YNs">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D77-69-g5u">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Kop-4b-eyp" id="Dpy-Li-rFX"/>
+                            <outlet property="delegate" destination="Kop-4b-eyp" id="fx7-UP-9bw"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Groups" id="pMm-je-SHF"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="300" height="356"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="400"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ifz-WE-F0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1309" y="462"/>
+        </scene>
+        <!--Groups-->
+        <scene sceneID="2Hz-0m-36I">
+            <objects>
+                <navigationController storyboardIdentifier="GroupsNav" title="Groups" id="a5P-xa-WvJ" customClass="GroupsNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="XRC-dp-5Ce">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Kop-4b-eyp" kind="relationship" relationship="rootViewController" id="O6Y-3o-u6j"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0MQ-g6-GKI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1309" y="-276"/>
         </scene>
         <!--Notifications View Controller-->
         <scene sceneID="whD-cb-Dhi">

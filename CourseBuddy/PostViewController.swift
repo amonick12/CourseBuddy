@@ -1,5 +1,5 @@
 //
-//  AddCourseViewController.swift
+//  PostViewController.swift
 //  CourseBuddy
 //
 //  Created by Aaron Monick on 6/4/15.
@@ -8,14 +8,9 @@
 
 import UIKit
 
-protocol AddCourseDelegate {
-    func newCourseAdded(courseCode: String)
-}
+class PostViewController: UIViewController, UITextFieldDelegate {
 
-class AddCourseViewController: UIViewController, UITextFieldDelegate {
-
-    var delegate: AddCourseDelegate?
-    @IBOutlet weak var courseTextField: UITextField!
+    @IBOutlet weak var postTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,16 +19,9 @@ class AddCourseViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        doneButtonPressed(textField)
-        return true
-    }
-    
-    @IBAction func doneButtonPressed(sender: AnyObject) {
-        if courseTextField.text != "" {
-            dismissViewControllerAnimated(true, completion: nil)
-            delegate?.newCourseAdded(courseTextField.text.stringByReplacingOccurrencesOfString(" ", withString: ""))
-        }
+        // done button
         
+        return true
     }
     
     override func didReceiveMemoryWarning() {

@@ -111,6 +111,10 @@ extension ViewController: ScheduleDelegate {
             self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
         }
     }
+    func newCourseAdded(courseCode: String) {
+        println(courseCode)
+    }
+
 }
 
 extension ViewController: ProfileDelegate {
@@ -197,6 +201,46 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             vc.email = self.email
             vc.university = self.university
             vc.delegate = self
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
+    }
+    
+    @IBAction func postButtonPressed(sender: UIBarButtonItem) {
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("Post") as! PostViewController
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
+    }
+    
+    @IBAction func instructorsButtonPressed(sender: UIBarButtonItem) {
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("InstructorsNav") as! InstructorsNavViewController
+            let root = vc.visibleViewController as! InstructorsTableViewController
+            
+            vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+            let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+            popover.barButtonItem = sender
+            popover.delegate = self
+            presentViewController(vc, animated: true, completion:nil)
+        }
+    }
+    
+    @IBAction func groupsButtonPressed(sender: UIBarButtonItem) {
+        if checkUniversity(sender) {
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("GroupsNav") as! GroupsNavViewController
+            let root = vc.visibleViewController as! GroupsTableViewController
+
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
             let popover: UIPopoverPresentationController = vc.popoverPresentationController!
             popover.barButtonItem = sender
