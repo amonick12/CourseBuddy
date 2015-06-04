@@ -182,13 +182,21 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     }
     
     @IBAction func notesButtonPressed(sender: UIBarButtonItem) {
+//        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewControllerWithIdentifier("Notes") as! NotesViewController
+//        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+//        let popover: UIPopoverPresentationController = vc.popoverPresentationController!
+//        popover.barButtonItem = sender
+//        popover.delegate = self
+//        presentViewController(vc, animated: true, completion:nil)
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("Notes") as! NotesViewController
+        let vc = storyboard.instantiateViewControllerWithIdentifier("NotesNav") as! NotesNavViewController
         vc.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover: UIPopoverPresentationController = vc.popoverPresentationController!
         popover.barButtonItem = sender
         popover.delegate = self
         presentViewController(vc, animated: true, completion:nil)
+
     }
     
     @IBAction func imagesButtonPressed(sender: UIBarButtonItem) {

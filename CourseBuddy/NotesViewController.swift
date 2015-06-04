@@ -10,6 +10,13 @@ import UIKit
 
 class NotesViewController: UITableViewController {
 
+    let defaultNote = [["First Note", "Collaborate on the same content here"], ["Second Note", "What are some good features to add to shared notes"]]
+    
+    var notes: [AnyObject]?
+    
+    var selectedNoteTitle: String?
+    var selectedNoteContent: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +27,17 @@ class NotesViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    // MARK: - Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showNoteDetail" {
+            if let destination = segue.destinationViewController as? NoteDetailViewController {
+                destination.noteTitle = selectedNoteTitle!
+                destination.noteContent = selectedNoteContent!
+            }
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -28,48 +46,42 @@ class NotesViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
-    }
-    
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var sectionHeaderView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 40.0))
-        sectionHeaderView.backgroundColor = Helper().colorWithRGBHex(0x00C853, alpha: 0.7)
-        sectionHeaderView.layer.cornerRadius = 3
-        let headerLabel = UILabel(frame: CGRectMake(5, 5, sectionHeaderView.frame.size.width-10, 30.0))
-        headerLabel.backgroundColor = UIColor.clearColor()
-        headerLabel.textAlignment = NSTextAlignment.Center
-        headerLabel.textColor = UIColor.whiteColor()
-        headerLabel.font = UIFont(name: "Avenir", size: 18)
-        headerLabel.text = "Notes"
-        sectionHeaderView.addSubview(headerLabel)
-        var wrapperView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 50.0))
-        wrapperView.backgroundColor = UIColor.clearColor()
-        wrapperView.addSubview(sectionHeaderView)
-        return wrapperView
-    }
-    
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50.0
+        if notes != nil {
+            return notes!.count
+        } else {
+            return 2
+        }
     }
 
-
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("NoteCell", forIndexPath: indexPath) as! UITableViewCell
 
-        // Configure the cell...
-
+        if notes != nil {
+            
+        } else {
+            let note = defaultNote[indexPath.row]
+            cell.textLabel?.text = note[0]
+            cell.detailTextLabel?.text = note[1]
+        }
+        
         return cell
     }
-    */
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if notes != nil {
+            
+        } else {
+            let note = defaultNote[indexPath.row]
+            selectedNoteTitle = note[0]
+            selectedNoteContent = note[1]
+        }
+        performSegueWithIdentifier("showNoteDetail", sender: nil)
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.

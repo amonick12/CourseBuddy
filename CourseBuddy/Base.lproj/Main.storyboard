@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4Qc-Ot-F8h">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Home-->
@@ -232,7 +233,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tSu-y6-vJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1544" y="1048"/>
+            <point key="canvasLocation" x="1588" y="1048"/>
         </scene>
         <!--Roster View Controller-->
         <scene sceneID="JQ9-Uy-fAC">
@@ -258,7 +259,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C6Z-Mx-uzb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2241" y="1048"/>
+            <point key="canvasLocation" x="2285" y="1048"/>
         </scene>
         <!--File View Controller-->
         <scene sceneID="xbl-Gj-NUA">
@@ -499,19 +500,33 @@
             </objects>
             <point key="canvasLocation" x="1137" y="-186"/>
         </scene>
-        <!--Notes View Controller-->
+        <!--Shared Notes-->
         <scene sceneID="YB7-lt-tcM">
             <objects>
                 <tableViewController storyboardIdentifier="Notes" id="n7I-Xe-ucg" customClass="NotesViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="eS3-bB-MJw">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="79" sectionHeaderHeight="22" sectionFooterHeight="22" id="eS3-bB-MJw">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="sYi-I4-dLg">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteCell" textLabel="8V6-Cn-Cac" detailTextLabel="KYu-hP-TbY" rowHeight="79" style="IBUITableViewCellStyleSubtitle" id="sYi-I4-dLg">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sYi-I4-dLg" id="fzb-Rq-DME">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8V6-Cn-Cac">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KYu-hP-TbY">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -520,10 +535,62 @@
                             <outlet property="delegate" destination="n7I-Xe-ucg" id="a7G-T7-FF1"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Shared Notes" id="5be-FH-5Zf">
+                        <barButtonItem key="backBarButtonItem" title="Notes" id="ssc-7Q-9qK"/>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="LRc-tV-opf" kind="show" identifier="showNoteDetail" id="JK5-vd-8HM"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epw-Ot-3In" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="830" y="1048"/>
+            <point key="canvasLocation" x="830" y="1756"/>
+        </scene>
+        <!--Note Title-->
+        <scene sceneID="aMS-O1-xmb">
+            <objects>
+                <viewController id="LRc-tV-opf" customClass="NoteDetailViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oij-0w-GI1"/>
+                        <viewControllerLayoutGuide type="bottom" id="JWZ-Dk-hqB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yQn-wp-xK9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" keyboardDismissMode="onDrag" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Do5-Fh-MKE">
+                                <rect key="frame" x="16" y="52" width="568" height="548"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Do5-Fh-MKE" firstAttribute="top" secondItem="oij-0w-GI1" secondAttribute="bottom" constant="8" id="2GZ-vU-31h"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Do5-Fh-MKE" secondAttribute="trailing" id="AyL-Sv-UqR"/>
+                            <constraint firstItem="Do5-Fh-MKE" firstAttribute="leading" secondItem="yQn-wp-xK9" secondAttribute="leadingMargin" id="QJU-no-k8l"/>
+                            <constraint firstItem="JWZ-Dk-hqB" firstAttribute="top" secondItem="Do5-Fh-MKE" secondAttribute="bottom" id="iDg-uo-Jjs"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Note Title" id="xdG-EP-4iD"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="noteTitleItem" destination="xdG-EP-4iD" id="U9k-Wm-HLq"/>
+                        <outlet property="textView" destination="Do5-Fh-MKE" id="O5i-3P-aCo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nOb-We-cci" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="2449"/>
         </scene>
         <!--Notifications View Controller-->
         <scene sceneID="whD-cb-Dhi">
@@ -549,7 +616,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHZ-Wy-kDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2922" y="1048"/>
+            <point key="canvasLocation" x="2966" y="1048"/>
         </scene>
         <!--CourseBuddy-->
         <scene sceneID="bOj-yP-ZlG">
@@ -637,6 +704,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbR-8j-QVd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="85" y="1756"/>
+        </scene>
+        <!--Notes Nav View Controller-->
+        <scene sceneID="VDO-cZ-8ew">
+            <objects>
+                <navigationController storyboardIdentifier="NotesNav" automaticallyAdjustsScrollViewInsets="NO" id="Eze-BR-hGP" customClass="NotesNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XvP-KC-f6n">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="n7I-Xe-ucg" kind="relationship" relationship="rootViewController" id="0o1-Dk-Q0N"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xrb-ma-WfQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="1048"/>
         </scene>
     </scenes>
     <resources>
