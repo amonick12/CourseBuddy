@@ -39,6 +39,7 @@
 		005C58D61B1F830800EC06CD /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 005C58D51B1F830800EC06CD /* DropboxSDK.framework */; };
 		005C58D81B1F8F0700EC06CD /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58D71B1F8F0700EC06CD /* Helper.swift */; };
 		005C58DB1B1F921F00EC06CD /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58DA1B1F921F00EC06CD /* FileViewController.swift */; };
+		005C58DD1B1FC58900EC06CD /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58DC1B1FC58900EC06CD /* WebViewController.swift */; };
 		00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */; };
 		00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */; };
 		00C8A44A1B1E9EAA00D6F273 /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */; };
@@ -96,6 +97,7 @@
 		005C58D51B1F830800EC06CD /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = "../../../Downloads/dropbox-ios-sdk-1.3-2.13/DropboxSDK.framework"; sourceTree = "<group>"; };
 		005C58D71B1F8F0700EC06CD /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		005C58DA1B1F921F00EC06CD /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
+		005C58DC1B1FC58900EC06CD /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				005C58DA1B1F921F00EC06CD /* FileViewController.swift */,
+				005C58DC1B1FC58900EC06CD /* WebViewController.swift */,
 			);
 			name = ModalViewControllers;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				00C8A4521B1E9F3500D6F273 /* NotificationsViewController.swift in Sources */,
 				005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */,
 				0054296F1B1E784300EA737C /* ScheduleViewController.swift in Sources */,
+				005C58DD1B1FC58900EC06CD /* WebViewController.swift in Sources */,
 				005C58CC1B1F4EA800EC06CD /* temp.m in Sources */,
 				005C58D81B1F8F0700EC06CD /* Helper.swift in Sources */,
 			);

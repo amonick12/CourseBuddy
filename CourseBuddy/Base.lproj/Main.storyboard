@@ -161,15 +161,29 @@
         <scene sceneID="Ik8-G3-Xyq">
             <objects>
                 <tableViewController storyboardIdentifier="Resources" id="h0a-6L-KSI" customClass="ResourcesViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="M2l-EH-pDm">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="M2l-EH-pDm">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="52y-dA-ECz">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ResourceCell" textLabel="Iog-KJ-eGV" detailTextLabel="K02-bQ-lxx" rowHeight="70" style="IBUITableViewCellStyleSubtitle" id="52y-dA-ECz">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="52y-dA-ECz" id="AEF-yg-fSC">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Iog-KJ-eGV">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K02-bQ-lxx">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -178,10 +192,13 @@
                             <outlet property="delegate" destination="h0a-6L-KSI" id="hD0-aa-Uhi"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="AoQ-Zg-2Su" kind="presentation" identifier="showWebViewSegue" id="WZc-lM-SOC"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xvL-lZ-DEN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1137" y="1048"/>
+            <point key="canvasLocation" x="85" y="1048"/>
         </scene>
         <!--Images View Controller-->
         <scene sceneID="dIv-uH-8h0">
@@ -215,7 +232,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tSu-y6-vJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="416" y="1706"/>
+            <point key="canvasLocation" x="1544" y="1048"/>
         </scene>
         <!--Roster View Controller-->
         <scene sceneID="JQ9-Uy-fAC">
@@ -241,7 +258,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C6Z-Mx-uzb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1137" y="1706"/>
+            <point key="canvasLocation" x="2241" y="1048"/>
         </scene>
         <!--File View Controller-->
         <scene sceneID="xbl-Gj-NUA">
@@ -292,7 +309,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wbH-vs-xEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-252" y="1048"/>
+            <point key="canvasLocation" x="-650" y="1756"/>
         </scene>
         <!--Documents View Controller-->
         <scene sceneID="b4A-d2-VpX">
@@ -354,7 +371,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebU-fD-o4N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="416" y="1048"/>
+            <point key="canvasLocation" x="-642" y="1048"/>
         </scene>
         <!--Schedule View Controller-->
         <scene sceneID="Fpe-LH-pQb">
@@ -395,7 +412,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLL-gc-Vb5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1137" y="-314"/>
+            <point key="canvasLocation" x="1858" y="365"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="eFA-a8-8PH">
@@ -480,7 +497,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XpZ-2T-00z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="416" y="-262"/>
+            <point key="canvasLocation" x="1137" y="-186"/>
         </scene>
         <!--Notes View Controller-->
         <scene sceneID="YB7-lt-tcM">
@@ -506,7 +523,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epw-Ot-3In" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1858" y="1048"/>
+            <point key="canvasLocation" x="830" y="1048"/>
         </scene>
         <!--Notifications View Controller-->
         <scene sceneID="whD-cb-Dhi">
@@ -532,7 +549,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHZ-Wy-kDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1858" y="1706"/>
+            <point key="canvasLocation" x="2922" y="1048"/>
         </scene>
         <!--CourseBuddy-->
         <scene sceneID="bOj-yP-ZlG">
@@ -569,6 +586,57 @@
                 <tapGestureRecognizer id="6GN-1j-JKM"/>
             </objects>
             <point key="canvasLocation" x="416" y="365"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="5UQ-G5-hxA">
+            <objects>
+                <viewController id="AoQ-Zg-2Su" customClass="WebViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DZG-kP-zjy"/>
+                        <viewControllerLayoutGuide type="bottom" id="20v-be-sx3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5QZ-QQ-QpC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N7P-yq-sZr">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uR7-qx-lXR">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="Tbi-2q-qZ4">
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="FY1-iN-Ypu">
+                                            <connections>
+                                                <action selector="doneButtonPressed:" destination="AoQ-Zg-2Su" id="n3l-rB-S1o"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="N7P-yq-sZr" firstAttribute="leading" secondItem="5QZ-QQ-QpC" secondAttribute="leading" id="3qk-uJ-JYR"/>
+                            <constraint firstItem="uR7-qx-lXR" firstAttribute="top" secondItem="5QZ-QQ-QpC" secondAttribute="top" id="8Wd-wd-R6d"/>
+                            <constraint firstAttribute="trailing" secondItem="uR7-qx-lXR" secondAttribute="trailing" id="IwK-y8-6l7"/>
+                            <constraint firstItem="N7P-yq-sZr" firstAttribute="top" secondItem="5QZ-QQ-QpC" secondAttribute="top" constant="44" id="QnJ-e8-bQH"/>
+                            <constraint firstItem="N7P-yq-sZr" firstAttribute="bottom" secondItem="20v-be-sx3" secondAttribute="top" id="T7B-bl-307"/>
+                            <constraint firstAttribute="trailing" secondItem="N7P-yq-sZr" secondAttribute="trailing" id="ZO0-sI-wQn"/>
+                            <constraint firstItem="uR7-qx-lXR" firstAttribute="leading" secondItem="5QZ-QQ-QpC" secondAttribute="leading" id="csd-ds-dp1"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="navBar" destination="uR7-qx-lXR" id="Uso-Ay-af6"/>
+                        <outlet property="navTitle" destination="Tbi-2q-qZ4" id="Qnk-0A-yeR"/>
+                        <outlet property="webView" destination="N7P-yq-sZr" id="M9C-uW-VtF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbR-8j-QVd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="85" y="1756"/>
         </scene>
     </scenes>
     <resources>

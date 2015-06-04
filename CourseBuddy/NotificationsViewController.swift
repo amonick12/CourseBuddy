@@ -39,6 +39,27 @@ class NotificationsViewController: UITableViewController {
         return 0
     }
 
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var sectionHeaderView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 40.0))
+        sectionHeaderView.backgroundColor = Helper().colorWithRGBHex(0x00C853, alpha: 0.7)
+        sectionHeaderView.layer.cornerRadius = 3
+        let headerLabel = UILabel(frame: CGRectMake(5, 5, sectionHeaderView.frame.size.width-10, 30.0))
+        headerLabel.backgroundColor = UIColor.clearColor()
+        headerLabel.textAlignment = NSTextAlignment.Center
+        headerLabel.textColor = UIColor.whiteColor()
+        headerLabel.font = UIFont(name: "Avenir", size: 18)
+        headerLabel.text = "Notifications"
+        sectionHeaderView.addSubview(headerLabel)
+        var wrapperView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 50.0))
+        wrapperView.backgroundColor = UIColor.clearColor()
+        wrapperView.addSubview(sectionHeaderView)
+        return wrapperView
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50.0
+    }
+
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
