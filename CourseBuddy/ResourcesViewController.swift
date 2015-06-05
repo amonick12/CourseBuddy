@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ResourcesViewController: UITableViewController {
+class ResourcesViewController: UITableViewController, AddResourceDelegate {
 
     var defaultData = [["Wikipedia", "http://wikipedia.org"], ["Google", "http://google.com"]]
     
@@ -37,8 +37,18 @@ class ResourcesViewController: UITableViewController {
                 UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
             }
         }
+        else if segue.identifier == "addResourceSegue" {
+            if let destination = segue.destinationViewController as? AddResourceViewController {
+                destination.delegate = self
+            }
+        }
     }
     
+    func resourceAdded(title: String, url: String) {
+        println(title)
+        println(url)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

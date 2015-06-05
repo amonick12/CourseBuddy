@@ -13,6 +13,11 @@ protocol GroupsTableDelegate {
     func didAddNewGroup(named: String, description: String?)
 }
 
+class GroupCell: UITableViewCell {
+    @IBOutlet weak var groupLabel: UILabel!
+    @IBOutlet var notificationButton: UIButton!
+}
+
 class GroupsTableViewController: UITableViewController, AddGroupDelegate {
 
     var delegate: GroupsTableDelegate?
@@ -63,12 +68,12 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("GroupCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("GroupCell", forIndexPath: indexPath) as! GroupCell
 
         if groups != nil {
             
         } else {
-            cell.textLabel?.text = defaultData[indexPath.row]
+            cell.groupLabel.text = defaultData[indexPath.row]
         }
         
         return cell

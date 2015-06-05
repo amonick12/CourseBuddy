@@ -26,12 +26,10 @@ class ScheduleViewController: UITableViewController, AddCourseDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -48,48 +46,31 @@ class ScheduleViewController: UITableViewController, AddCourseDelegate {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return schedule.count + 1
+        return schedule.count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if indexPath.row != schedule.count {
-            let cell = tableView.dequeueReusableCellWithIdentifier("ScheduleCell", forIndexPath: indexPath) as! ScheduleCell
-            cell.courseCodeLabel.text = schedule[indexPath.row] as String
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("AddCourseCell", forIndexPath: indexPath) as? UITableViewCell
-            return cell!
-        }
+        let cell = tableView.dequeueReusableCellWithIdentifier("ScheduleCell", forIndexPath: indexPath) as! ScheduleCell
+        cell.courseCodeLabel.text = schedule[indexPath.row] as String
+        return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row != schedule.count {
-            delegate?.didSelectCourseCode(schedule[indexPath.row] as String)
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
+        delegate?.didSelectCourseCode(schedule[indexPath.row] as String)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if indexPath.row == schedule.count {
-            return false
-        } else {
-            return true
-        }
+        return true
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath
         indexPath: NSIndexPath) {
-            
             let courseCodeToDelete = schedule[indexPath.row] as String
             if editingStyle == .Delete {
                 tableView.beginUpdates()

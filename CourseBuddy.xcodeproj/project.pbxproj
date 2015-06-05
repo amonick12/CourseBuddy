@@ -13,6 +13,10 @@
 		001C9B5A1B21F174007262F9 /* ImagesNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B591B21F174007262F9 /* ImagesNavViewController.swift */; };
 		001C9B5C1B21F23C007262F9 /* RosterNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B5B1B21F23C007262F9 /* RosterNavViewController.swift */; };
 		001C9B5E1B21F250007262F9 /* NotificationsNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B5D1B21F250007262F9 /* NotificationsNavViewController.swift */; };
+		001C9B601B2227FB007262F9 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B5F1B2227FB007262F9 /* ImageViewController.swift */; };
+		001C9B621B22280E007262F9 /* AddResourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B611B22280E007262F9 /* AddResourceViewController.swift */; };
+		001C9B641B22281A007262F9 /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B631B22281A007262F9 /* AddNoteViewController.swift */; };
+		001C9B661B222824007262F9 /* AddImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B651B222824007262F9 /* AddImageViewController.swift */; };
 		005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429461B1E4D1600EA737C /* AppDelegate.swift */; };
 		005429491B1E4D1600EA737C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429481B1E4D1600EA737C /* ViewController.swift */; };
 		0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0054294A1B1E4D1600EA737C /* Main.storyboard */; };
@@ -84,6 +88,10 @@
 		001C9B591B21F174007262F9 /* ImagesNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesNavViewController.swift; sourceTree = "<group>"; };
 		001C9B5B1B21F23C007262F9 /* RosterNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterNavViewController.swift; sourceTree = "<group>"; };
 		001C9B5D1B21F250007262F9 /* NotificationsNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsNavViewController.swift; sourceTree = "<group>"; };
+		001C9B5F1B2227FB007262F9 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		001C9B611B22280E007262F9 /* AddResourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddResourceViewController.swift; sourceTree = "<group>"; };
+		001C9B631B22281A007262F9 /* AddNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
+		001C9B651B222824007262F9 /* AddImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddImageViewController.swift; sourceTree = "<group>"; };
 		005429411B1E4D1600EA737C /* CourseBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005429451B1E4D1600EA737C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005429461B1E4D1600EA737C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -189,6 +197,9 @@
 				005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */,
 				001C9B551B21D962007262F9 /* AddInstructorViewController.swift */,
 				001C9B571B21D96E007262F9 /* AddGroupViewController.swift */,
+				001C9B611B22280E007262F9 /* AddResourceViewController.swift */,
+				001C9B631B22281A007262F9 /* AddNoteViewController.swift */,
+				001C9B651B222824007262F9 /* AddImageViewController.swift */,
 			);
 			name = AddContentVC;
 			sourceTree = "<group>";
@@ -220,13 +231,11 @@
 				005429481B1E4D1600EA737C /* ViewController.swift */,
 				0054296E1B1E784300EA737C /* ScheduleViewController.swift */,
 				00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */,
+				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
 				005C58E21B1FEE4800EC06CD /* NavControllers */,
 				001C9B541B21D92D007262F9 /* AddContentVC */,
 				005C58ED1B20BE1000EC06CD /* ToolBarFeatures */,
 				00C8A4461B1E95F800D6F273 /* Menu Features */,
-				005C58DE1B1FDB6800EC06CD /* NoteDetailViewController.swift */,
-				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
-				001C9B521B2122E5007262F9 /* LoginViewController.swift */,
 				005C58D91B1F920200EC06CD /* ModalViewControllers */,
 				0054294D1B1E4D1600EA737C /* Images.xcassets */,
 				0054294F1B1E4D1600EA737C /* LaunchScreen.xib */,
@@ -240,6 +249,7 @@
 		005429441B1E4D1600EA737C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				001C9B521B2122E5007262F9 /* LoginViewController.swift */,
 				005429451B1E4D1600EA737C /* Info.plist */,
 				005C58D71B1F8F0700EC06CD /* Helper.swift */,
 			);
@@ -297,6 +307,7 @@
 			children = (
 				005C58DA1B1F921F00EC06CD /* FileViewController.swift */,
 				005C58DC1B1FC58900EC06CD /* WebViewController.swift */,
+				001C9B5F1B2227FB007262F9 /* ImageViewController.swift */,
 			);
 			name = ModalViewControllers;
 			sourceTree = "<group>";
@@ -333,6 +344,7 @@
 				00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */,
 				00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */,
 				00C8A44B1B1E9EC800D6F273 /* NotesViewController.swift */,
+				005C58DE1B1FDB6800EC06CD /* NoteDetailViewController.swift */,
 				00C8A44D1B1E9EFC00D6F273 /* ImagesViewController.swift */,
 				00C8A44F1B1E9F1E00D6F273 /* RosterViewController.swift */,
 				00C8A4511B1E9F3500D6F273 /* NotificationsViewController.swift */,
@@ -442,6 +454,7 @@
 			files = (
 				001C9B531B2122E5007262F9 /* LoginViewController.swift in Sources */,
 				005C58E61B1FEEBF00EC06CD /* ResourceNavViewController.swift in Sources */,
+				001C9B661B222824007262F9 /* AddImageViewController.swift in Sources */,
 				001C9B5A1B21F174007262F9 /* ImagesNavViewController.swift in Sources */,
 				00C8A44E1B1E9EFC00D6F273 /* ImagesViewController.swift in Sources */,
 				00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */,
@@ -468,9 +481,12 @@
 				005C58E41B1FEEAC00EC06CD /* DocNavViewController.swift in Sources */,
 				0054296F1B1E784300EA737C /* ScheduleViewController.swift in Sources */,
 				005C58DD1B1FC58900EC06CD /* WebViewController.swift in Sources */,
+				001C9B641B22281A007262F9 /* AddNoteViewController.swift in Sources */,
 				005C58CC1B1F4EA800EC06CD /* temp.m in Sources */,
 				005C58D81B1F8F0700EC06CD /* Helper.swift in Sources */,
 				005C58EA1B209A0600EC06CD /* ScheduleNavViewController.swift in Sources */,
+				001C9B601B2227FB007262F9 /* ImageViewController.swift in Sources */,
+				001C9B621B22280E007262F9 /* AddResourceViewController.swift in Sources */,
 				005C58F11B20BE6C00EC06CD /* GroupsNavViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,6 +13,11 @@ protocol InstructorTableDelegate {
     func didAddNewInstructor(named: String, description: String?)
 }
 
+class InstructorCell: UITableViewCell {
+    @IBOutlet weak var instructorLabel: UILabel!
+    @IBOutlet var notificationButton: UIButton!
+}
+
 class InstructorsTableViewController: UITableViewController, AddInstructorDelegate {
 
     var delegate: InstructorTableDelegate?
@@ -63,11 +68,11 @@ class InstructorsTableViewController: UITableViewController, AddInstructorDelega
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("InstructorCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("InstructorCell", forIndexPath: indexPath) as! InstructorCell
         if instructors != nil {
 
         } else {
-            cell.textLabel!.text = defaultData[indexPath.row]
+            cell.instructorLabel.text = defaultData[indexPath.row]
         }
 
         return cell

@@ -8,18 +8,34 @@
 
 import UIKit
 
+protocol WebViewDelegate {
+    func newResourceConfirmed()
+}
+
 class WebViewController: UIViewController {
 
+    var delegate: WebViewDelegate?
+    
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var navTitle: UINavigationItem!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var webView: UIWebView!
     
     var resourceTitle: String?
     var address: String?
+    var addingResource: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+                
+        if let adding = addingResource {
+            if adding {
+                doneButton.title = "Confirm"
+                cancelButton.enabled = true
+            }
+        }
+        
         navTitle.title = resourceTitle
         let url = NSURL(string: address!)
         let request = NSURLRequest(URL: url!)
@@ -32,7 +48,21 @@ class WebViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func cancelButtonPressed(sender: AnyObject) {
+        if let adding = addingResource {
+            if adding {
+                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+    }
+    
     @IBAction func doneButtonPressed(sender: UIBarButtonItem) {
+        if let adding = addingResource {
+            if adding {
+                delegate?.newResourceConfirmed()
+            }
+        }
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
