@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import ParseUI
 
-class ViewController: UIViewController, PFLogInViewControllerDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var scheduleBarButton: UIBarButtonItem!
     var defaultData:[String] = ["Welcome to CourseBuddy"]
@@ -18,7 +18,7 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate {
     var name: String?
     var email: String?
     var university: String?
-    var logInController = PFLogInViewController()
+    var logInController = LoginViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,50 +50,6 @@ class ViewController: UIViewController, PFLogInViewControllerDelegate {
         }
     }
 
-    func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser) -> Void {
-        println("\(user.username) did log in")
-        self.navigationController?.dismissViewControllerAnimated(true) {
-            self.showUniversitySelector(self.scheduleBarButton)
-        }
-        if (FBSDKAccessToken.currentAccessToken() != nil) {
-            var userProfileRequestParams = [ "fields" : "id, name, email"]
-            let userProfileRequest = FBSDKGraphRequest(graphPath: "me", parameters: userProfileRequestParams)
-            let graphConnection = FBSDKGraphRequestConnection()
-            graphConnection.addRequest(userProfileRequest, completionHandler: {
-                (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-                if error != nil {
-                    println(error)
-                }
-                else {
-                    let fbEmail = result.objectForKey("email") as! String
-                    let fbUserId = result.objectForKey("id") as! String
-                    let name = result.objectForKey("name") as! String
-                    if(fbEmail != "") {
-                        self.name = name
-                        self.email = fbEmail
-                        PFUser.currentUser()?.username = fbEmail
-                        PFUser.currentUser()?.email = fbEmail
-                        PFUser.currentUser()?["name"] = name
-                        PFUser.currentUser()?["facebookId"] = fbUserId
-                        
-                        let emailParts = fbEmail.lowercaseString.componentsSeparatedByString("@")
-                        let domain = emailParts[1] as String
-                        if domain.rangeOfString("edu") != nil {
-                            PFUser.currentUser()?["eduEmail"] = fbEmail
-                        }
-                        
-                        PFUser.currentUser()?.saveEventually(nil)
-                    }
-                }
-            })
-            graphConnection.start()
-        }
-    }
-    
-    func logInViewControllerDidCancelLogIn(controller: PFLogInViewController) -> Void {
-        println("user canceled log in")
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -136,6 +92,13 @@ extension ViewController: UniversitySelectorDelegate {
         self.university = named
         println(university)
         scheduleButtonPressed(scheduleBarButton)
+    }
+}
+
+extension ViewController: PostDelegate {
+    func postTextEntered(content: String, type: String) {
+        println(content)
+        println(type)
     }
 }
 
@@ -213,6 +176,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
         if checkUniversity(sender) {
             let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("Post") as! PostViewController
+            vc.delegate = self
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
             let popover: UIPopoverPresentationController = vc.popoverPresentationController!
             popover.barButtonItem = sender
@@ -326,6 +290,50 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
+extension ViewController: PFLogInViewControllerDelegate {
+    func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser) -> Void {
+        println("\(user.username) did log in")
+        self.navigationController?.dismissViewControllerAnimated(true) {
+            self.showUniversitySelector(self.scheduleBarButton)
+        }
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            var userProfileRequestParams = [ "fields" : "id, name, email"]
+            let userProfileRequest = FBSDKGraphRequest(graphPath: "me", parameters: userProfileRequestParams)
+            let graphConnection = FBSDKGraphRequestConnection()
+            graphConnection.addRequest(userProfileRequest, completionHandler: {
+                (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                if error != nil {
+                    println(error)
+                }
+                else {
+                    let fbEmail = result.objectForKey("email") as! String
+                    let fbUserId = result.objectForKey("id") as! String
+                    let name = result.objectForKey("name") as! String
+                    if(fbEmail != "") {
+                        self.name = name
+                        self.email = fbEmail
+                        PFUser.currentUser()?.username = fbEmail
+                        PFUser.currentUser()?.email = fbEmail
+                        PFUser.currentUser()?["name"] = name
+                        PFUser.currentUser()?["facebookId"] = fbUserId
+                        
+                        let emailParts = fbEmail.lowercaseString.componentsSeparatedByString("@")
+                        let domain = emailParts[1] as String
+                        if domain.rangeOfString("edu") != nil {
+                            PFUser.currentUser()?["eduEmail"] = fbEmail
+                        }
+                        PFUser.currentUser()?.saveEventually(nil)
+                    }
+                }
+            })
+            graphConnection.start()
+        }
+    }
+    func logInViewControllerDidCancelLogIn(controller: PFLogInViewController) -> Void {
+        println("user canceled log in")
+    }
+}
+
 class MainCell: UITableViewCell {
     @IBOutlet var label: UILabel!
 }
@@ -339,7 +347,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return defaultData.count
     }
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MainCell", forIndexPath: indexPath) as! MainCell

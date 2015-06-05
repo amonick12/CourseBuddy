@@ -590,8 +590,11 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Compose Post" id="c5C-Sk-JzT">
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="Kek-mp-25c">
+                                        <barButtonItem key="rightBarButtonItem" image="right" id="Kek-mp-25c">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="doneButtonPressed:" destination="FyR-mT-36M" id="RiT-mr-h0l"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -607,7 +610,7 @@
                                 </connections>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Fxa-Yx-BO6" firstAttribute="top" secondItem="ZUO-6Z-j59" secondAttribute="bottom" id="7M2-dx-rqy"/>
                             <constraint firstItem="hT2-0G-zm4" firstAttribute="top" secondItem="Fxa-Yx-BO6" secondAttribute="bottom" constant="15" id="SYg-dq-r32"/>
@@ -623,6 +626,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
+                        <outlet property="doneButton" destination="Kek-mp-25c" id="vg8-xA-XRy"/>
                         <outlet property="postTextField" destination="hT2-0G-zm4" id="k7n-lB-IgV"/>
                     </connections>
                 </viewController>
@@ -778,19 +782,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-Vv-Z5c">
-                                <rect key="frame" x="104" y="76" width="92" height="20"/>
+                                <rect key="frame" x="16" y="76" width="268" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgl-es-nil">
-                                <rect key="frame" x="106" y="120" width="88" height="20"/>
+                                <rect key="frame" x="16" y="120" width="268" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFu-tG-7VT">
-                                <rect key="frame" x="87" y="163" width="126" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="University Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFu-tG-7VT">
+                                <rect key="frame" x="16" y="163" width="268" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -801,13 +805,19 @@
                             <constraint firstItem="dFu-tG-7VT" firstAttribute="top" secondItem="sgl-es-nil" secondAttribute="bottom" constant="23" id="3oR-0X-bF2"/>
                             <constraint firstAttribute="centerX" secondItem="sgl-es-nil" secondAttribute="centerX" id="4au-YH-f69"/>
                             <constraint firstItem="10z-bW-fB8" firstAttribute="top" secondItem="2G9-yL-fRq" secondAttribute="bottom" id="5I6-lu-Mm4"/>
+                            <constraint firstItem="dFu-tG-7VT" firstAttribute="leading" secondItem="PRm-uh-qy5" secondAttribute="leadingMargin" id="BLY-hY-RIu"/>
+                            <constraint firstItem="dFu-tG-7VT" firstAttribute="trailing" secondItem="PRm-uh-qy5" secondAttribute="trailingMargin" id="Ezx-za-HvS"/>
                             <constraint firstItem="Gdo-0M-T50" firstAttribute="top" secondItem="7ou-It-BsV" secondAttribute="bottom" constant="8" id="HZc-Ft-yHd"/>
                             <constraint firstItem="2G9-yL-fRq" firstAttribute="leading" secondItem="PRm-uh-qy5" secondAttribute="leading" id="ICm-Lr-XFB"/>
                             <constraint firstItem="sgl-es-nil" firstAttribute="top" secondItem="bAk-Vv-Z5c" secondAttribute="bottom" constant="24" id="Ia4-Xl-iFa"/>
+                            <constraint firstItem="sgl-es-nil" firstAttribute="trailing" secondItem="PRm-uh-qy5" secondAttribute="trailingMargin" id="NRk-iX-dZr"/>
                             <constraint firstAttribute="centerX" secondItem="bAk-Vv-Z5c" secondAttribute="centerX" id="V16-7u-jpO"/>
+                            <constraint firstItem="bAk-Vv-Z5c" firstAttribute="leading" secondItem="PRm-uh-qy5" secondAttribute="leadingMargin" id="VBw-tf-f3k"/>
+                            <constraint firstItem="bAk-Vv-Z5c" firstAttribute="trailing" secondItem="PRm-uh-qy5" secondAttribute="trailingMargin" id="Z9k-gK-Vk1"/>
                             <constraint firstAttribute="trailing" secondItem="2G9-yL-fRq" secondAttribute="trailing" id="bdH-Ko-6Pc"/>
                             <constraint firstItem="bAk-Vv-Z5c" firstAttribute="top" secondItem="Gdo-0M-T50" secondAttribute="bottom" constant="28" id="pBQ-Iy-zKR"/>
                             <constraint firstAttribute="centerX" secondItem="dFu-tG-7VT" secondAttribute="centerX" id="pJg-WB-Vn8"/>
+                            <constraint firstItem="sgl-es-nil" firstAttribute="leading" secondItem="PRm-uh-qy5" secondAttribute="leadingMargin" id="rcf-tq-rjE"/>
                             <constraint firstAttribute="centerX" secondItem="Gdo-0M-T50" secondAttribute="centerX" id="tFt-7M-wok"/>
                         </constraints>
                     </view>
@@ -1181,6 +1191,8 @@
         <image name="profile" width="32" height="32"/>
         <image name="reminder" width="32" height="32"/>
         <image name="resource" width="32" height="32"/>
+        <image name="right" width="32" height="32"/>
         <image name="roster" width="32" height="32"/>
     </resources>
+    <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
