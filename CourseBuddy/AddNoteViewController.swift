@@ -8,15 +8,26 @@
 
 import UIKit
 
+protocol AddNoteDelegate {
+    func newNoteAdded(title: String, content: String)
+}
+
 class AddNoteViewController: UIViewController, UITextFieldDelegate {
 
+    var delegate: AddNoteDelegate?
+    
     @IBOutlet weak var noteTitleTextField: UITextField!
     @IBOutlet var noteContentTextView: UITextView!
+    
+    var noteTitle: String?
+    var content: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        noteTitleTextField.attributedPlaceholder = NSAttributedString(string:"Note Title",
+            attributes:[NSForegroundColorAttributeName: UIColor.lightGrayColor()])
+        noteContentTextView.textColor = UIColor.lightGrayColor()
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,6 +39,32 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
         noteContentTextView.select(textField)
         return true
     }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.textColor == UIColor.lightGrayColor() {
+            textView.text = ""
+            textView.textColor = UIColor.darkGrayColor()
+        }
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Start New Note Here"
+            textView.textColor = UIColor.lightGrayColor()
+        }
+    }
+
+    @IBAction func doneButtonPressed(sender: AnyObject) {
+        if !noteTitleTextField.text.isEmpty {
+            noteTitle = noteTitleTextField.text
+            if !noteContentTextView.text.isEmpty || noteContentTextView.text != "Start New Note Here" {
+                content = noteContentTextView.text
+                delegate?.newNoteAdded(noteTitle!, content: content!)
+                navigationController?.popViewControllerAnimated(true)
+            }
+        }
+    }
+
     /*
     // MARK: - Navigation
 

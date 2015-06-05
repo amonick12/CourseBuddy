@@ -8,14 +8,21 @@
 
 import UIKit
 
+protocol UpdateNoteDelegate {
+    func updateNoteAtIndex(index: Int, newContent: String)
+}
+
 class NoteDetailViewController: UIViewController {
 
+    var delegate: UpdateNoteDelegate?
+    
     @IBOutlet weak var textView: UITextView!
     
     @IBOutlet weak var noteTitleItem: UINavigationItem!
     
     var noteTitle: String?
     var noteContent: String?
+    var noteIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +42,10 @@ class NoteDetailViewController: UIViewController {
     }
     
     @IBAction func updateButtonPressed(sender: AnyObject) {
+        if noteContent! != textView.text {
+            delegate?.updateNoteAtIndex(noteIndex!, newContent: textView.text)
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     /*

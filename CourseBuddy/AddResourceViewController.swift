@@ -54,7 +54,7 @@ class AddResourceViewController: UIViewController, UITextFieldDelegate, WebViewD
     
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
-        if !resourceTitleTextField.text.isEmpty && !urlTextField.text.isEmpty {
+        if resourceTitleTextField.text != "" && urlTextField.text != "" {
             resourceTitle = resourceTitleTextField.text
             url = urlTextField.text
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NotesViewController: UITableViewController {
+class NotesViewController: UITableViewController, AddNoteDelegate, UpdateNoteDelegate {
 
     let defaultNote = [["First Note", "Collaborate on the same content here"], ["Second Note", "What are some good features to add to shared notes"]]
     
@@ -16,6 +16,7 @@ class NotesViewController: UITableViewController {
     
     var selectedNoteTitle: String?
     var selectedNoteContent: String?
+    var selectedIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +35,25 @@ class NotesViewController: UITableViewController {
             if let destination = segue.destinationViewController as? NoteDetailViewController {
                 destination.noteTitle = selectedNoteTitle!
                 destination.noteContent = selectedNoteContent!
+                destination.noteIndex = selectedIndex
+                destination.delegate = self
+            }
+        } else if segue.identifier == "addNoteSegue" {
+            if let destination = segue.destinationViewController as? AddNoteViewController {
+                destination.delegate = self
             }
         }
     }
+    
+    func newNoteAdded(title: String, content: String) {
+        println(title)
+        println(content)
+    }
+    
+    func updateNoteAtIndex(index: Int, newContent: String) {
+        println("Update note at index: \(index) with content: \(newContent)")
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -79,6 +96,7 @@ class NotesViewController: UITableViewController {
             selectedNoteTitle = note[0]
             selectedNoteContent = note[1]
         }
+        selectedIndex = indexPath.row
         performSegueWithIdentifier("showNoteDetail", sender: nil)
     }
     
