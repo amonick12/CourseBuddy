@@ -8,8 +8,15 @@
 
 import UIKit
 
-class GroupsTableViewController: UITableViewController {
+protocol GroupsTableDelegate {
+    func didSelectGroup(named: String)
+    func didAddNewGroup(named: String, description: String?)
+}
 
+class GroupsTableViewController: UITableViewController, AddGroupDelegate {
+
+    var delegate: GroupsTableDelegate?
+    
     let defaultData = ["Study Group", "Beta Testers"]
     var groups: [AnyObject]?
     
@@ -21,6 +28,19 @@ class GroupsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let vc = segue.destinationViewController as! AddGroupViewController
+        vc.delegate = self
+    }
+    
+    func returnWithText(groupName: String, groupDescription: String?) {
+//        println(groupName)
+//        if groupDescription != nil {
+//            println(groupDescription!)
+//        }
+        delegate?.didAddNewGroup(groupName, description: groupDescription)
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,6 +74,14 @@ class GroupsTableViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if groups != nil {
+            
+        } else {
+            delegate?.didSelectGroup(defaultData[indexPath.row])
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

@@ -8,16 +8,30 @@
 
 import UIKit
 
-class NotificationsViewController: UITableViewController {
+class NotificationCell: UITableViewCell {
+    @IBOutlet weak var notificationLabel: UILabel!
+    @IBOutlet var notificationSwitch: UISwitch!
+    var delegate: NotificationCellDelegate?
+    var index: Int!
+    
+    @IBAction func switchFlipped(sender: AnyObject) {
+        delegate?.switchFlipped(index)
+    }
+}
 
+protocol NotificationCellDelegate {
+    func switchFlipped(index: Int)
+}
+
+class NotificationsViewController: UITableViewController, NotificationCellDelegate {
+
+    let notificationExplainations = ["Someone Posts in Discussion", "Someone Posts in Discussion as Important", "Someone Comments on Your Post"]
+    let notificationTypes = ["post", "important", "comment"]
+    var notificationBools = [false,true,true]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,48 +42,28 @@ class NotificationsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        return 3
     }
 
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var sectionHeaderView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 40.0))
-        sectionHeaderView.backgroundColor = Helper().colorWithRGBHex(0x00C853, alpha: 0.7)
-        sectionHeaderView.layer.cornerRadius = 3
-        let headerLabel = UILabel(frame: CGRectMake(5, 5, sectionHeaderView.frame.size.width-10, 30.0))
-        headerLabel.backgroundColor = UIColor.clearColor()
-        headerLabel.textAlignment = NSTextAlignment.Center
-        headerLabel.textColor = UIColor.whiteColor()
-        headerLabel.font = UIFont(name: "Avenir", size: 18)
-        headerLabel.text = "Notifications"
-        sectionHeaderView.addSubview(headerLabel)
-        var wrapperView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 50.0))
-        wrapperView.backgroundColor = UIColor.clearColor()
-        wrapperView.addSubview(sectionHeaderView)
-        return wrapperView
-    }
-    
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50.0
-    }
-
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("NotificationCell", forIndexPath: indexPath) as! NotificationCell
 
-        // Configure the cell...
-
+        cell.notificationLabel.text = notificationExplainations[indexPath.row]
+        cell.notificationSwitch.on = notificationBools[indexPath.row]
+        cell.index = indexPath.row
+        cell.delegate = self
+        
         return cell
     }
-    */
-
+    
+    func switchFlipped(index: Int) {
+        notificationBools[index] = !notificationBools[index]
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

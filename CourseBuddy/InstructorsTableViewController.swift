@@ -8,8 +8,15 @@
 
 import UIKit
 
-class InstructorsTableViewController: UITableViewController {
+protocol InstructorTableDelegate {
+    func didSelectInstructor(named: String)
+    func didAddNewInstructor(named: String, description: String?)
+}
 
+class InstructorsTableViewController: UITableViewController, AddInstructorDelegate {
+
+    var delegate: InstructorTableDelegate?
+    
     let defaultData = ["Professor Chaos", "Stephen Hawking"]
     var instructors: [AnyObject]?
     
@@ -28,6 +35,19 @@ class InstructorsTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let vc = segue.destinationViewController as! AddInstructorViewController
+        vc.delegate = self
+    }
+    
+    func returnWithText(instructorName: String, instructorDescription: String?) {
+//        println(instructorName)
+//        if instructorDescription != nil {
+//            println(instructorDescription!)
+//        }
+        delegate?.didAddNewInstructor(instructorName, description: instructorDescription)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -53,6 +73,14 @@ class InstructorsTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if instructors != nil {
+            
+        } else {
+            delegate?.didSelectInstructor(defaultData[indexPath.row])
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.

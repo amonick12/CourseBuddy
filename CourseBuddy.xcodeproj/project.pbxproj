@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		001C9B531B2122E5007262F9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B521B2122E5007262F9 /* LoginViewController.swift */; };
+		001C9B561B21D962007262F9 /* AddInstructorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B551B21D962007262F9 /* AddInstructorViewController.swift */; };
+		001C9B581B21D96E007262F9 /* AddGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B571B21D96E007262F9 /* AddGroupViewController.swift */; };
+		001C9B5A1B21F174007262F9 /* ImagesNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B591B21F174007262F9 /* ImagesNavViewController.swift */; };
+		001C9B5C1B21F23C007262F9 /* RosterNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B5B1B21F23C007262F9 /* RosterNavViewController.swift */; };
+		001C9B5E1B21F250007262F9 /* NotificationsNavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B5D1B21F250007262F9 /* NotificationsNavViewController.swift */; };
 		005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429461B1E4D1600EA737C /* AppDelegate.swift */; };
 		005429491B1E4D1600EA737C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429481B1E4D1600EA737C /* ViewController.swift */; };
 		0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0054294A1B1E4D1600EA737C /* Main.storyboard */; };
@@ -74,6 +79,11 @@
 
 /* Begin PBXFileReference section */
 		001C9B521B2122E5007262F9 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		001C9B551B21D962007262F9 /* AddInstructorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddInstructorViewController.swift; sourceTree = "<group>"; };
+		001C9B571B21D96E007262F9 /* AddGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGroupViewController.swift; sourceTree = "<group>"; };
+		001C9B591B21F174007262F9 /* ImagesNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesNavViewController.swift; sourceTree = "<group>"; };
+		001C9B5B1B21F23C007262F9 /* RosterNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterNavViewController.swift; sourceTree = "<group>"; };
+		001C9B5D1B21F250007262F9 /* NotificationsNavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsNavViewController.swift; sourceTree = "<group>"; };
 		005429411B1E4D1600EA737C /* CourseBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005429451B1E4D1600EA737C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005429461B1E4D1600EA737C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -173,6 +183,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		001C9B541B21D92D007262F9 /* AddContentVC */ = {
+			isa = PBXGroup;
+			children = (
+				005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */,
+				001C9B551B21D962007262F9 /* AddInstructorViewController.swift */,
+				001C9B571B21D96E007262F9 /* AddGroupViewController.swift */,
+			);
+			name = AddContentVC;
+			sourceTree = "<group>";
+		};
 		005429381B1E4D1600EA737C = {
 			isa = PBXGroup;
 			children = (
@@ -201,11 +221,11 @@
 				0054296E1B1E784300EA737C /* ScheduleViewController.swift */,
 				00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */,
 				005C58E21B1FEE4800EC06CD /* NavControllers */,
+				001C9B541B21D92D007262F9 /* AddContentVC */,
 				005C58ED1B20BE1000EC06CD /* ToolBarFeatures */,
 				00C8A4461B1E95F800D6F273 /* Menu Features */,
 				005C58DE1B1FDB6800EC06CD /* NoteDetailViewController.swift */,
 				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
-				005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */,
 				001C9B521B2122E5007262F9 /* LoginViewController.swift */,
 				005C58D91B1F920200EC06CD /* ModalViewControllers */,
 				0054294D1B1E4D1600EA737C /* Images.xcassets */,
@@ -290,6 +310,9 @@
 				005C58E01B1FE06500EC06CD /* NotesNavViewController.swift */,
 				005C58EE1B20BE5E00EC06CD /* InstructorsNavViewController.swift */,
 				005C58F01B20BE6C00EC06CD /* GroupsNavViewController.swift */,
+				001C9B591B21F174007262F9 /* ImagesNavViewController.swift */,
+				001C9B5B1B21F23C007262F9 /* RosterNavViewController.swift */,
+				001C9B5D1B21F250007262F9 /* NotificationsNavViewController.swift */,
 			);
 			name = NavControllers;
 			sourceTree = "<group>";
@@ -419,14 +442,18 @@
 			files = (
 				001C9B531B2122E5007262F9 /* LoginViewController.swift in Sources */,
 				005C58E61B1FEEBF00EC06CD /* ResourceNavViewController.swift in Sources */,
+				001C9B5A1B21F174007262F9 /* ImagesNavViewController.swift in Sources */,
 				00C8A44E1B1E9EFC00D6F273 /* ImagesViewController.swift in Sources */,
 				00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */,
 				005C58DF1B1FDB6800EC06CD /* NoteDetailViewController.swift in Sources */,
 				005C58EC1B209B1F00EC06CD /* AddCourseViewController.swift in Sources */,
+				001C9B5C1B21F23C007262F9 /* RosterNavViewController.swift in Sources */,
 				005C58EF1B20BE5E00EC06CD /* InstructorsNavViewController.swift in Sources */,
 				005C58E81B208C0D00EC06CD /* UniversitySelectorViewController.swift in Sources */,
 				005429491B1E4D1600EA737C /* ViewController.swift in Sources */,
 				005C58E11B1FE06500EC06CD /* NotesNavViewController.swift in Sources */,
+				001C9B581B21D96E007262F9 /* AddGroupViewController.swift in Sources */,
+				001C9B5E1B21F250007262F9 /* NotificationsNavViewController.swift in Sources */,
 				00C8A44A1B1E9EAA00D6F273 /* ResourcesViewController.swift in Sources */,
 				00C8A4501B1E9F1E00D6F273 /* RosterViewController.swift in Sources */,
 				00C8A44C1B1E9EC800D6F273 /* NotesViewController.swift in Sources */,
@@ -436,6 +463,7 @@
 				00C8A4521B1E9F3500D6F273 /* NotificationsViewController.swift in Sources */,
 				005C58F71B20BE9A00EC06CD /* PostViewController.swift in Sources */,
 				005C58F51B20BE8A00EC06CD /* GroupsTableViewController.swift in Sources */,
+				001C9B561B21D962007262F9 /* AddInstructorViewController.swift in Sources */,
 				005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */,
 				005C58E41B1FEEAC00EC06CD /* DocNavViewController.swift in Sources */,
 				0054296F1B1E784300EA737C /* ScheduleViewController.swift in Sources */,
