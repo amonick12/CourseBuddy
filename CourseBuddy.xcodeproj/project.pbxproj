@@ -17,6 +17,8 @@
 		001C9B621B22280E007262F9 /* AddResourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B611B22280E007262F9 /* AddResourceViewController.swift */; };
 		001C9B641B22281A007262F9 /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B631B22281A007262F9 /* AddNoteViewController.swift */; };
 		001C9B661B222824007262F9 /* AddImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B651B222824007262F9 /* AddImageViewController.swift */; };
+		001C9B691B23218E007262F9 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B671B23218E007262F9 /* screenshot.png */; };
+		001C9B6A1B23218E007262F9 /* stickynote.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B681B23218E007262F9 /* stickynote.jpg */; };
 		005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429461B1E4D1600EA737C /* AppDelegate.swift */; };
 		005429491B1E4D1600EA737C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429481B1E4D1600EA737C /* ViewController.swift */; };
 		0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0054294A1B1E4D1600EA737C /* Main.storyboard */; };
@@ -92,6 +94,8 @@
 		001C9B611B22280E007262F9 /* AddResourceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddResourceViewController.swift; sourceTree = "<group>"; };
 		001C9B631B22281A007262F9 /* AddNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
 		001C9B651B222824007262F9 /* AddImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddImageViewController.swift; sourceTree = "<group>"; };
+		001C9B671B23218E007262F9 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = screenshot.png; path = ../../../../Downloads/screenshot.png; sourceTree = "<group>"; };
+		001C9B681B23218E007262F9 /* stickynote.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = stickynote.jpg; path = ../../../../Downloads/stickynote.jpg; sourceTree = "<group>"; };
 		005429411B1E4D1600EA737C /* CourseBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005429451B1E4D1600EA737C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005429461B1E4D1600EA737C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -249,6 +253,8 @@
 		005429441B1E4D1600EA737C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				001C9B671B23218E007262F9 /* screenshot.png */,
+				001C9B681B23218E007262F9 /* stickynote.jpg */,
 				001C9B521B2122E5007262F9 /* LoginViewController.swift */,
 				005429451B1E4D1600EA737C /* Info.plist */,
 				005C58D71B1F8F0700EC06CD /* Helper.swift */,
@@ -435,6 +441,8 @@
 				0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */,
 				005429511B1E4D1600EA737C /* LaunchScreen.xib in Resources */,
 				0054294E1B1E4D1600EA737C /* Images.xcassets in Resources */,
+				001C9B6A1B23218E007262F9 /* stickynote.jpg in Resources */,
+				001C9B691B23218E007262F9 /* screenshot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

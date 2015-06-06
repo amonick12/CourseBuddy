@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import MessageUI
+import Parse
 
-class RosterViewController: UITableViewController {
+class RosterViewController: UITableViewController, MFMailComposeViewControllerDelegate {
 
     var defaultData = [["Albert Einstein", "aje9329@psu.edu"],["Stephen Hawking", "skh9420@psu.edu"]]
     var roster: [AnyObject]?
+    var selectedEmails: [String] = []
+    var emails: [String] = []
+    var courseCode: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,14 +33,56 @@ class RosterViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func emailButtonPressed(sender: AnyObject) {
+        if !selectedEmails.isEmpty {
+            let mailComposeViewController = configuredMailComposeViewController()
+            if MFMailComposeViewController.canSendMail() {
+                //self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+                self.presentViewController(mailComposeViewController, animated: true, completion: { () -> Void in
+                    UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
+                })
+            } else {
+                showSendMailErrorAlert()
+            }
+        }
+    }
+    
+    func configuredMailComposeViewController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        mailComposerVC.setToRecipients(selectedEmails)
+        mailComposerVC.setMessageBody("\n\n\nSent from CourseBuddy \(courseCode!)", isHTML: false)
+        var userEmail = PFUser.currentUser()?.email
+        mailComposerVC.setBccRecipients([userEmail!])
+        //mailComposerVC.navigationBar.tintColor = UIColor.whiteColor()
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        var alert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        controller.dismissViewControllerAnimated(true, completion: nil)
+        for email in selectedEmails {
+            if var index = find(emails, email) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            }
+        }
+        selectedEmails.removeAll(keepCapacity: false)
+    }
+    
     // MARK: - Table view data source
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    @IBAction func mailButtonPressed(sender: AnyObject) {
-    }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -58,11 +105,34 @@ class RosterViewController: UITableViewController {
             let person = defaultData[indexPath.row]
             cell.textLabel?.text = person[0]
             cell.detailTextLabel?.text = person[1]
+            emails.append(person[1])
         }
 
         return cell
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if roster != nil {
+            
+        } else {
+            let person = defaultData[indexPath.row]
+            selectedEmails.append(person[1])
+        }
+    }
 
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        if roster != nil {
+            
+        } else {
+            let person = defaultData[indexPath.row]
+            let emailToDeselect = person[1]
+            if var index = find(selectedEmails, emailToDeselect) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                selectedEmails.removeAtIndex(index)
+            }
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

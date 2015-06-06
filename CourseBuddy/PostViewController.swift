@@ -9,56 +9,39 @@
 import UIKit
 
 protocol PostDelegate {
-    func postTextEntered(content: String, type: String)
+    func postTextEntered(content: String)
 }
 
-class PostViewController: UIViewController, UITextFieldDelegate {
+class PostViewController: UIViewController, UITextViewDelegate {
 
     var delegate: PostDelegate?
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
-    @IBOutlet weak var postTextField: UITextField!
+    @IBOutlet var postTextView: UITextView!
+    var senderButton: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        postTextView.textColor = UIColor.lightGrayColor()
     }
 
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.textColor == UIColor.lightGrayColor() {
+            textView.text = ""
+            textView.textColor = UIColor.darkGrayColor()
+        }
+    }
+    
     @IBAction func closeButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func doneButtonPressed(sender: UIBarButtonItem) {
-        let content = postTextField.text
-        if content != "" {
-            
-            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-            
-            let postAction = UIAlertAction(title: "Post", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
-                self.dismissViewControllerAnimated(true, completion: nil)
-                self.delegate?.postTextEntered(content, type: "post")
-            })
-            alertController.addAction(postAction)
-            
-            let importantAction = UIAlertAction(title: "Post as Important", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
-                self.dismissViewControllerAnimated(true, completion: nil)
-                self.delegate?.postTextEntered(content, type: "important")
-            })
-            alertController.addAction(importantAction)
-            
-            let anonAction = UIAlertAction(title: "Post as Anonymous", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
-                self.dismissViewControllerAnimated(true, completion: nil)
-                self.delegate?.postTextEntered(content, type: "anon")
-            })
-            alertController.addAction(anonAction)
-            
-            if UIDevice.currentDevice().userInterfaceIdiom != .Pad {
-                postTextField.resignFirstResponder()
-            }
-
-            alertController.popoverPresentationController?.barButtonItem = sender
-            presentViewController(alertController, animated: true, completion: nil)
+        let content = postTextView.text
+        if content != "" && content != "Compose a new post here" {
+            self.dismissViewControllerAnimated(true, completion: nil)
+            self.delegate?.postTextEntered(content)
         }
     }
     

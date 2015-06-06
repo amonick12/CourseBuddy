@@ -12,12 +12,14 @@ import ParseUI
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var postButton: UIBarButtonItem!
     @IBOutlet weak var scheduleBarButton: UIBarButtonItem!
     var defaultData:[String] = ["Welcome to CourseBuddy"]
     var schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
     var name: String?
     var email: String?
     var university: String?
+    var universityID: String?
     var logInController = LoginViewController()
     var selectedCourseCode: String?
     
@@ -30,25 +32,40 @@ class ViewController: UIViewController {
         }
 
         logInController.delegate = self
-        logInController.facebookPermissions = [ "public_profile" ]
+        logInController.facebookPermissions = [ "public_profile", "email"]
         logInController.fields = (PFLogInFields.Facebook)
-        
-        checkUser()
         
         for var i=0; i < 100; i++ {
             defaultData.append("\(i): Welcome to CourseBuddy")
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        checkUser()
+    }
+    
     func checkUser() {
         if PFUser.currentUser() == nil {
-            PFUser.logOut()
+            //PFUser.logOut()
             self.presentViewController(logInController, animated: true, completion: nil)
         } else {
             self.name = PFUser.currentUser()?["name"] as? String
-            self.email = PFUser.currentUser()?.email
+            self.email = PFUser.currentUser()?.username
+            var eduEmail = PFUser.currentUser()?.email
+            var verified = PFUser.currentUser()?["emailVerified"] as? Bool
+            if verified != nil {
+                if eduEmail != nil && verified! == true {
+                    self.email = eduEmail!
+                }
+            }
             self.university = PFUser.currentUser()?["university"] as? String
-            checkUniversity(scheduleBarButton)
+            self.universityID = PFUser.currentUser()?["universityID"] as? String
+            println("Name: \(name)")
+            println("Email: \(email)")
+            println("University: \(university)")
+            if university == nil {
+                checkUniversity(scheduleBarButton)
+            }
         }
     }
 
@@ -80,20 +97,24 @@ extension ViewController: ScheduleDelegate {
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
-
 }
 
 extension ViewController: ProfileDelegate {
     func userDidLogout() {
-        if let user = PFUser.currentUser() {
+        //if let user = PFUser.currentUser() {
             PFUser.logOut()
+            name = nil
+            email = nil
+            university = nil
+            selectedCourseCode = nil
             checkUser()
+            //clear course data
             self.navigationItem.title = "CourseBuddy"
             let font = UIFont(name: "Noteworthy-Light", size: 23)
             if let font = font {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
             }
-        }
+        //}
     }
 }
 
@@ -111,11 +132,38 @@ extension ViewController: UniversitySelectorDelegate {
 }
 
 extension ViewController: PostDelegate {
-    func postTextEntered(content: String, type: String) {
-        println(content)
-        println(type)
+    func postTextEntered(content: String) {
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        var type: String?
+        let postAction = UIAlertAction(title: "Post", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+            self.createPost(content, type: "post")
+        })
+        alertController.addAction(postAction)
+        
+        let importantAction = UIAlertAction(title: "Post as Important", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+            self.createPost(content, type: "important")
+        })
+        alertController.addAction(importantAction)
+        
+        let anonAction = UIAlertAction(title: "Post as Anonymous", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+            self.createPost(content, type: "anon")
+        })
+        alertController.addAction(anonAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (alert: UIAlertAction!) in
+            // do nothing
+        })
+        alertController.addAction(cancelAction)
+        
+        alertController.popoverPresentationController?.barButtonItem = postButton
+        presentViewController(alertController, animated: true, completion: nil)
+
+    }
+    func createPost(content: String, type: String) {
+        println(content)
+        println(type)
     }
 }
 
@@ -204,6 +252,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("Post") as! PostViewController
                 vc.delegate = self
+                vc.senderButton = sender
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -308,6 +357,8 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("RosterNav") as! RosterNavViewController
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+                let root = vc.visibleViewController as! RosterViewController
+                root.courseCode = selectedCourseCode
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
                 popover.delegate = self
@@ -366,11 +417,11 @@ extension ViewController: PFLogInViewControllerDelegate {
     func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser) -> Void {
         println("\(user.username) did log in")
         self.navigationController?.dismissViewControllerAnimated(true) {
-            self.showUniversitySelector(self.scheduleBarButton)
+            checkUniversity(scheduleBarButton)
         }
         if (FBSDKAccessToken.currentAccessToken() != nil) {
-            var userProfileRequestParams = [ "fields" : "id, name, email"]
-            let userProfileRequest = FBSDKGraphRequest(graphPath: "me", parameters: userProfileRequestParams)
+            //var userProfileRequestParams = [ "fields" : "id, name, email"]
+            let userProfileRequest = FBSDKGraphRequest(graphPath: "/me", parameters: nil)
             let graphConnection = FBSDKGraphRequestConnection()
             graphConnection.addRequest(userProfileRequest, completionHandler: {
                 (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
@@ -378,21 +429,31 @@ extension ViewController: PFLogInViewControllerDelegate {
                     println(error)
                 }
                 else {
-                    let fbEmail = result.objectForKey("email") as! String
-                    let fbUserId = result.objectForKey("id") as! String
+                    println(result)
                     let name = result.objectForKey("name") as! String
+                    let fbUserId = result.objectForKey("id") as! String
+                    let fbEmail = result.objectForKey("email") as! String
+                    let gender = result.objectForKey("gender") as! String
+                    let link = result.objectForKey("link") as! String
+                    let locale = result.objectForKey("locale") as! String
                     if(fbEmail != "") {
                         self.name = name
                         self.email = fbEmail
                         PFUser.currentUser()?.username = fbEmail
-                        PFUser.currentUser()?.email = fbEmail
+                        //PFUser.currentUser()?.email = fbEmail
                         PFUser.currentUser()?["name"] = name
                         PFUser.currentUser()?["facebookId"] = fbUserId
-                        
-                        let emailParts = fbEmail.lowercaseString.componentsSeparatedByString("@")
-                        let domain = emailParts[1] as String
-                        if domain.rangeOfString("edu") != nil {
-                            PFUser.currentUser()?["eduEmail"] = fbEmail
+                        PFUser.currentUser()?["gender"] = gender
+                        PFUser.currentUser()?["link"] = link
+                        PFUser.currentUser()?["locale"] = locale
+
+                        let domain = fbEmail.componentsSeparatedByString("@")[1]
+                        let tld = domain.componentsSeparatedByString(".")[1]
+                        println("Domain: \(domain)")
+                        println("TLD: \(tld)")
+                        if tld == "edu" {
+                            PFUser.currentUser()?.email = fbEmail
+                            PFUser.currentUser()?["domain"] = domain
                         }
                         PFUser.currentUser()?.saveEventually(nil)
                     }

@@ -41,6 +41,10 @@ class NoteDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func updateButtonPressed(sender: AnyObject) {
         if noteContent! != textView.text {
             delegate?.updateNoteAtIndex(noteIndex!, newContent: textView.text)

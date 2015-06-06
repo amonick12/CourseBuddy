@@ -54,6 +54,10 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func doneButtonPressed(sender: AnyObject) {
         if !noteTitleTextField.text.isEmpty {
             noteTitle = noteTitleTextField.text

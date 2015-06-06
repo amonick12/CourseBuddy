@@ -52,6 +52,9 @@ class AddResourceViewController: UIViewController, UITextFieldDelegate, WebViewD
         return true
     }
     
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         if resourceTitleTextField.text != "" && urlTextField.text != "" {

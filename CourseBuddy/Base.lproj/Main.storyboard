@@ -154,6 +154,7 @@
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="postButton" destination="vXJ-wg-dxI" id="72B-O3-Dp0"/>
                         <outlet property="scheduleBarButton" destination="WNj-KL-UTr" id="NR5-Kb-B9D"/>
                     </connections>
                 </viewController>
@@ -502,7 +503,7 @@
                         <barButtonItem key="rightBarButtonItem" image="mail" id="GT5-bN-1Ko">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="mailButtonPressed:" destination="2uy-wV-UpC" id="kN4-pD-PKU"/>
+                                <action selector="emailButtonPressed:" destination="2uy-wV-UpC" id="vbm-9w-Tn9"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -537,7 +538,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Title" id="7hF-88-AXn">
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="fvL-ew-E3j">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="fvL-ew-E3j">
                                             <connections>
                                                 <action selector="doneButtonPressed:" destination="DSl-HE-OYY" id="GNm-F8-1V7"/>
                                             </connections>
@@ -585,7 +586,7 @@
                             <color key="trackTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </progressView>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocumentCell" textLabel="lZ7-iP-lmm" style="IBUITableViewCellStyleDefault" id="n0T-kd-vgu">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocumentCell" textLabel="lZ7-iP-lmm" rowHeight="60" style="IBUITableViewCellStyleDefault" id="n0T-kd-vgu">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n0T-kd-vgu" id="Edy-gK-L2i">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -703,7 +704,7 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.74999999999999978" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="ex: ENG015" textAlignment="center" minimumFontSize="30" translatesAutoresizingMaskIntoConstraints="NO" id="Hm4-Ms-pE6">
                                 <rect key="frame" x="0.0" y="8" width="200" height="70"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="aQQ-OL-ksO"/>
                                     <constraint firstAttribute="height" constant="70" id="nAo-my-nGR"/>
@@ -796,26 +797,26 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Compose a new post here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hT2-0G-zm4">
-                                <rect key="frame" x="16" y="59" width="268" height="221"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Compose a new post here" translatesAutoresizingMaskIntoConstraints="NO" id="dr4-Dl-SWo">
+                                <rect key="frame" x="16" y="49" width="268" height="251"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
-                                    <outlet property="delegate" destination="FyR-mT-36M" id="0kV-ah-OUQ"/>
+                                    <outlet property="delegate" destination="FyR-mT-36M" id="2c2-PY-m5b"/>
                                 </connections>
-                            </textField>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dr4-Dl-SWo" secondAttribute="trailing" constant="16" id="1rb-PX-NzV"/>
+                            <constraint firstItem="mo2-Cw-zqJ" firstAttribute="top" secondItem="dr4-Dl-SWo" secondAttribute="bottom" id="2wq-Ez-Lgm"/>
                             <constraint firstItem="Fxa-Yx-BO6" firstAttribute="top" secondItem="ZUO-6Z-j59" secondAttribute="bottom" id="7M2-dx-rqy"/>
-                            <constraint firstItem="hT2-0G-zm4" firstAttribute="top" secondItem="Fxa-Yx-BO6" secondAttribute="bottom" constant="15" id="SYg-dq-r32"/>
+                            <constraint firstItem="dr4-Dl-SWo" firstAttribute="top" secondItem="Fxa-Yx-BO6" secondAttribute="bottom" constant="5" id="PuJ-xc-vki"/>
                             <constraint firstItem="Fxa-Yx-BO6" firstAttribute="leading" secondItem="Ut8-my-TQU" secondAttribute="leading" id="XmG-LB-Je4"/>
-                            <constraint firstItem="hT2-0G-zm4" firstAttribute="leading" secondItem="Ut8-my-TQU" secondAttribute="leadingMargin" id="bIy-Md-GOZ"/>
-                            <constraint firstAttribute="bottom" secondItem="hT2-0G-zm4" secondAttribute="bottom" constant="20" symbolic="YES" id="hyc-ab-pGd"/>
-                            <constraint firstItem="Fxa-Yx-BO6" firstAttribute="centerX" secondItem="hT2-0G-zm4" secondAttribute="centerX" id="uR0-z9-0tB"/>
+                            <constraint firstItem="dr4-Dl-SWo" firstAttribute="leading" secondItem="Ut8-my-TQU" secondAttribute="leading" constant="16" id="toO-qy-kVJ"/>
                             <constraint firstAttribute="trailing" secondItem="Fxa-Yx-BO6" secondAttribute="trailing" id="yIY-SR-N7Q"/>
                         </constraints>
                     </view>
@@ -825,7 +826,7 @@
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="doneButton" destination="Kek-mp-25c" id="vg8-xA-XRy"/>
-                        <outlet property="postTextField" destination="hT2-0G-zm4" id="k7n-lB-IgV"/>
+                        <outlet property="postTextView" destination="dr4-Dl-SWo" id="9ui-dE-8dP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nat-Wn-ZqP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1181,7 +1182,14 @@
                             <constraint firstAttribute="trailing" secondItem="gn6-Li-7TP" secondAttribute="trailing" id="bpT-ma-Jyg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Note Detail" id="xdG-EP-4iD"/>
+                    <navigationItem key="navigationItem" title="Note Detail" id="xdG-EP-4iD">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="stop" id="fte-ss-Li5">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="closeButtonPressed:" destination="LRc-tV-opf" id="Otp-OH-TyK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="noteTitleItem" destination="xdG-EP-4iD" id="U9k-Wm-HLq"/>
@@ -1421,13 +1429,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Title" id="Tbi-2q-qZ4">
-                                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Cancel" id="ayQ-m2-g9v">
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <action selector="cancelButtonPressed:" destination="AoQ-Zg-2Su" id="CfT-ZB-AwC"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Done" id="FY1-iN-Ypu">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="FY1-iN-Ypu">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="doneButtonPressed:" destination="AoQ-Zg-2Su" id="n3l-rB-S1o"/>
@@ -1436,6 +1438,20 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPi-UY-je2">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Iax-bS-n6a"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="Confirm">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="confirmButtonPressed:" destination="AoQ-Zg-2Su" eventType="touchUpInside" id="OVo-xu-8bF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1443,16 +1459,19 @@
                             <constraint firstItem="uR7-qx-lXR" firstAttribute="top" secondItem="5QZ-QQ-QpC" secondAttribute="top" id="8Wd-wd-R6d"/>
                             <constraint firstAttribute="trailing" secondItem="uR7-qx-lXR" secondAttribute="trailing" id="IwK-y8-6l7"/>
                             <constraint firstItem="N7P-yq-sZr" firstAttribute="top" secondItem="5QZ-QQ-QpC" secondAttribute="top" constant="44" id="QnJ-e8-bQH"/>
+                            <constraint firstItem="20v-be-sx3" firstAttribute="top" secondItem="gPi-UY-je2" secondAttribute="bottom" id="RuW-GF-uAk"/>
                             <constraint firstItem="N7P-yq-sZr" firstAttribute="bottom" secondItem="20v-be-sx3" secondAttribute="top" id="T7B-bl-307"/>
                             <constraint firstAttribute="trailing" secondItem="N7P-yq-sZr" secondAttribute="trailing" id="ZO0-sI-wQn"/>
+                            <constraint firstAttribute="trailing" secondItem="gPi-UY-je2" secondAttribute="trailing" id="ce2-8a-Ei1"/>
                             <constraint firstItem="uR7-qx-lXR" firstAttribute="leading" secondItem="5QZ-QQ-QpC" secondAttribute="leading" id="csd-ds-dp1"/>
+                            <constraint firstItem="gPi-UY-je2" firstAttribute="leading" secondItem="5QZ-QQ-QpC" secondAttribute="leading" id="jef-eJ-cdJ"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
-                        <outlet property="cancelButton" destination="ayQ-m2-g9v" id="JUE-Bg-rer"/>
+                        <outlet property="confirmButton" destination="gPi-UY-je2" id="uC3-zK-G9R"/>
                         <outlet property="doneButton" destination="FY1-iN-Ypu" id="Lik-gs-uyA"/>
                         <outlet property="navBar" destination="uR7-qx-lXR" id="Uso-Ay-af6"/>
                         <outlet property="navTitle" destination="Tbi-2q-qZ4" id="Qnk-0A-yeR"/>
@@ -1538,7 +1557,14 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Resource" id="I0P-jK-kF1"/>
+                    <navigationItem key="navigationItem" title="Add Resource" id="I0P-jK-kF1">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="stop" id="xPX-Mt-YQy">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="closeButtonPressed:" destination="SAp-3d-uTO" id="ons-qF-nwF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="300" height="250"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="250"/>
@@ -1566,7 +1592,7 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Note Title" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Yx7-Ty-1kd">
                                 <rect key="frame" x="16" y="52" width="568" height="70"/>
-                                <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="3gs-ga-GIJ"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="QFz-70-Dc3"/>
@@ -1623,7 +1649,14 @@
                             <constraint firstItem="8I1-df-rMK" firstAttribute="leading" secondItem="xtl-dp-Vtj" secondAttribute="leading" id="lij-ID-1iO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="New Shared Note" id="Mzw-Gi-rrc"/>
+                    <navigationItem key="navigationItem" title="New Shared Note" id="Mzw-Gi-rrc">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="stop" id="z7D-Iq-pBV">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="closeButtonPressed:" destination="2wt-wu-1tv" id="J4W-GX-fJM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="noteContentTextView" destination="QzX-gN-EUz" id="UIA-cd-TZG"/>
                         <outlet property="noteTitleTextField" destination="Yx7-Ty-1kd" id="Hgv-Gz-yQz"/>
@@ -1964,7 +1997,7 @@
         <image name="roster" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WZc-lM-SOC"/>
+        <segue reference="pEK-gV-ORA"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

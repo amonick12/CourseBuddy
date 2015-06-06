@@ -16,7 +16,7 @@ class WebViewController: UIViewController {
 
     var delegate: WebViewDelegate?
     
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var navTitle: UINavigationItem!
     @IBOutlet weak var navBar: UINavigationBar!
@@ -28,11 +28,11 @@ class WebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        confirmButton.hidden = true
         if let adding = addingResource {
             if adding {
-                doneButton.title = "Confirm"
-                cancelButton.enabled = true
+                confirmButton.hidden = false
             }
         }
         
@@ -48,21 +48,14 @@ class WebViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func cancelButtonPressed(sender: AnyObject) {
-        if let adding = addingResource {
-            if adding {
-                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
-                dismissViewControllerAnimated(true, completion: nil)
-            }
-        }
-    }
     
+    @IBAction func confirmButtonPressed(sender: AnyObject) {
+        delegate?.newResourceConfirmed()
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
     @IBAction func doneButtonPressed(sender: UIBarButtonItem) {
-        if let adding = addingResource {
-            if adding {
-                delegate?.newResourceConfirmed()
-            }
-        }
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
         self.dismissViewControllerAnimated(true, completion: nil)
     }

@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         Parse.setApplicationId("mqEr9uffiuVDYO78EilxSqW3uyCNmsvSoPGUVjka", clientKey: "E2wb5H05DVZbqe8qwphg7limlHUEajarnIPozH10")
