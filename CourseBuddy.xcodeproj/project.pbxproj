@@ -18,7 +18,11 @@
 		001C9B641B22281A007262F9 /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B631B22281A007262F9 /* AddNoteViewController.swift */; };
 		001C9B661B222824007262F9 /* AddImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B651B222824007262F9 /* AddImageViewController.swift */; };
 		001C9B691B23218E007262F9 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B671B23218E007262F9 /* screenshot.png */; };
-		001C9B6A1B23218E007262F9 /* stickynote.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B681B23218E007262F9 /* stickynote.jpg */; };
+		001C9B6C1B236A0F007262F9 /* stickynote.png in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B6B1B236A0F007262F9 /* stickynote.png */; };
+		001C9B6F1B236A61007262F9 /* Getting Started.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B6D1B236A61007262F9 /* Getting Started.rtf */; };
+		001C9B701B236A61007262F9 /* iPhone intro.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B6E1B236A61007262F9 /* iPhone intro.pdf */; };
+		001C9B731B236BA1007262F9 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B721B236BA1007262F9 /* Comment.swift */; };
+		001C9B751B236BB2007262F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B741B236BB2007262F9 /* Post.swift */; };
 		005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429461B1E4D1600EA737C /* AppDelegate.swift */; };
 		005429491B1E4D1600EA737C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429481B1E4D1600EA737C /* ViewController.swift */; };
 		0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0054294A1B1E4D1600EA737C /* Main.storyboard */; };
@@ -95,7 +99,11 @@
 		001C9B631B22281A007262F9 /* AddNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
 		001C9B651B222824007262F9 /* AddImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddImageViewController.swift; sourceTree = "<group>"; };
 		001C9B671B23218E007262F9 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = screenshot.png; path = ../../../../Downloads/screenshot.png; sourceTree = "<group>"; };
-		001C9B681B23218E007262F9 /* stickynote.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = stickynote.jpg; path = ../../../../Downloads/stickynote.jpg; sourceTree = "<group>"; };
+		001C9B6B1B236A0F007262F9 /* stickynote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stickynote.png; path = ../../../stickynote.png; sourceTree = "<group>"; };
+		001C9B6D1B236A61007262F9 /* Getting Started.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = "Getting Started.rtf"; path = "../../../Getting Started.rtf"; sourceTree = "<group>"; };
+		001C9B6E1B236A61007262F9 /* iPhone intro.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "iPhone intro.pdf"; path = "../../../iPhone intro.pdf"; sourceTree = "<group>"; };
+		001C9B721B236BA1007262F9 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		001C9B741B236BB2007262F9 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		005429411B1E4D1600EA737C /* CourseBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005429451B1E4D1600EA737C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005429461B1E4D1600EA737C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,7 +203,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		001C9B541B21D92D007262F9 /* AddContentVC */ = {
+		001C9B541B21D92D007262F9 /* AddContentVCs */ = {
 			isa = PBXGroup;
 			children = (
 				005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */,
@@ -205,7 +213,26 @@
 				001C9B631B22281A007262F9 /* AddNoteViewController.swift */,
 				001C9B651B222824007262F9 /* AddImageViewController.swift */,
 			);
-			name = AddContentVC;
+			name = AddContentVCs;
+			sourceTree = "<group>";
+		};
+		001C9B711B236B18007262F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				001C9B721B236BA1007262F9 /* Comment.swift */,
+				001C9B741B236BB2007262F9 /* Post.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		001C9B761B236C49007262F9 /* NavBarFeatures */ = {
+			isa = PBXGroup;
+			children = (
+				0054296E1B1E784300EA737C /* ScheduleViewController.swift */,
+				00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */,
+				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
+			);
+			name = NavBarFeatures;
 			sourceTree = "<group>";
 		};
 		005429381B1E4D1600EA737C = {
@@ -233,19 +260,16 @@
 				0054294A1B1E4D1600EA737C /* Main.storyboard */,
 				005429461B1E4D1600EA737C /* AppDelegate.swift */,
 				005429481B1E4D1600EA737C /* ViewController.swift */,
-				0054296E1B1E784300EA737C /* ScheduleViewController.swift */,
-				00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */,
-				005C58E71B208C0D00EC06CD /* UniversitySelectorViewController.swift */,
-				00C8A4461B1E95F800D6F273 /* Menu Features */,
-				001C9B541B21D92D007262F9 /* AddContentVC */,
+				001C9B761B236C49007262F9 /* NavBarFeatures */,
+				00C8A4461B1E95F800D6F273 /* MenuFeatures */,
 				005C58ED1B20BE1000EC06CD /* ToolBarFeatures */,
 				005C58D91B1F920200EC06CD /* ModalViewControllers */,
+				001C9B711B236B18007262F9 /* Model */,
+				001C9B541B21D92D007262F9 /* AddContentVCs */,
 				0054294D1B1E4D1600EA737C /* Images.xcassets */,
 				0054294F1B1E4D1600EA737C /* LaunchScreen.xib */,
 				005C58E21B1FEE4800EC06CD /* NavControllers */,
 				005429441B1E4D1600EA737C /* Supporting Files */,
-				005C58CB1B1F4EA800EC06CD /* temp.m */,
-				005C58CA1B1F4EA700EC06CD /* CourseBuddy-Bridging-Header.h */,
 			);
 			path = CourseBuddy;
 			sourceTree = "<group>";
@@ -253,11 +277,14 @@
 		005429441B1E4D1600EA737C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				001C9B6D1B236A61007262F9 /* Getting Started.rtf */,
+				001C9B6E1B236A61007262F9 /* iPhone intro.pdf */,
+				001C9B6B1B236A0F007262F9 /* stickynote.png */,
 				001C9B671B23218E007262F9 /* screenshot.png */,
-				001C9B681B23218E007262F9 /* stickynote.jpg */,
-				001C9B521B2122E5007262F9 /* LoginViewController.swift */,
 				005429451B1E4D1600EA737C /* Info.plist */,
 				005C58D71B1F8F0700EC06CD /* Helper.swift */,
+				005C58CB1B1F4EA800EC06CD /* temp.m */,
+				005C58CA1B1F4EA700EC06CD /* CourseBuddy-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -311,6 +338,7 @@
 		005C58D91B1F920200EC06CD /* ModalViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				001C9B521B2122E5007262F9 /* LoginViewController.swift */,
 				005C58DA1B1F921F00EC06CD /* FileViewController.swift */,
 				005C58DC1B1FC58900EC06CD /* WebViewController.swift */,
 				001C9B5F1B2227FB007262F9 /* ImageViewController.swift */,
@@ -344,7 +372,7 @@
 			name = ToolBarFeatures;
 			sourceTree = "<group>";
 		};
-		00C8A4461B1E95F800D6F273 /* Menu Features */ = {
+		00C8A4461B1E95F800D6F273 /* MenuFeatures */ = {
 			isa = PBXGroup;
 			children = (
 				00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */,
@@ -355,7 +383,7 @@
 				00C8A44F1B1E9F1E00D6F273 /* RosterViewController.swift */,
 				00C8A4511B1E9F3500D6F273 /* NotificationsViewController.swift */,
 			);
-			name = "Menu Features";
+			name = MenuFeatures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,11 +466,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				001C9B6F1B236A61007262F9 /* Getting Started.rtf in Resources */,
 				0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */,
 				005429511B1E4D1600EA737C /* LaunchScreen.xib in Resources */,
 				0054294E1B1E4D1600EA737C /* Images.xcassets in Resources */,
-				001C9B6A1B23218E007262F9 /* stickynote.jpg in Resources */,
+				001C9B6C1B236A0F007262F9 /* stickynote.png in Resources */,
 				001C9B691B23218E007262F9 /* screenshot.png in Resources */,
+				001C9B701B236A61007262F9 /* iPhone intro.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +510,7 @@
 				00C8A44C1B1E9EC800D6F273 /* NotesViewController.swift in Sources */,
 				005C58DB1B1F921F00EC06CD /* FileViewController.swift in Sources */,
 				00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */,
+				001C9B731B236BA1007262F9 /* Comment.swift in Sources */,
 				005C58F31B20BE7F00EC06CD /* InstructorsTableViewController.swift in Sources */,
 				00C8A4521B1E9F3500D6F273 /* NotificationsViewController.swift in Sources */,
 				005C58F71B20BE9A00EC06CD /* PostViewController.swift in Sources */,
@@ -494,6 +525,7 @@
 				005C58D81B1F8F0700EC06CD /* Helper.swift in Sources */,
 				005C58EA1B209A0600EC06CD /* ScheduleNavViewController.swift in Sources */,
 				001C9B601B2227FB007262F9 /* ImageViewController.swift in Sources */,
+				001C9B751B236BB2007262F9 /* Post.swift in Sources */,
 				001C9B621B22280E007262F9 /* AddResourceViewController.swift in Sources */,
 				005C58F11B20BE6C00EC06CD /* GroupsNavViewController.swift in Sources */,
 			);

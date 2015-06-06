@@ -12,6 +12,7 @@ import ParseUI
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var postButton: UIBarButtonItem!
     @IBOutlet weak var scheduleBarButton: UIBarButtonItem!
     var defaultData:[String] = ["Welcome to CourseBuddy"]
@@ -23,6 +24,12 @@ class ViewController: UIViewController {
     var universityID: String?
     var logInController = LoginViewController()
     var selectedCourseCode: String?
+    
+    var posts: [Post]?
+    
+    var comment1:Comment!
+    var comment2:Comment!
+    var post:Post!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +43,19 @@ class ViewController: UIViewController {
         logInController.facebookPermissions = [ "public_profile", "email"]
         logInController.fields = (PFLogInFields.Facebook)
         
-        for var i=0; i < 100; i++ {
-            defaultData.append("\(i): Welcome to CourseBuddy")
-        }
+        setDefaultPost()
+        
+        setupTable()
+        
+//        for var i=0; i < 100; i++ {
+//            defaultData.append("\(i): Welcome to CourseBuddy")
+//        }
+    }
+    
+    func setDefaultPost() {
+        comment1 = Comment(content: "After you select your university and input your course codes from your schedule you will be connected in a discussion with all of your classmates and instructors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false)
+        comment2 = Comment(content: "Check out all the features offered in the menu above for each course in your schedule", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true)
+        post = Post(content: "Welcome to CourseBuddy", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2])
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -473,31 +490,84 @@ extension ViewController: PFLogInViewControllerDelegate {
     }
 }
 
-class MainCell: UITableViewCell {
-    @IBOutlet var label: UILabel!
-}
-
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func setupTable() {
+        tableView.estimatedRowHeight = 0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 80
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        if posts != nil {
+            return posts!.count
+        } else {
+            return 1
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return defaultData.count
+        if posts != nil {
+            return posts![section].comments.count
+        } else {
+            return 2
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
+        
+        if posts != nil {
+            let post = posts![section]
+            cell.postContentLabel.text = post.content
+            cell.nameLabel.text = post.poster
+            cell.dateLabel.text = Helper().timeAgoSinceDate(post.date, numericDates: true)
+        } else {
+            cell.postContentLabel.text = post.content
+            cell.nameLabel.text = post.poster
+            cell.dateLabel.text = Helper().timeAgoSinceDate(post.date, numericDates: true)
+        }
+        
+        return cell
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MainCell", forIndexPath: indexPath) as! MainCell
-        
-         cell.label.text = defaultData[indexPath.row]
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentCell
+        if posts != nil {
+            let post = posts![indexPath.section]
+            let comment = post.comments[indexPath.row]
+            cell.commentContentLabel.text = comment.content
+            cell.nameLabel.text = comment.poster
+            cell.dateLabel.text = Helper().timeAgoSinceDate(comment.date, numericDates: true)
+        } else {
+            let comment = post.comments[indexPath.row]
+            cell.commentContentLabel.text = comment.content
+            cell.nameLabel.text = comment.poster
+            cell.dateLabel.text = Helper().timeAgoSinceDate(comment.date, numericDates: true)
+        }
         return cell
     }
 
 }
 
+class PostCell: UITableViewCell {
+    
+    @IBOutlet weak var postContentLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
+}
 
+class CommentCell: UITableViewCell {
+    @IBOutlet weak var commentContentLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
+}
 
 
 

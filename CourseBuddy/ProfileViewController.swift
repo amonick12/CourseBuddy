@@ -38,6 +38,8 @@ class ProfileViewController: UIViewController {
         if university != nil {
             universityLabel.text = university
         }
+        PFUser.currentUser()?.fetch()
+        verified = PFUser.currentUser()?["emailVerified"] as? Bool
         if verified != nil {
             if verified! == true {
                 email = PFUser.currentUser()?.email
