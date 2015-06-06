@@ -30,6 +30,10 @@ class RosterViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func mailButtonPressed(sender: AnyObject) {
     }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

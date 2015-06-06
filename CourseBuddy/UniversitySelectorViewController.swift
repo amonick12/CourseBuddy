@@ -11,7 +11,7 @@ import CoreLocation
 import Parse
 
 protocol UniversitySelectorDelegate {
-    func userSelectedUniversity(named: String)
+    func userSelectedUniversity(named: String, id: String)
 }
 
 class UniversitySelectorViewController: UITableViewController {
@@ -100,12 +100,14 @@ class UniversitySelectorViewController: UITableViewController {
         if universities != nil {
             let selectedUniversity = universities![indexPath.row] as! PFObject
             let univName = selectedUniversity["name"] as! String
+            let univID = selectedUniversity.objectId
+            
             let alertController = UIAlertController(title: "Confirm", message: "Do you attend or work at \(univName)", preferredStyle: UIAlertControllerStyle.ActionSheet)
             
             let okAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
                 println("Confirm button tapped")
                 self.dismissViewControllerAnimated(true, completion: nil)
-                self.delegate?.userSelectedUniversity(univName)
+                self.delegate?.userSelectedUniversity(univName, id: univID!)
             })
             alertController.addAction(okAction)
             

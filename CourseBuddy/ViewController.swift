@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         if let font = font {
             self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
         }
-        
+
         logInController.delegate = self
         logInController.facebookPermissions = [ "public_profile" ]
         logInController.fields = (PFLogInFields.Facebook)
@@ -47,6 +47,7 @@ class ViewController: UIViewController {
         } else {
             self.name = PFUser.currentUser()?["name"] as? String
             self.email = PFUser.currentUser()?.email
+            self.university = PFUser.currentUser()?["university"] as? String
             checkUniversity(scheduleBarButton)
         }
     }
@@ -76,6 +77,8 @@ extension ViewController: ScheduleDelegate {
         if let font = font {
             self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
         }
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
 }
@@ -95,10 +98,15 @@ extension ViewController: ProfileDelegate {
 }
 
 extension ViewController: UniversitySelectorDelegate {
-    func userSelectedUniversity(named: String) {
+    func userSelectedUniversity(named: String, id: String) {
         self.university = named
-        println(university)
-        scheduleButtonPressed(scheduleBarButton)
+        println(university!)
+        if let user = PFUser.currentUser() {
+            user["university"] = university
+            user["universityID"] = id
+            user.saveEventually()
+            scheduleButtonPressed(scheduleBarButton)
+        }
     }
 }
 
@@ -106,6 +114,8 @@ extension ViewController: PostDelegate {
     func postTextEntered(content: String, type: String) {
         println(content)
         println(type)
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
 
@@ -129,7 +139,7 @@ extension ViewController: UIGestureRecognizerDelegate {
 extension ViewController: UIPopoverPresentationControllerDelegate {
     
     func checkUniversity(sender: UIBarButtonItem) -> Bool {
-        if self.university != nil {
+        if university != nil {
             return true
         } else {
             showUniversitySelector(sender)
@@ -335,7 +345,8 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         if let groupDescription = description {
             println(groupDescription)
         }
-
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     func didSelectInstructor(named: String) {
         println(named)
@@ -346,6 +357,8 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         if let instructorDescription = description {
             println(instructorDescription)
         }
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }
 

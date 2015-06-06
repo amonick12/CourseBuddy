@@ -100,6 +100,9 @@ class NotesViewController: UITableViewController, AddNoteDelegate, UpdateNoteDel
         performSegueWithIdentifier("showNoteDetail", sender: nil)
     }
     
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.

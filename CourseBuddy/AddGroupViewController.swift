@@ -41,7 +41,7 @@ class AddGroupViewController: UIViewController, UITextFieldDelegate, UITextViewD
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.textColor == UIColor.lightGrayColor() {
             textView.text = ""
-            textView.textColor = Helper().colorWithRGBHex(0x2CD87F, alpha: 1.0)
+            textView.textColor = UIColor.darkGrayColor()
         }
     }
     
@@ -50,6 +50,10 @@ class AddGroupViewController: UIViewController, UITextFieldDelegate, UITextViewD
             textView.text = "Group Description"
             textView.textColor = UIColor.lightGrayColor()
         }
+    }
+    
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func doneButtonPressed(sender: AnyObject) {

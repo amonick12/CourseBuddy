@@ -40,7 +40,7 @@ class AddInstructorViewController: UIViewController, UITextFieldDelegate, UIText
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.textColor == UIColor.lightGrayColor() {
             textView.text = ""
-            textView.textColor = Helper().colorWithRGBHex(0x2CD87F, alpha: 1.0)
+            textView.textColor = UIColor.darkGrayColor()
         }
     }
     
@@ -56,6 +56,10 @@ class AddInstructorViewController: UIViewController, UITextFieldDelegate, UIText
             textView.text = "Instructor email, office, and office hours"
             textView.textColor = UIColor.lightGrayColor()
         }
+    }
+    
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func doneButtonPressed(sender: AnyObject) {

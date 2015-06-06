@@ -37,7 +37,7 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         noteContentTextView.select(textField)
-        return true
+        return false
     }
     
     func textViewDidBeginEditing(textView: UITextView) {

@@ -25,6 +25,10 @@ class PostViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func doneButtonPressed(sender: UIBarButtonItem) {
         let content = postTextField.text
         if content != "" {

@@ -11,7 +11,8 @@ import UIKit
 class ResourcesViewController: UITableViewController, AddResourceDelegate {
 
     var defaultData = [["Wikipedia", "http://wikipedia.org"], ["Google", "http://google.com"]]
-    
+    var cellShown: [Bool]?
+
     var resources: AnyObject?
     var selectedTitle: String?
     var selectedAddress: String?
@@ -95,6 +96,22 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
         }
         performSegueWithIdentifier("showWebViewSegue", sender: nil)
     }
+
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+//    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        // Determine if the post is displayed. If yes, we just return and no animation will be created
+//        if cellShown![indexPath.row] {
+//            return;
+//        }
+//        // Indicate the post has been displayed, so the animation won't be displayed again
+//        cellShown![indexPath.row] = true
+//        // Define the initial state (Before the animation)
+//        cell.alpha = 0
+//        // Define the final state (After the animation)
+//        UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
+//    }
 
     /*
     // Override to support conditional editing of the table view.

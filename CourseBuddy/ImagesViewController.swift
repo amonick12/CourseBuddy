@@ -60,6 +60,9 @@ class ImagesViewController: UICollectionViewController {
         return cell
     }
     
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     // MARK: UICollectionViewDelegate
 

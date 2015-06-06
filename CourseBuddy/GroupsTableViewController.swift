@@ -87,6 +87,11 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
         }
         dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
