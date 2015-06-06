@@ -10,12 +10,29 @@ import UIKit
 
 class ImageViewController: UIViewController {
 
+    @IBOutlet weak var imageTitleItem: UINavigationItem!
+    @IBOutlet weak var imageView: UIImageView!
+    var imageDescription: String?
+    var imageName: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+
+        if imageName != nil {
+            imageView.image = UIImage(named: imageName!)
+        }
+        if imageDescription != nil {
+            imageTitleItem.title = imageDescription!
+        }
     }
 
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

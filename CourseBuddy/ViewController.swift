@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
     var name: String?
     var email: String?
+    var verified: Bool?
     var university: String?
     var universityID: String?
     var logInController = LoginViewController()
@@ -52,7 +53,7 @@ class ViewController: UIViewController {
             self.name = PFUser.currentUser()?["name"] as? String
             self.email = PFUser.currentUser()?.username
             var eduEmail = PFUser.currentUser()?.email
-            var verified = PFUser.currentUser()?["emailVerified"] as? Bool
+            verified = PFUser.currentUser()?["emailVerified"] as? Bool
             if verified != nil {
                 if eduEmail != nil && verified! == true {
                     self.email = eduEmail!
@@ -236,6 +237,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             let vc = storyboard.instantiateViewControllerWithIdentifier("Profile") as! ProfileViewController
             vc.name = self.name
             vc.email = self.email
+            vc.verified = self.verified
             vc.university = self.university
             vc.delegate = self
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
@@ -359,6 +361,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let root = vc.visibleViewController as! RosterViewController
                 root.courseCode = selectedCourseCode
+                root.verified = verified
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
                 popover.delegate = self
@@ -436,6 +439,8 @@ extension ViewController: PFLogInViewControllerDelegate {
                     let gender = result.objectForKey("gender") as! String
                     let link = result.objectForKey("link") as! String
                     let locale = result.objectForKey("locale") as! String
+                    let firstName = result.objectForKey("first_name") as! String
+                    let lastName = result.objectForKey("last_name") as! String
                     if(fbEmail != "") {
                         self.name = name
                         self.email = fbEmail
@@ -446,7 +451,8 @@ extension ViewController: PFLogInViewControllerDelegate {
                         PFUser.currentUser()?["gender"] = gender
                         PFUser.currentUser()?["link"] = link
                         PFUser.currentUser()?["locale"] = locale
-
+                        PFUser.currentUser()?["firstname"] = firstName
+                        PFUser.currentUser()?["lastname"] = lastName
                         let domain = fbEmail.componentsSeparatedByString("@")[1]
                         let tld = domain.componentsSeparatedByString(".")[1]
                         println("Domain: \(domain)")

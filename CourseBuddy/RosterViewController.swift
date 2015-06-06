@@ -17,6 +17,7 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
     var selectedEmails: [String] = []
     var emails: [String] = []
     var courseCode: String?
+    var verified: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,15 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        PFUser.currentUser()?.fetch()
+        verified = PFUser.currentUser()?["emailVerified"] as? Bool
+        if verified != nil {
+            if verified! == false {
+                emailVerificationAlert()
+            }
+        } else {
+            emailVerificationAlert()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -132,6 +142,57 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
                 selectedEmails.removeAtIndex(index)
             }
         }
+    }
+    
+    func emailVerificationAlert() {
+        let alertController = UIAlertController(title: "Add Your .edu Email", message: "Add your .edu email and verify it by checking your inbox", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler({(txtField: UITextField!) in
+            txtField.placeholder = "Your .edu email"
+            txtField.keyboardType = UIKeyboardType.EmailAddress
+        })
+        
+        let deleteAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive, handler: {(alert :UIAlertAction!) in
+            println("Delete button tapped")
+        })
+        alertController.addAction(deleteAction)
+        
+        let okAction = UIAlertAction(title: "Send Email", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+            println("OK button tapped")
+            if let textField = alertController.textFields?.first as? UITextField {
+                println(textField.text)
+                let email = textField.text.lowercaseString
+                if email.componentsSeparatedByString("@").count == 2 {
+                    let domain = email.componentsSeparatedByString("@")[1]
+                    if domain.componentsSeparatedByString(".").count == 2 {
+                        let tld = domain.componentsSeparatedByString(".")[1]
+                        println("Domain: \(domain)")
+                        println("TLD: \(tld)")
+                        if tld == "edu" {
+                            PFUser.currentUser()?.email = email
+                            PFUser.currentUser()?["domain"] = domain
+                            PFUser.currentUser()?.saveInBackground()
+                            let sentAlert = UIAlertController(title: "Verification Sent", message: "Check your .edu email inbox", preferredStyle: .Alert)
+                            sentAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                            self.presentViewController(sentAlert, animated: true, completion: nil)
+                        } else { self.showFailAlert() }
+                    } else { self.showFailAlert() }
+                } else { self.showFailAlert() }
+            }
+            
+        })
+        alertController.addAction(okAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+
+    func showFailAlert() {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+        let failAlert = UIAlertController(title: "Error", message: "Your email needs to be a .edu email", preferredStyle: .Alert)
+        failAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (alert: UIAlertAction!) -> Void in
+            self.emailVerificationAlert()
+        }))
+        presentViewController(failAlert, animated: true, completion: nil)
     }
     /*
     // Override to support conditional editing of the table view.

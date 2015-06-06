@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController {
     
     var name: String?
     var email: String?
+    var verified: Bool?
     var university: String?
     
     override func viewDidLoad() {
@@ -37,9 +38,57 @@ class ProfileViewController: UIViewController {
         if university != nil {
             universityLabel.text = university
         }
+        if verified != nil {
+            if verified! == true {
+                email = PFUser.currentUser()?.email
+                emailLabel.text = email
+            }
+        }
         // Do any additional setup after loading the view.
     }
 
+//    func emailVerificationAlert() {
+//        let alertController = UIAlertController(title: "Verify .edu Email", message: "Verify your .edu email by checking your inbox", preferredStyle: UIAlertControllerStyle.Alert)
+//        
+//        alertController.addTextFieldWithConfigurationHandler({(txtField: UITextField!) in
+//            txtField.placeholder = "Your .edu email"
+//            txtField.keyboardType = UIKeyboardType.EmailAddress
+//        })
+//        
+//        let deleteAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive, handler: {(alert :UIAlertAction!) in
+//            println("Delete button tapped")
+//        })
+//        alertController.addAction(deleteAction)
+//        
+//        let okAction = UIAlertAction(title: "Send Email", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+//            println("OK button tapped")
+//            if let textField = alertController.textFields?.first as? UITextField {
+//                println(textField.text)
+//                let email = textField.text.lowercaseString
+//                let domain = email.componentsSeparatedByString("@")[1]
+//                let tld = domain.componentsSeparatedByString(".")[1]
+//                println("Domain: \(domain)")
+//                println("TLD: \(tld)")
+//                if tld == "edu" {
+//                    PFUser.currentUser()?.email = email
+//                    PFUser.currentUser()?["domain"] = domain
+//                    PFUser.currentUser()?.saveEventually(nil)
+//                    let sentAlert = UIAlertController(title: "Verification Sent", message: "Check your .edu inbox", preferredStyle: .Alert)
+//                    sentAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+//                } else {
+//                    let failAlert = UIAlertController(title: "Error", message: "Your email needs to be a .edu email", preferredStyle: .Alert)
+//                    failAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (alert: UIAlertAction!) -> Void in
+//                        self.emailVerificationAlert()
+//                    }))
+//                }
+//            }
+//            
+//        })
+//        alertController.addAction(okAction)
+//        
+//        presentViewController(alertController, animated: true, completion: nil)
+//    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

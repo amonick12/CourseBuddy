@@ -8,10 +8,19 @@
 
 import UIKit
 
-let reuseIdentifier = "Cell"
+let reuseIdentifier = "ImageCell"
+
+class ImageCollectionCell: UICollectionViewCell {
+    @IBOutlet weak var imageView: UIImageView!
+}
 
 class ImagesViewController: UICollectionViewController {
 
+    var defaultImages = [["Share Screenshot","screenshot"],["Share a Written Note","stickynote"]]
+    var images: [AnyObject]?
+    var selectedImageName: String?
+    var selectedImageDescription: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,9 +28,18 @@ class ImagesViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //self.collectionView!.registerClass(ImageCollectionCell.self, forCellWithReuseIdentifier: "ImageCell")
+        //self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showImageSegue" {
+            let vc = segue.destinationViewController as! ImageViewController
+            vc.imageDescription = selectedImageDescription
+            vc.imageName = selectedImageName
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,22 +60,42 @@ class ImagesViewController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        //#warning Incomplete method implementation -- Return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //#warning Incomplete method implementation -- Return the number of items in the section
-        return 0
+        if images != nil {
+            return images!.count
+        } else {
+            return defaultImages.count
+        }
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
-    
-        // Configure the cell
-    
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ImageCell", forIndexPath: indexPath) as! ImageCollectionCell
+        
+        if images != nil {
+            
+        } else {
+            let image = defaultImages[indexPath.row]
+            let imageName = image[1]
+            cell.imageView.image = UIImage(named: imageName)
+        }
+        
         return cell
+    }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if images != nil {
+            
+        } else {
+            let image = defaultImages[indexPath.row]
+            selectedImageName = image[1]
+            selectedImageDescription = image[0]
+            performSegueWithIdentifier("showImageSegue", sender: nil)
+        }
+        
     }
     
     @IBAction func closeButtonPressed(sender: AnyObject) {
