@@ -13,8 +13,7 @@ import ParseUI
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    //var cellShown: [Bool]?
-    var postShown: [Bool]?
+    //var postShown: [Bool]?
     var descriptionShown: Bool?
     //var commentShown: [Bool]?
     @IBOutlet weak var postButton: UIBarButtonItem!
@@ -23,13 +22,13 @@ class ViewController: UIViewController {
     var courses: [AnyObject]?       //for querying objects
     var courseCodes = [String]()    //for showing in schedule
     var selectedCourse: AnyObject?  //current course
-    
+    var selectedCourseCode: String?
+
     var name: String?
     var email: String?
     var verified: Bool?
     var university: String?
     var universityID: String?
-    var selectedCourseCode: String?
     var logInController = LoginViewController()
     
     var postObjects: [AnyObject]?
@@ -60,9 +59,9 @@ class ViewController: UIViewController {
     }
     
     func setDefaultPost() {
-        comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Select Notifications\n\t• Have Focused Discussions", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false)
-        comment1 = Comment(content: "Check out all the ways to promote social learning for each course on your schedule in the menu above", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true)
-        post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2])
+        comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Select Notifications\n\t• Have Focused Discussions", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, shown: false)
+        comment1 = Comment(content: "Check out all the ways to promote social learning for each course on your schedule in the menu above", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true, shown: false)
+        post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2], shown: false)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -161,18 +160,19 @@ class ViewController: UIViewController {
                                 var commentsAnon = post["commentsAnon"] as! [Bool]
                                 var i = 0
                                 for comment in commentContents {
-                                    let newComment = Comment(content: commentContents[i], courseCode: self.selectedCourseCode!, poster: commentPosters[i], date: commentDates[i], anon: commentsAnon[i])
+                                    let newComment = Comment(content: commentContents[i], courseCode: self.selectedCourseCode!, poster: commentPosters[i], date: commentDates[i], anon: commentsAnon[i], shown: false)
                                         comments.append(newComment)
                                     i++
                                 }
                             }
-                            let newPost = Post(content: content, courseCode: self.selectedCourseCode!, poster: name, date: date!, anon: anon, important: false, comments: comments)
+                            let newPost = Post(content: content, courseCode: self.selectedCourseCode!, poster: name, date: date!, anon: anon, important: false, comments: comments, shown: false)
                             comments.removeAll(keepCapacity: false)
                             tempPosts.append(newPost)
                         }
                         self.posts = tempPosts
                         self.descriptionShown = false
-                        self.postShown = [Bool](count: self.posts!.count, repeatedValue: false)
+                        //self.postShown = [Bool](count: self.posts!.count, repeatedValue: false)
+                        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
                         self.tableView.reloadData()
                     }
                 } else {
@@ -213,7 +213,7 @@ extension ViewController: ScheduleDelegate {
                 newCourse!["courseId"] = courseCode
                 newCourse!["creator"] = PFUser.currentUser()
                 newCourse!["university"] = self.university
-                newCourse!["description"] = "\nWelcome to CourseBuddy \(courseCode)\n\nHave a \(courseCode) Discussion Below\n\nAdd Course Name Here"
+                newCourse!["description"] = "\n\(courseCode) Discussion\n\nAdd Course Name Here\n"
                 addDefaultData(newCourse!, courseId: courseCode)
             }
             var participants: PFRelation = newCourse!.relationForKey("participants")
@@ -251,6 +251,30 @@ extension ViewController: ScheduleDelegate {
     }
     func didDeleteCourse(atIndex: Int) {
         println("Delete course at index: \(atIndex)")
+        println("Course to delete: \(courseCodes[atIndex])")
+        var courseToDelete: PFObject = courses![atIndex] as! PFObject
+        let schedule = PFUser.currentUser()?.relationForKey("schedule")
+        schedule!.removeObject(courseToDelete)
+        let participants = courseToDelete.relationForKey("participants")
+        participants.removeObject(PFUser.currentUser()!)
+        
+        //check if course to delete is the current course
+        if courseCodes[atIndex] == selectedCourseCode {
+            postObjects = nil
+            posts = nil
+            discussionDescription = nil
+            selectedCourseCode = nil
+            tableView.reloadData()
+            self.navigationItem.title = "CourseBuddy"
+            let font = UIFont(name: "Noteworthy-Light", size: 23)
+            if let font = font {
+                self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+            }
+        }
+        courseCodes.removeAtIndex(atIndex)
+        courses?.removeAtIndex(atIndex)
+        courseToDelete.saveEventually()
+        PFUser.currentUser()!.saveEventually()
     }
 }
 
@@ -736,11 +760,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         // Determine if the post is displayed. If yes, we just return and no animation will be created
         if posts != nil {
-            if postShown![section-1] {
-                return;
+            if posts![section-1].shown {
+                return
             }
             // Indicate the post has been displayed, so the animation won't be displayed again
-            postShown![section-1] = true
+            posts![section-1].shown = true
             // Define the initial state (Before the animation)
             view.alpha = 0
             // Define the final state (After the animation)
@@ -758,16 +782,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 descriptionShown = true
                 cell.alpha = 0
                 UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
+            } else {
+//                let post = posts![indexPath.section-1]
+//                var comment = post.comments[indexPath.row]
+                if posts![indexPath.section-1].comments[indexPath.row].shown {
+                    return
+                }
+                posts![indexPath.section-1].comments[indexPath.row].shown = true
+                cell.alpha = 0
+                UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
             }
-//            if cellShown![indexPath.row] {
-//                return;
-//            }
-//            // Indicate the post has been displayed, so the animation won't be displayed again
-//            cellShown![indexPath.row] = true
-//            // Define the initial state (Before the animation)
-//            cell.alpha = 0
-//            // Define the final state (After the animation)
-//            UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
         }
     }
 

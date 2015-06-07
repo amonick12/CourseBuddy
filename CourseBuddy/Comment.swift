@@ -15,16 +15,19 @@ struct Comment {
     var poster: String
     var date: NSDate
     var anon: Bool
+    var shown: Bool
     
     init(var content: String,
         var courseCode: String,
         var poster: String,
         var date: NSDate,
-        var anon: Bool) {
+        var anon: Bool,
+        var shown: Bool) {
             self.content = content
             self.courseCode = courseCode
             self.poster = poster
             self.date = date
             self.anon = anon
+            self.shown = false
     }
 }

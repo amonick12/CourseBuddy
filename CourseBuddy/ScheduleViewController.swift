@@ -80,7 +80,7 @@ class ScheduleViewController: UITableViewController, AddCourseDelegate {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                 tableView.endUpdates()
             }
-            
+            delegate?.didDeleteCourse(indexPath.row)
     }
 
     

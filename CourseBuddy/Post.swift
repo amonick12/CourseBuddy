@@ -17,6 +17,7 @@ struct Post {
     var anon: Bool
     var important: Bool?
     var comments: [Comment]
+    var shown: Bool
     
     init(var content: String,
         var courseCode: String,
@@ -24,7 +25,8 @@ struct Post {
         var date: NSDate,
         var anon: Bool,
         var important: Bool?,
-        var comments: [Comment]) {
+        var comments: [Comment],
+        var shown: Bool) {
             self.content = content
             self.courseCode = courseCode
             self.poster = poster
@@ -32,5 +34,6 @@ struct Post {
             self.anon = anon
             self.important = important
             self.comments = comments
+            self.shown = false
     }
 }
