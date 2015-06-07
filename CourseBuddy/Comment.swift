@@ -14,13 +14,13 @@ struct Comment {
     var courseCode: String
     var poster: String
     var date: NSDate
-    var anon: Bool?
+    var anon: Bool
     
     init(var content: String,
         var courseCode: String,
         var poster: String,
         var date: NSDate,
-        var anon: Bool?) {
+        var anon: Bool) {
             self.content = content
             self.courseCode = courseCode
             self.poster = poster

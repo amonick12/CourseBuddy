@@ -9,8 +9,9 @@
 import UIKit
 
 protocol ScheduleDelegate {
-    func didSelectCourseCode(courseCode: String)
+    func didSelectCourseCode(atIndex: Int)
     func newCourseAdded(courseCode: String)
+    func didDeleteCourse(atIndex: Int)
 }
 
 class ScheduleCell: UITableViewCell {
@@ -25,7 +26,9 @@ class ScheduleViewController: UITableViewController, AddCourseDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if schedule.isEmpty {
+            performSegueWithIdentifier("AddCourseSegue", sender: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,7 +56,6 @@ class ScheduleViewController: UITableViewController, AddCourseDelegate {
         return schedule.count
     }
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ScheduleCell", forIndexPath: indexPath) as! ScheduleCell
         cell.courseCodeLabel.text = schedule[indexPath.row] as String
@@ -61,7 +63,7 @@ class ScheduleViewController: UITableViewController, AddCourseDelegate {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate?.didSelectCourseCode(schedule[indexPath.row] as String)
+        delegate?.didSelectCourseCode(indexPath.row)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

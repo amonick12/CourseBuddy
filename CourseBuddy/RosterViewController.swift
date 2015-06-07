@@ -27,10 +27,11 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        PFUser.currentUser()?.fetch()
-        verified = PFUser.currentUser()?["emailVerified"] as? Bool
+        
         if verified != nil {
             if verified! == false {
+                PFUser.currentUser()?.fetch()
+                verified = PFUser.currentUser()?["emailVerified"] as? Bool
                 emailVerificationAlert()
             }
         } else {

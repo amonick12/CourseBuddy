@@ -13,23 +13,32 @@ import ParseUI
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    //var cellShown: [Bool]?
+    var postShown: [Bool]?
+    var descriptionShown: Bool?
+    //var commentShown: [Bool]?
     @IBOutlet weak var postButton: UIBarButtonItem!
     @IBOutlet weak var scheduleBarButton: UIBarButtonItem!
-    var schedule = ["IST402", "ENG015", "MATH141", "PHYS212", "STAT200"]
+    
+    var courses: [AnyObject]?       //for querying objects
+    var courseCodes = [String]()    //for showing in schedule
+    var selectedCourse: AnyObject?  //current course
+    
     var name: String?
     var email: String?
     var verified: Bool?
     var university: String?
     var universityID: String?
-    var logInController = LoginViewController()
     var selectedCourseCode: String?
+    var logInController = LoginViewController()
     
+    var postObjects: [AnyObject]?
     var posts: [Post]?
     var discussionDescription: String?
     
-    var comment1:Comment!
-    var comment2:Comment!
-    var post:Post!
+    var comment1: Comment!
+    var comment2: Comment!
+    var post: Post!
     var defaultDescription: String = "\nWelcome to CourseBuddy, the mobile online collaboration app for University Courses\n"
     
     var selectedPostIndex: Int?
@@ -47,18 +56,13 @@ class ViewController: UIViewController {
         logInController.fields = (PFLogInFields.Facebook)
         
         setDefaultPost()
-        
         setupTable()
-        
-//        for var i=0; i < 100; i++ {
-//            defaultData.append("\(i): Welcome to CourseBuddy")
-//        }
     }
     
     func setDefaultPost() {
         comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Select Notifications\n\t• Have Focused Discussions", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false)
         comment1 = Comment(content: "Check out all the ways to promote social learning for each course on your schedule in the menu above", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true)
-        post = Post(content: "After you select your university and input your course codes from your schedule you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2])
+        post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2])
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -86,6 +90,8 @@ class ViewController: UIViewController {
             println("University: \(university)")
             if university == nil {
                 checkUniversity(scheduleBarButton)
+            } else {
+                loadSchedule()
             }
         }
     }
@@ -94,48 +100,174 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
     
+    func loadSchedule() {
+        if let queryScedule = PFUser.currentUser()?.relationForKey("schedule").query() {
+            queryScedule.orderByAscending("courseId")
+            queryScedule.findObjectsInBackgroundWithBlock {
+                (objects: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    // The find succeeded.
+                    println("Successfully retrieved \(objects!.count) courses.")
+                    // Do something with the found objects
+                    self.courses = objects
+                    if let objects = objects as? [PFObject] {
+                        self.courseCodes.removeAll(keepCapacity: false)
+                        for course in objects {
+                            //println(course.objectId)
+                            println(course["courseId"])
+                            self.courseCodes.append(course["courseId"] as! String)
+                        }
+                    }
+                } else {
+                    // Log details of the failure
+                    println("Error: \(error!) \(error!.userInfo!)")
+                }
+            }
+        }
+    }
+    
+    func loadPosts() {
+        println("get posts for \(selectedCourseCode)")
+        if selectedCourseCode != nil {
+            let courseObject = selectedCourse as! PFObject
+            var postsQuery: PFQuery = courseObject.relationForKey("posts").query()!
+            postsQuery.orderByDescending("createdAt")
+            postsQuery.findObjectsInBackgroundWithBlock {
+                (postObjects: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    
+                    if let description = courseObject["description"] as? String {
+                        self.discussionDescription = description
+                    } else {
+                        self.discussionDescription = self.defaultDescription
+                    }
+                    
+                    println("retrieved \(postObjects!.count) posts")
+                    self.postObjects = postObjects
+                    //self.posts?.removeAll(keepCapacity: false)
+                    var tempPosts = [Post]()
+                    if let postObjects = postObjects as? [PFObject] {
+                        for post in postObjects {
+                            var content = post["content"] as! String
+                            var name = post["poster"] as! String
+                            var date = post.createdAt 
+                            var anon = post["anon"] as! Bool
+                            //var important = post["importat"]
+                            var comments = [Comment]()
+                            if let commentContents = post["comments"] as? [String] {
+                                var commentPosters = post["commentPosters"] as! [String]
+                                var commentDates = post["commentDates"] as! [NSDate]
+                                var commentsAnon = post["commentsAnon"] as! [Bool]
+                                var i = 0
+                                for comment in commentContents {
+                                    let newComment = Comment(content: commentContents[i], courseCode: self.selectedCourseCode!, poster: commentPosters[i], date: commentDates[i], anon: commentsAnon[i])
+                                        comments.append(newComment)
+                                    i++
+                                }
+                            }
+                            let newPost = Post(content: content, courseCode: self.selectedCourseCode!, poster: name, date: date!, anon: anon, important: false, comments: comments)
+                            comments.removeAll(keepCapacity: false)
+                            tempPosts.append(newPost)
+                        }
+                        self.posts = tempPosts
+                        self.descriptionShown = false
+                        self.postShown = [Bool](count: self.posts!.count, repeatedValue: false)
+                        self.tableView.reloadData()
+                    }
+                } else {
+                    //failure
+                    println("There was an error querrying the posts")
+                }
+            }
+        }
+    }
+
 }
 
 extension ViewController: ScheduleDelegate {
-    func didSelectCourseCode(courseCode: String) {
-        selectedCourseCode = courseCode
-        self.navigationItem.title = courseCode.uppercaseString
+    func didSelectCourseCode(index: Int) {
+        selectedCourseCode = courseCodes[index]
+        selectedCourse = courses![index]
+        println("selected course: \(selectedCourseCode)")
+        loadPosts()
+        self.navigationItem.title = selectedCourseCode!.uppercaseString
         let font = UIFont(name: "GeezaPro-Bold", size: 23)
         if let font = font {
             self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
         }
     }
+    func checkForRepeatedCourse(courseCode: String) {
+        
+    }
     func newCourseAdded(courseCode: String) {
-        selectedCourseCode = courseCode
-        self.navigationItem.title = courseCode.uppercaseString
-        let font = UIFont(name: "GeezaPro-Bold", size: 23)
-        if let font = font {
-            self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+        println("new course to be added: \(courseCode)")
+        if courseCode != "" && university != nil {
+            var query = PFQuery(className: "Course")
+            var schedule: PFRelation = PFUser.currentUser()!.relationForKey("schedule")
+            query.whereKey("university", equalTo: self.university!)
+            query.whereKey("courseId", equalTo: courseCode)
+            var newCourse = query.getFirstObject()
+            if newCourse == nil {
+                newCourse = PFObject(className: "Course") as PFObject
+                newCourse!["courseId"] = courseCode
+                newCourse!["creator"] = PFUser.currentUser()
+                newCourse!["university"] = self.university
+                newCourse!["description"] = "\nWelcome to CourseBuddy \(courseCode)\n\nHave a \(courseCode) Discussion Below\n\nAdd Course Name Here"
+                addDefaultData(newCourse!, courseId: courseCode)
+            }
+            var participants: PFRelation = newCourse!.relationForKey("participants")
+            participants.addObject(PFUser.currentUser()!)
+            newCourse!.saveInBackgroundWithBlock({ (succeeded, error) -> Void in
+                //add channel to installation
+//                let uniqueIdentifier = courseId + "-" + newClass.objectId
+//                PFInstallation.currentInstallation().addUniqueObject(uniqueIdentifier, forKey: "channels")
+//                PFInstallation.currentInstallation().saveInBackground()
+                schedule.addObject(newCourse!)
+                PFUser.currentUser()!.saveInBackgroundWithBlock {
+                    (succeeded: Bool, error: NSError?) -> Void in
+                    if succeeded {
+                        println("user saved new course: \(courseCode)")
+                        self.selectedCourseCode = courseCode
+                        self.selectedCourse = newCourse
+                        self.loadSchedule()
+                        self.loadPosts()
+//                        self.loadInstructors()
+//                        self.loadGroups()
+                        self.navigationItem.title = courseCode.uppercaseString
+                        let font = UIFont(name: "GeezaPro-Bold", size: 23)
+                        if let font = font {
+                            self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+                        }
+                        self.navigationController?.setToolbarHidden(false, animated: true)
+                        self.navigationController?.setNavigationBarHidden(false, animated: true)
+                    }
+                }
+            })
+        } else {
+            //display alert
+            println("invalid course code: \(courseCode)")
         }
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    func didDeleteCourse(atIndex: Int) {
+        println("Delete course at index: \(atIndex)")
     }
 }
 
 extension ViewController: ProfileDelegate {
     func userDidLogout() {
-        //if let user = PFUser.currentUser() {
-            PFUser.logOut()
-            name = nil
-            email = nil
-            university = nil
-            selectedCourseCode = nil
-            checkUser()
-            //clear course data
-            self.navigationItem.title = "CourseBuddy"
-            let font = UIFont(name: "Noteworthy-Light", size: 23)
-            if let font = font {
-                self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
-            }
-        //}
+        PFUser.logOut()
+        name = nil
+        email = nil
+        university = nil
+        selectedCourseCode = nil
+        checkUser()
+        //clear course data
+        self.navigationItem.title = "CourseBuddy"
+        let font = UIFont(name: "Noteworthy-Light", size: 23)
+        if let font = font {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
+        }
     }
 }
 
@@ -241,7 +373,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("ScheduleNav") as! ScheduleNavViewController
             let root = vc.visibleViewController as! ScheduleViewController
-            root.schedule = self.schedule
+            root.schedule = self.courseCodes
             root.delegate = self
             vc.modalPresentationStyle = UIModalPresentationStyle.Popover
             let popover: UIPopoverPresentationController = vc.popoverPresentationController!
@@ -522,7 +654,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return 1
         } else {
             if posts != nil {
-                return posts![section].comments.count
+                return posts![section-1].comments.count
             } else {
                 return 2
             }
@@ -535,7 +667,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
             if posts != nil {
-                let post = posts![section]
+                let post = posts![section-1]
                 cell.postContentLabel.text = post.content
                 cell.nameLabel.text = post.poster
                 cell.dateLabel.text = Helper().timeAgoSinceDate(post.date, numericDates: true)
@@ -564,7 +696,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentCell
             if posts != nil {
-                let post = posts![indexPath.section]
+                let post = posts![indexPath.section-1]
                 let comment = post.comments[indexPath.row]
                 cell.commentContentLabel.text = comment.content
                 cell.nameLabel.text = comment.poster
@@ -581,6 +713,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
         if posts != nil {
             if indexPath.row == 0 && indexPath.section == 0 {
                 // update description
@@ -591,7 +724,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             } else {
                 // comment on post with index: indexPath.section
-                selectedPostIndex = indexPath.section
+                selectedPostIndex = indexPath.section-1
                 println(selectedPostIndex)
             }
         } else {
@@ -599,6 +732,45 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             postButtonPressed(postButton)
         }
     }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        // Determine if the post is displayed. If yes, we just return and no animation will be created
+        if posts != nil {
+            if postShown![section-1] {
+                return;
+            }
+            // Indicate the post has been displayed, so the animation won't be displayed again
+            postShown![section-1] = true
+            // Define the initial state (Before the animation)
+            view.alpha = 0
+            // Define the final state (After the animation)
+            UIView.animateWithDuration(1.0, animations: { view.alpha = 1 })
+        }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        // Determine if the post is displayed. If yes, we just return and no animation will be created
+        if posts != nil {
+            if indexPath.section == 0 && indexPath.row == 0 {
+                if descriptionShown == true {
+                    return
+                }
+                descriptionShown = true
+                cell.alpha = 0
+                UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
+            }
+//            if cellShown![indexPath.row] {
+//                return;
+//            }
+//            // Indicate the post has been displayed, so the animation won't be displayed again
+//            cellShown![indexPath.row] = true
+//            // Define the initial state (Before the animation)
+//            cell.alpha = 0
+//            // Define the final state (After the animation)
+//            UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
+        }
+    }
+
 }
 
 class PostCell: UITableViewCell {
@@ -617,6 +789,223 @@ class DescriptionCell: UITableViewCell {
     @IBOutlet weak var descriptLabel: UILabel!
 }
 
+extension UIViewController {    //load data functions
+    
+    
+    func loadInstructors() {
+        
+    }
+    
+    func loadGroups() {
+        
+    }
+    
+    func createNewPost(content: String, type: String) {
+        
+    }
+    
+    func createCommentOnPost(atIndex: Int, content: String, type: String) {
+        
+    }
+    
+    func updateDescription(updatedContent: String) {
+        
+    }
+    
+    func getResources() {
+        
+    }
+    
+    func getNotes() {
+        
+    }
+    
+    func getImages() {
+        
+    }
+    
+    func getRoster() {
+        
+    }
+    
+    func addDefaultData(course: PFObject, courseId: String) {
+        var post = PFObject(className: "Post")
+        post["poster"] = "CourseBuddy"
+        post["content"] = "Here are some things you can do within CourseBuddy \(courseId.uppercaseString)"
+        post["courseId"] = courseId
+        post["anon"] = false
+        var comments = ["Create an anonymous post to ask a question or start a converstation", "Tap a post to add a comment", "Share a screenshot of \(courseId.uppercaseString) related content", "Have discussions specific to your instructor for course assignments and reminders", "Start a group discussion to communicate with your classmates on group projects outside of class", "Email classmates and instructors from within the roster section of the app", "Contribute to shared notes related to \(courseId.uppercaseString) with your classmates", "Share a resource related to \(courseId.uppercaseString) by simply copying and pasting a URL", "Configure your notifications to be alerted of activity in your CourseBuddy courses"]
+        var commentPosters = [String]()
+        var commentDates = [NSDate]()
+        var commentsAnon = [Bool]()
+        for comment in comments {
+            commentPosters.append("CourseBuddy")
+            commentDates.append(NSDate())
+            commentsAnon.append(false)
+        }
+        post["comments"] = comments
+        post["commentPosters"] = commentPosters
+        post["commentDates"] = commentDates
+        post["commentsAnon"] = commentsAnon
+        post.saveInBackgroundWithBlock { (succeeded: Bool, error: NSError?) -> Void in
+            var postsRelation: PFRelation = course.relationForKey("posts")
+            postsRelation.addObject(post)
+            course.saveInBackground()
+        }
+        
+        //make document to explain the purpose of documents
+        var image0 = PFObject(className: "Document")
+        image0["poster"] = "CourseBuddy"
+        image0["title"] = "Take a Picture of Written Notes"
+        image0["courseId"] = courseId
+        image0["user"] = PFUser.currentUser()
+        let stickyImage = UIImage(named: "stickynote")
+        //save image to file
+        let imageData0 = UIImagePNGRepresentation(stickyImage)
+        let imageFile0 = PFFile(name: "stickynote.png", data: imageData0)
+        image0["image"] = imageFile0
+        let docRelation: PFRelation = course.relationForKey("documents")
+        image0.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            docRelation.addObject(image0)
+            course.saveInBackground()
+        }
+        
+        var image1 = PFObject(className: "Document")
+        image1["poster"] = "CourseBuddy"
+        image1["title"] = "Share a Screenhot"
+        image1["courseId"] = courseId
+        image1["user"] = PFUser.currentUser()
+        let screenshot = UIImage(named: "screenshot")
+        //save image to file
+        let imageData1 = UIImagePNGRepresentation(screenshot)
+        let imageFile1 = PFFile(name: "screenshot.png", data: imageData1)
+        image1["image"] = imageFile1
+        image1.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            docRelation.addObject(image1)
+            course.saveInBackground()
+        }
+        
+        //make instructor named CourseBuddy with posts explaining the purpose of instructors
+        var newInstructor = PFObject(className: "Instructor") as PFObject
+        newInstructor["name"] = "CourseBuddy"
+        newInstructor["courseId"] = courseId
+        newInstructor["creator"] = PFUser.currentUser()
+        let instructorMessage = "This is the default instructor discussion to teach you about CourseBuddy Instructors!"
+        newInstructor["message"] = instructorMessage
 
+        var instructorPost = PFObject(className: "Post")
+        instructorPost["poster"] = "CourseBuddy"
+        instructorPost["content"] = "CourseBuddy Instructors"
+        instructorPost["courseId"] = courseId
+        instructorPost["anon"] = true
+        var instructorComments = [String]()
+        instructorComments.append("If you don't see your instructor for " + courseId.uppercaseString + " when you tap the X on CourseBuddy to go back to the list of instructors, simply enter their name to start a discussion specific to events happening in their classes")
+        instructorComments.append("Encourage your instructor to join to get notifications from them about reminders and homework help")
+        var instructorCommentPosters = [String]()
+        instructorCommentPosters.append("CourseBuddy")
+        instructorCommentPosters.append("CourseBuddy")
+        var instructorCommentDates = [NSDate]()
+        instructorCommentDates.append(NSDate())
+        instructorCommentDates.append(NSDate())
+        var instructorCommentsAnon = [Bool]()
+        instructorCommentsAnon.append(false)
+        instructorCommentsAnon.append(true)
+        
+        instructorPost["comments"] = instructorComments
+        instructorPost["commentPosters"] = instructorCommentPosters
+        instructorPost["commentDates"] = instructorCommentDates
+        instructorPost["commentsAnon"] = instructorCommentsAnon
+        instructorPost.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            var instructorPostsRelation: PFRelation = newInstructor.relationForKey("posts")
+            instructorPostsRelation.addObject(instructorPost)
+            newInstructor.saveInBackgroundWithBlock({ (succeeded, error) -> Void in
+                var instructorRelation: PFRelation = course.relationForKey("instructors")
+                instructorRelation.addObject(newInstructor)
+                course.saveInBackground()
+            })
+        }
+        
+        //make default group named Study Group with posts explaining the purpose of groups
+        var newGroup = PFObject(className: "Group") as PFObject
+        newGroup["name"] = "Study Group"
+        newGroup["creator"] = PFUser.currentUser()
+        newGroup["courseId"] = courseId
+        let groupMessage = "This is a specfic discussion for a study group within " + courseId.uppercaseString + "\n\nTap here to add a Group Description"
+        newGroup["message"] = groupMessage
+        
+        var groupPost = PFObject(className: "Post")
+        groupPost["poster"] = "CourseBuddy"
+        groupPost["content"] = "CourseBuddy Groups"
+        groupPost["courseId"] = courseId
+        groupPost["anon"] = true
+        var groupComments = [String]()
+        groupComments.append("Make a small group within " + courseId.uppercaseString + " by tapping the X on Study Group and adding a new one of your choice")
+        groupComments.append("Then tell your classmates within your group the name of your new group to have discussions and get notified of new activity")
+        var groupCommentPosters = [String]()
+        groupCommentPosters.append("CourseBuddy")
+        groupCommentPosters.append("CourseBuddy")
+        var groupCommentDates = [NSDate]()
+        groupCommentDates.append(NSDate())
+        groupCommentDates.append(NSDate())
+        var groupCommentsAnon = [Bool]()
+        groupCommentsAnon.append(true)
+        groupCommentsAnon.append(true)
+        
+        groupPost["comments"] = groupComments
+        groupPost["commentPosters"] = groupCommentPosters
+        groupPost["commentDates"] = groupCommentDates
+        groupPost["commentsAnon"] = groupCommentsAnon
+        groupPost.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            var groupPostsRelation: PFRelation = newGroup.relationForKey("posts")
+            groupPostsRelation.addObject(groupPost)
+            newGroup.saveInBackgroundWithBlock({ (succeeded, error) -> Void in
+                var groupRelation: PFRelation = course.relationForKey("groups")
+                groupRelation.addObject(newGroup)
+                course.saveInBackground()
+            })
+        }
+        
+        //make default note explaining the purpose of notes
+        var newNote = PFObject(className: "Note") as PFObject
+        newNote["creatorName"] = "CourseBuddy"
+        newNote["creator"] = PFUser.currentUser()
+        newNote["title"] = "First Note"
+        newNote["content"] = "\nCollaborate on the same content with you classmates here\n"
+        newNote["ups"] = 0
+        newNote["courseId"] = courseId
+        newNote.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            var notesRelation: PFRelation = course.relationForKey("notes")
+            notesRelation.addObject(newNote)
+            course.saveInBackground()
+        }
+        
+        //make default resource google.com and wikipedia.org
+        let resourceRelation: PFRelation = course.relationForKey("resources")
+
+        var newResource = PFObject(className: "Resource")
+        newResource["title"] = "Google"
+        newResource["sharedTitle"] = "Google"
+        newResource["url"] = "http://google.com"
+        newResource["poster"] = PFUser.currentUser()
+        newResource["courseId"] = courseId
+        newResource["posterName"] = "CourseBuddy"
+        newResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            resourceRelation.addObject(newResource)
+            course.saveInBackground()
+        }
+        
+        var anotherResource = PFObject(className: "Resource")
+        anotherResource["title"] = "Wikipedia"
+        anotherResource["sharedTitle"] = "Wikipedia"
+        anotherResource["url"] = "http://wikipedia.org"
+        anotherResource["poster"] = PFUser.currentUser()
+        anotherResource["courseId"] = courseId
+        anotherResource["posterName"] = "CourseBuddy"
+        anotherResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            resourceRelation.addObject(anotherResource)
+            course.saveInBackground()
+        }
+    }
+}
 
 

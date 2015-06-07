@@ -14,7 +14,7 @@ struct Post {
     var courseCode: String
     var poster: String
     var date: NSDate
-    var anon: Bool?
+    var anon: Bool
     var important: Bool?
     var comments: [Comment]
     
@@ -22,7 +22,7 @@ struct Post {
         var courseCode: String,
         var poster: String,
         var date: NSDate,
-        var anon: Bool?,
+        var anon: Bool,
         var important: Bool?,
         var comments: [Comment]) {
             self.content = content
