@@ -1352,7 +1352,7 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KYu-hP-TbY">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KYu-hP-TbY">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1847,12 +1847,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Note Title" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="Yx7-Ty-1kd">
-                                <rect key="frame" x="16" y="52" width="568" height="70"/>
+                                <rect key="frame" x="16" y="44" width="568" height="50"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="3gs-ga-GIJ"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="QFz-70-Dc3"/>
-                                    <constraint firstAttribute="height" constant="70" id="QYm-Mg-TEr"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="QFz-70-Dc3"/>
+                                    <constraint firstAttribute="height" constant="50" id="QYm-Mg-TEr"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="268" id="iMd-JS-yes"/>
                                 </constraints>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1862,17 +1862,6 @@
                                     <outlet property="delegate" destination="2wt-wu-1tv" id="54W-N8-4aC"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="Start New Note Here" translatesAutoresizingMaskIntoConstraints="NO" id="QzX-gN-EUz">
-                                <rect key="frame" x="16" y="130" width="568" height="392"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <outlet property="delegate" destination="2wt-wu-1tv" id="lyg-wQ-hRd"/>
-                                </connections>
-                            </textView>
                             <button opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8I1-df-rMK">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1889,20 +1878,30 @@
                                     <action selector="doneButtonPressed:" destination="2wt-wu-1tv" eventType="touchUpInside" id="a5S-6S-whk"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="Start New Note Here" translatesAutoresizingMaskIntoConstraints="NO" id="QzX-gN-EUz">
+                                <rect key="frame" x="16" y="94" width="568" height="428"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2wt-wu-1tv" id="lyg-wQ-hRd"/>
+                                </connections>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Yx7-Ty-1kd" firstAttribute="top" secondItem="wSL-tF-1FX" secondAttribute="bottom" constant="8" id="2Mn-2q-nUJ"/>
+                            <constraint firstItem="Yx7-Ty-1kd" firstAttribute="top" secondItem="wSL-tF-1FX" secondAttribute="bottom" id="2Mn-2q-nUJ"/>
                             <constraint firstItem="mn9-Wb-Sq4" firstAttribute="top" secondItem="8I1-df-rMK" secondAttribute="bottom" id="2lu-6B-GEF"/>
-                            <constraint firstItem="QzX-gN-EUz" firstAttribute="top" secondItem="Yx7-Ty-1kd" secondAttribute="bottom" constant="8" id="394-PW-LEx"/>
-                            <constraint firstItem="QzX-gN-EUz" firstAttribute="leading" secondItem="xtl-dp-Vtj" secondAttribute="leading" constant="16" id="3UH-Ag-IaR"/>
+                            <constraint firstItem="QzX-gN-EUz" firstAttribute="top" secondItem="Yx7-Ty-1kd" secondAttribute="bottom" id="9a0-hy-NeH"/>
                             <constraint firstAttribute="trailing" secondItem="8I1-df-rMK" secondAttribute="trailing" id="L3V-gR-yF3"/>
+                            <constraint firstItem="QzX-gN-EUz" firstAttribute="trailing" secondItem="xtl-dp-Vtj" secondAttribute="trailingMargin" id="OOl-TU-g2q"/>
                             <constraint firstItem="Yx7-Ty-1kd" firstAttribute="leading" secondItem="xtl-dp-Vtj" secondAttribute="leading" constant="16" id="SNU-ww-olQ"/>
-                            <constraint firstItem="QzX-gN-EUz" firstAttribute="top" secondItem="Yx7-Ty-1kd" secondAttribute="bottom" constant="8" id="YIA-ay-WIQ"/>
-                            <constraint firstItem="8I1-df-rMK" firstAttribute="top" secondItem="QzX-gN-EUz" secondAttribute="bottom" constant="18" id="bsr-vZ-ZUi"/>
-                            <constraint firstAttribute="trailing" secondItem="QzX-gN-EUz" secondAttribute="trailing" constant="16" id="ijq-Pe-Bp6"/>
+                            <constraint firstItem="8I1-df-rMK" firstAttribute="top" secondItem="QzX-gN-EUz" secondAttribute="bottom" constant="18" id="jXf-OI-RjH"/>
                             <constraint firstAttribute="trailing" secondItem="Yx7-Ty-1kd" secondAttribute="trailing" constant="16" id="k7d-ju-zgt"/>
                             <constraint firstItem="8I1-df-rMK" firstAttribute="leading" secondItem="xtl-dp-Vtj" secondAttribute="leading" id="lij-ID-1iO"/>
+                            <constraint firstItem="QzX-gN-EUz" firstAttribute="leading" secondItem="xtl-dp-Vtj" secondAttribute="leadingMargin" id="oxw-WD-Pq0"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="New Shared Note" id="Mzw-Gi-rrc">

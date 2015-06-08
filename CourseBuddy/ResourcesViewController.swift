@@ -71,7 +71,7 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
         newResource["title"] = title
         newResource["url"] = url
         newResource["poster"] = PFUser.currentUser()
-        newResource["courseId"] = selectedCourse as! PFObject
+        newResource["course"] = selectedCourse as! PFObject
         newResource["posterName"] = PFUser.currentUser()!["name"] as! String
 //        let imageData = UIImagePNGRepresentation(screenshot)
 //        let imageName = title + ".png"

@@ -59,7 +59,7 @@ class AddNoteViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
-        if !noteTitleTextField.text.isEmpty {
+        if !noteTitleTextField.text.isEmpty && noteTitleTextField.text != "Note Title" {
             noteTitle = noteTitleTextField.text
             if !noteContentTextView.text.isEmpty || noteContentTextView.text != "Start New Note Here" {
                 content = noteContentTextView.text

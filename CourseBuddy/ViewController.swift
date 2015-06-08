@@ -636,6 +636,8 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             if checkIfCourseIsSelected(sender) {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("NotesNav") as! NotesNavViewController
+                let root = vc.visibleViewController as! NotesViewController
+                root.selectedCourse = self.selectedCourse
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
