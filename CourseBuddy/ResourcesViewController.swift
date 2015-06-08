@@ -7,27 +7,46 @@
 //
 
 import UIKit
+import Parse
 
 class ResourcesViewController: UITableViewController, AddResourceDelegate {
 
     var defaultData = [["Wikipedia", "http://wikipedia.org"], ["Google", "http://google.com"]]
     var cellShown: [Bool]?
 
-    var resources: AnyObject?
     var selectedTitle: String?
     var selectedAddress: String?
+    
+    var selectedCourse: AnyObject?
+    var resourceObjects: [AnyObject]?
+    
+    var resourceShown: [Bool]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        loadResources()
     }
 
-    
+    func loadResources() {
+        if selectedCourse != nil {
+            let courseObject = selectedCourse as! PFObject
+            var resourcesQuery: PFQuery = courseObject.relationForKey("resources").query()!
+            resourcesQuery.orderByDescending("createdAt")
+            resourcesQuery.findObjectsInBackgroundWithBlock {
+                (resources: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    println("retrieved \(resources!.count) resources")
+                    self.resourceObjects = resources
+                    self.resourceShown = [Bool](count: resources!.count, repeatedValue: false)
+                    self.tableView.reloadData()
+                } else {
+                    println("There was an error fetching the resources")
+                }
+            }
+        }
+    }
+
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -48,6 +67,29 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
     func resourceAdded(title: String, url: String) {
         println(title)
         println(url)
+        var newResource = PFObject(className: "Resource")
+        newResource["title"] = title
+        newResource["url"] = url
+        newResource["poster"] = PFUser.currentUser()
+        newResource["courseId"] = selectedCourse as! PFObject
+        newResource["posterName"] = PFUser.currentUser()!["name"] as! String
+//        let imageData = UIImagePNGRepresentation(screenshot)
+//        let imageName = title + ".png"
+//        let imageFile = PFFile(name: imageName, data: imageData)
+//        newResource["screenshot"] = imageFile
+        newResource.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            if error == nil {
+                let course = self.selectedCourse as! PFObject
+                let resourceRelation: PFRelation = course.relationForKey("resources")
+                resourceRelation.addObject(newResource)
+                course.saveInBackgroundWithBlock {
+                    (succeeded: Bool, error: NSError?) -> Void in
+                    if succeeded {
+                        self.loadResources()
+                    } else { println("error saving course") }
+                }
+            } else { println("error saving resource") }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,16 +100,14 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if resources != nil {
-            return resources!.count
+        if resourceObjects != nil {
+            return resourceObjects!.count
         } else {
-            return 2
+            return 0
         }
     }
 
@@ -75,8 +115,10 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ResourceCell", forIndexPath: indexPath) as! UITableViewCell
 
-        if resources != nil {
-            
+        if resourceObjects != nil {
+            var resource: PFObject = self.resourceObjects![indexPath.row] as! PFObject
+            cell.textLabel?.text = resource["title"] as? String
+            cell.detailTextLabel?.text = resource["url"] as? String
         } else {
             let data: [String] = defaultData[indexPath.row] as [String]
             cell.detailTextLabel?.text = data[1]
@@ -87,8 +129,10 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if resources != nil {
-            
+        if resourceObjects != nil {
+            var resource: PFObject = self.resourceObjects![indexPath.row] as! PFObject
+            selectedTitle = resource["title"] as? String
+            selectedAddress = resource["url"] as? String
         } else {
             let data = defaultData[indexPath.row]
             selectedAddress = data[1]
@@ -97,6 +141,15 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
         performSegueWithIdentifier("showWebViewSegue", sender: nil)
     }
 
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if resourceShown![indexPath.row] {
+            return
+        }
+        resourceShown![indexPath.row] = true
+        cell.alpha = 0
+        UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
+    }
+    
     @IBAction func closeButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }

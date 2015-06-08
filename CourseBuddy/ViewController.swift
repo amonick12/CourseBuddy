@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     var courses: [AnyObject]?       //for querying objects
     var courseCodes = [String]()    //for showing in schedule
     var selectedCourse: AnyObject?  //current course
-    var selectedCourseCode: String?
+    var selectedCourseCode: String? //for navigation bar
 
     var name: String?
     var email: String?
@@ -172,7 +172,6 @@ class ViewController: UIViewController {
                         }
                         self.posts = tempPosts
                         self.descriptionShown = false
-                        //self.postShown = [Bool](count: self.posts!.count, repeatedValue: false)
                         self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
                         self.tableView.reloadData()
                     }
@@ -198,12 +197,15 @@ extension ViewController: ScheduleDelegate {
             self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : font, NSForegroundColorAttributeName : UIColor.whiteColor()]
         }
     }
-    func checkForRepeatedCourse(courseCode: String) {
-        
+    func checkForRepeatedCourse(courseCode: String) -> Bool {
+        if let index = find(courseCodes, courseCode) {
+            return true
+        }
+        return false
     }
     func newCourseAdded(courseCode: String) {
         println("new course to be added: \(courseCode)")
-        if courseCode != "" && university != nil {
+        if courseCode != "" && university != nil && checkForRepeatedCourse(courseCode) == false {
             var query = PFQuery(className: "Course")
             var schedule: PFRelation = PFUser.currentUser()!.relationForKey("schedule")
             query.whereKey("university", equalTo: self.university!)
@@ -285,6 +287,7 @@ extension ViewController: ProfileDelegate {
         name = nil
         email = nil
         university = nil
+        universityID = nil
         selectedCourseCode = nil
         checkUser()
         //clear course data
@@ -369,14 +372,10 @@ extension ViewController: PostDelegate {
     }
     func createPost(content: String, type: String) {
         var anon: Bool?
-        if type == "anon" {
-            anon = true
-        } else {
-            anon = false
-        }
-        
+        if type == "anon" { anon = true
+        } else { anon = false }
         if (content == "") {
-            
+            //do nothing
         } else {
             //make post
             var newPost = PFObject(className:"Post")
@@ -388,15 +387,11 @@ extension ViewController: PostDelegate {
             newPost["content"] = content
             newPost["courseId"] = selectedCourseCode
             newPost["user"] = PFUser.currentUser()
-            
             let participants = newPost.relationForKey("participants")
             participants.addObject(PFUser.currentUser()!)
-            
             if anon == true {
                 newPost["anon"] = true
-            } else {
-                newPost["anon"] = false
-            }
+            } else { newPost["anon"] = false }
             newPost.saveInBackgroundWithBlock {
                 (succeeded: Bool, error: NSError?) -> Void in
                 //set course to post relation
@@ -407,17 +402,7 @@ extension ViewController: PostDelegate {
                     (succeeded: Bool, error: NSError?) -> Void in
                     if succeeded {
                         self.loadPosts()
-                        
                         //create push
-                        
-//                        let userType = PFUser.currentUser()["userType"] as String
-//                        if userType == "Student" {
-//                            //pushQuery.whereKey("classmatesComment", equalTo: true)
-//                            self.studentPostPush(anon)
-//                        } else {
-//                            self.instructorPostPush(anon)
-//                            
-//                        }
                     } else { println("error making post relation") }
                 }
             }
@@ -431,80 +416,44 @@ extension ViewController: PostDelegate {
             anon = false
         }
         if let post = postObjects![atIndex] as? PFObject {
-//            let poster = post["poster"] as String
-//            let courseId = selectedCourseId
-//            let objectId = (selectedCourse as PFObject).objectId as String
-//            var uniqueIdentifier = ""
-//            if !isCourse {
-//                uniqueIdentifier = objectId
-//            } else {
-//                uniqueIdentifier = courseId + "-" + objectId
-//            }
-//            let posterName = PFUser.currentUser()["name"] as String
-//            var commentCount = post["numberOfComments"] as Int
-//            commentCount++
-//            post["numberOfComments"] = commentCount
-            
             var comments = [String]()
             if post["comments"] as? [String] != nil {
                 comments = post["comments"] as! [String]
                 comments.append(content)
-            } else {
-                comments = [content]
-            }
+            } else { comments = [content] }
             post["comments"] = comments
-            
             var commentPosters = [String]()
             if post["commentPosters"] as? [String] != nil {
                 commentPosters = post["commentPosters"] as! [String]
-                if anon! {
-                    commentPosters.append("Anonymous")
-                } else {
-                    commentPosters.append(PFUser.currentUser()?["name"] as! String)
-                }
+                if anon! { commentPosters.append("Anonymous")
+                } else { commentPosters.append(PFUser.currentUser()?["name"] as! String) }
             } else {
-                if anon! {
-                    commentPosters.append("Anonymous")
-                } else {
-                    commentPosters.append(PFUser.currentUser()?["name"] as! String)
-                }
+                if anon! { commentPosters.append("Anonymous") }
+                else { commentPosters.append(PFUser.currentUser()?["name"] as! String) }
             }
             post["commentPosters"] = commentPosters
-            
             var commentDates = [NSDate]()
             if post["commentDates"] as? [NSDate] != nil {
                 commentDates = post["commentDates"] as! [NSDate]
                 commentDates.append(NSDate())
-            } else {
-                commentDates = [NSDate()]
-            }
+            } else { commentDates = [NSDate()] }
             post["commentDates"] = commentDates
-            
             var commentsAnon = [Bool]()
             if post["commentsAnon"] as? [Bool] != nil {
                 commentsAnon = post["commentsAnon"] as! [Bool]
                 commentsAnon.append(anon!)
-            } else {
-                commentsAnon = [anon!]
-            }
+            } else { commentsAnon = [anon!] }
             post["commentsAnon"] = commentsAnon
-            
             let participants = post.relationForKey("participants")
             participants.addObject(PFUser.currentUser()!)
-            
             post.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError?) -> Void in
                 if succeeded {
-                    println("post saved with new comment")
                     self.loadPosts()
-                    
-                    //self.commentPush(participants, anon: anon)
-                    
                 }
             })
         }
     }
     func updateDescription(updatedContent: String) {
-        println("Update description: \(discussionDescription)\n to: \(updatedContent)")
         var course = selectedCourse as! PFObject
         course["description"] = updatedContent
         course.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
@@ -671,6 +620,8 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             if checkIfCourseIsSelected(sender) {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("ResourceNav") as! ResourceNavViewController
+                let root = vc.visibleViewController as! ResourcesViewController
+                root.selectedCourse = self.selectedCourse
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender

@@ -1752,11 +1752,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Resource Title" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="nDY-46-1tB">
-                                <rect key="frame" x="16" y="52" width="268" height="60"/>
+                                <rect key="frame" x="16" y="52" width="268" height="50"/>
                                 <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="268" id="5ha-7y-ggZ"/>
-                                    <constraint firstAttribute="height" constant="60" id="5yk-YT-R5y"/>
+                                    <constraint firstAttribute="height" constant="50" id="5yk-YT-R5y"/>
                                 </constraints>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
@@ -1781,14 +1781,14 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Paste URL " minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="BfO-ab-VLC">
-                                <rect key="frame" x="16" y="122" width="268" height="60"/>
+                                <rect key="frame" x="16" y="110" width="268" height="40"/>
                                 <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="268" id="Ky1-pE-XIM"/>
-                                    <constraint firstAttribute="height" constant="60" id="Y9u-kY-OOK"/>
+                                    <constraint firstAttribute="height" constant="40" id="Y9u-kY-OOK"/>
                                 </constraints>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="SAp-3d-uTO" id="HRo-Sl-9ds"/>
@@ -1806,7 +1806,7 @@
                             <constraint firstItem="nDY-46-1tB" firstAttribute="top" secondItem="e8W-22-bdv" secondAttribute="bottom" constant="8" id="c4A-dc-LGb"/>
                             <constraint firstItem="J3T-X4-rSc" firstAttribute="top" secondItem="08b-qC-cMk" secondAttribute="bottom" id="fW9-hO-Mem"/>
                             <constraint firstItem="08b-qC-cMk" firstAttribute="leading" secondItem="xVT-ob-qRC" secondAttribute="leading" id="ozf-zw-Tex"/>
-                            <constraint firstItem="BfO-ab-VLC" firstAttribute="top" secondItem="nDY-46-1tB" secondAttribute="bottom" constant="10" id="xyo-4r-ToD"/>
+                            <constraint firstItem="BfO-ab-VLC" firstAttribute="top" secondItem="nDY-46-1tB" secondAttribute="bottom" constant="8" id="xyo-4r-ToD"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -1822,7 +1822,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <value key="contentSizeForViewInPopover" type="size" width="300" height="250"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="250"/>
                     <connections>
