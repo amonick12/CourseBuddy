@@ -17,7 +17,6 @@ class NoteDetailViewController: UIViewController {
     var delegate: UpdateNoteDelegate?
     
     @IBOutlet weak var textView: UITextView!
-    
     @IBOutlet weak var noteTitleItem: UINavigationItem!
     
     var noteTitle: String?

@@ -652,6 +652,8 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             if checkIfCourseIsSelected(sender) {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("ImagesNav") as! ImagesNavViewController
+                let root = vc.visibleViewController as! ImagesViewController
+                root.selectedCourse = self.selectedCourse
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -1150,9 +1152,9 @@ extension UIViewController {    //load data functions
         newNote["creatorName"] = "CourseBuddy"
         newNote["creator"] = PFUser.currentUser()
         newNote["title"] = "First Note"
-        newNote["content"] = "\nCollaborate on the same content with you classmates here\n"
+        newNote["content"] = "Collaborate on the same content with you classmates here\n"
         newNote["ups"] = 0
-        newNote["courseId"] = courseId
+        newNote["course"] = course as PFObject
         newNote.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             var notesRelation: PFRelation = course.relationForKey("notes")
             notesRelation.addObject(newNote)
@@ -1167,7 +1169,7 @@ extension UIViewController {    //load data functions
         newResource["sharedTitle"] = "Google"
         newResource["url"] = "http://google.com"
         newResource["poster"] = PFUser.currentUser()
-        newResource["courseId"] = courseId
+        newResource["course"] = course as PFObject
         newResource["posterName"] = "CourseBuddy"
         newResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             resourceRelation.addObject(newResource)

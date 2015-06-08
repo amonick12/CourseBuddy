@@ -610,32 +610,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Image Description" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="zRC-3c-4lP">
-                                <rect key="frame" x="16" y="52" width="268" height="70"/>
-                                <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="3Ue-cP-v4A"/>
-                                </constraints>
-                                <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="ap8-rK-JYT" id="uen-I1-ugy"/>
-                                </connections>
-                            </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E8f-EG-JbD">
-                                <rect key="frame" x="0.0" y="150" width="300" height="300"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="9V4-Be-hks"/>
-                                    <constraint firstAttribute="height" constant="300" id="jaJ-y5-KNw"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQs-jX-Obv">
                                 <rect key="frame" x="0.0" y="540" width="300" height="60"/>
                                 <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="1sU-j4-HsB"/>
                                     <constraint firstAttribute="height" constant="60" id="7SW-2U-4Tf"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="Vrt-dv-uWu"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="spg-Gt-OdY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
@@ -643,15 +624,41 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="Dtb-Ax-qtx" eventType="touchUpInside" id="auQ-BT-DKk"/>
+                                </connections>
                             </button>
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_file" translatesAutoresizingMaskIntoConstraints="NO" id="E8f-EG-JbD">
+                                <rect key="frame" x="0.0" y="110" width="300" height="422"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="1tE-Q9-lbj" appends="YES" id="5gh-6V-wxt"/>
+                                </connections>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Image Description" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="zRC-3c-4lP">
+                                <rect key="frame" x="16" y="52" width="268" height="50"/>
+                                <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="3Ue-cP-v4A"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="U4Z-Ni-KJl"/>
+                                </constraints>
+                                <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Dtb-Ax-qtx" id="ykK-a4-inf"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="zRC-3c-4lP" secondAttribute="trailing" constant="16" id="5U2-nB-QkT"/>
                             <constraint firstItem="zQs-jX-Obv" firstAttribute="leading" secondItem="9hY-cq-xs4" secondAttribute="leading" id="7sM-Vv-PSu"/>
-                            <constraint firstAttribute="centerY" secondItem="E8f-EG-JbD" secondAttribute="centerY" id="SwE-mm-Hkj"/>
-                            <constraint firstAttribute="centerX" secondItem="E8f-EG-JbD" secondAttribute="centerX" id="aUX-OL-63L"/>
+                            <constraint firstAttribute="trailing" secondItem="E8f-EG-JbD" secondAttribute="trailing" id="LJG-bh-URw"/>
+                            <constraint firstItem="E8f-EG-JbD" firstAttribute="top" secondItem="zRC-3c-4lP" secondAttribute="bottom" constant="8" id="LX3-ko-W43"/>
+                            <constraint firstItem="E8f-EG-JbD" firstAttribute="leading" secondItem="9hY-cq-xs4" secondAttribute="leading" id="SCP-v0-vwb"/>
                             <constraint firstItem="AdF-5s-jlI" firstAttribute="top" secondItem="zQs-jX-Obv" secondAttribute="bottom" id="acq-uh-BrB"/>
+                            <constraint firstItem="zQs-jX-Obv" firstAttribute="top" secondItem="E8f-EG-JbD" secondAttribute="bottom" constant="8" id="hnp-n9-sI4"/>
                             <constraint firstAttribute="trailing" secondItem="zQs-jX-Obv" secondAttribute="trailing" id="jQ1-8W-skc"/>
                             <constraint firstItem="zRC-3c-4lP" firstAttribute="leading" secondItem="9hY-cq-xs4" secondAttribute="leading" constant="16" id="oS1-XE-p0f"/>
                             <constraint firstItem="zRC-3c-4lP" firstAttribute="top" secondItem="hxy-wm-ShK" secondAttribute="bottom" constant="8" id="qCl-Ne-9iL"/>
@@ -665,8 +672,19 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="doneButton" destination="zQs-jX-Obv" id="Slg-yg-hEc"/>
+                        <outlet property="imageDescription" destination="zRC-3c-4lP" id="Det-qs-Ya7"/>
+                        <outlet property="imageView" destination="E8f-EG-JbD" id="h47-Ke-NbR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ufd-XH-d4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="1tE-Q9-lbj">
+                    <connections>
+                        <action selector="selectImage:" destination="Dtb-Ax-qtx" id="aiz-Zh-igV"/>
+                        <outlet property="delegate" destination="Dtb-Ax-qtx" id="gkX-6Q-WRl"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1586" y="3186"/>
         </scene>
@@ -2241,6 +2259,7 @@
         <image name="document" width="32" height="32"/>
         <image name="dropbox" width="32" height="32"/>
         <image name="image" width="32" height="32"/>
+        <image name="image_file" width="100" height="100"/>
         <image name="mail" width="32" height="32"/>
         <image name="note" width="32" height="32"/>
         <image name="notification-green" width="32" height="32"/>
@@ -2251,7 +2270,7 @@
         <image name="roster" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pEK-gV-ORA"/>
+        <segue reference="WZc-lM-SOC"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

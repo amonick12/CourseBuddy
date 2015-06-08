@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 let reuseIdentifier = "ImageCell"
 
@@ -14,12 +15,20 @@ class ImageCollectionCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 }
 
-class ImagesViewController: UICollectionViewController {
+class ImagesViewController: UICollectionViewController, AddImageDelegate {
 
     var defaultImages = [["Share Screenshot","screenshot"],["Share a Written Note","stickynote"]]
-    var images: [AnyObject]?
-    var selectedImageName: String?
+//    var selectedImageName: String?
+//    var selectedImageDescription: String?
+    
+    var selectedCourse: AnyObject?
+    var imageObjects: [AnyObject]?
+    
     var selectedImageDescription: String?
+    var selectedImageData: NSData?
+    var imageData = [NSData]()
+    
+    var imageShown: [Bool]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,13 +41,68 @@ class ImagesViewController: UICollectionViewController {
         //self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+        loadImages()
     }
+    
+    func loadImages() {
+        if selectedCourse != nil {
+            let courseObject = selectedCourse as! PFObject
+            var imagesQuery: PFQuery = courseObject.relationForKey("documents").query()!
+            imagesQuery.orderByDescending("createdAt")
+            imagesQuery.findObjectsInBackgroundWithBlock {
+                (documents: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    println("retrieved \(documents!.count) documents")
+                    self.imageObjects = documents
+                    self.imageShown = [Bool](count: documents!.count, repeatedValue: false)
+                    self.imageData.removeAll(keepCapacity: false)
+                    self.collectionView!.reloadData()
+
+                } else {
+                    //failure
+                    println("There was an error getting documents")
+                }
+            }
+        }
+    }
+    
+    func imageToAdd(newImage: UIImage, description: String) {
+        var image = PFObject(className:"Document")
+        image["user"] = PFUser.currentUser()!
+        image["title"] = description
+        image["course"] = selectedCourse as! PFObject
+        
+        //save image to file
+        let imageData = UIImagePNGRepresentation(newImage)
+        let imageFile = PFFile(name: "\(description).png", data: imageData)
+        image["image"] = imageFile
+        image.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if error == nil {
+                let course = self.selectedCourse as! PFObject
+                let docRelation: PFRelation = course.relationForKey("documents")
+                docRelation.addObject(image)
+                course.saveInBackgroundWithBlock {
+                    (succeeded: Bool, error: NSError?) -> Void in
+                    if succeeded {
+                        self.loadImages()
+                    } else { println("error saving course") }
+                }
+            } else {
+                println("error saving documents")
+            }
+        }
+    }
+
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showImageSegue" {
             let vc = segue.destinationViewController as! ImageViewController
             vc.imageDescription = selectedImageDescription
-            vc.imageName = selectedImageName
+            vc.selectedImageData = selectedImageData
+        } else if segue.identifier == "addImageSegue" {
+            let vc = segue.destinationViewController as! AddImageViewController
+            vc.delegate = self
         }
     }
 
@@ -65,18 +129,28 @@ class ImagesViewController: UICollectionViewController {
 
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if images != nil {
-            return images!.count
+        if imageObjects != nil {
+            return imageObjects!.count
         } else {
-            return defaultImages.count
+            return 0
         }
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ImageCell", forIndexPath: indexPath) as! ImageCollectionCell
         
-        if images != nil {
-            
+        if imageObjects != nil {
+            var image: PFObject = self.imageObjects![indexPath.row] as! PFObject
+            (image["image"] as! PFFile).getDataInBackgroundWithBlock{
+                (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let data = imageData {
+                        let image = UIImage(data: data)
+                        cell.imageView.image = image
+                        self.imageData.append(data)
+                    }
+                }
+            }
         } else {
             let image = defaultImages[indexPath.row]
             let imageName = image[1]
@@ -87,17 +161,30 @@ class ImagesViewController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if images != nil {
+        if imageObjects != nil {
+            var image: PFObject = self.imageObjects![indexPath.row] as! PFObject
+            selectedImageDescription = image["title"] as? String
+            selectedImageData = imageData[indexPath.row]
+            
+            performSegueWithIdentifier("showImageSegue", sender: nil)
             
         } else {
             let image = defaultImages[indexPath.row]
-            selectedImageName = image[1]
-            selectedImageDescription = image[0]
-            performSegueWithIdentifier("showImageSegue", sender: nil)
+//            selectedImageName = image[1]
+//            selectedImageDescription = image[0]
+//            performSegueWithIdentifier("showImageSegue", sender: nil)
         }
-        
     }
     
+    override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+            if imageShown![indexPath.row] {
+                return
+            }
+            imageShown![indexPath.row] = true
+            cell.alpha = 0
+            UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
+    }
+        
     @IBAction func closeButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }

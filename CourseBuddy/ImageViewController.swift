@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class ImageViewController: UIViewController {
 
@@ -14,15 +15,18 @@ class ImageViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     var imageDescription: String?
     var imageName: String?
+    var selectedImageData: NSData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
 
-        if imageName != nil {
-            imageView.image = UIImage(named: imageName!)
-        }
+        if let data = selectedImageData {
+            let image = UIImage(data: data)
+            imageView.image = image
+        } else { println("image data failed") }
+        
         if imageDescription != nil {
             imageTitleItem.title = imageDescription!
         }
