@@ -18,7 +18,9 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
     var emails: [String] = []
     var courseCode: String?
     var verified: Bool?
-    
+    var selectedCourse: AnyObject?
+    var cellShown: [Bool]?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,7 +29,7 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+        loadRoster()
         if verified != nil {
             if verified! == false {
                 PFUser.currentUser()?.fetch()
@@ -42,6 +44,28 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadRoster() {
+        if selectedCourse != nil {
+            let courseObject = selectedCourse as! PFObject
+            var participantsQuery: PFQuery = courseObject.relationForKey("participants").query()!
+            participantsQuery.orderByAscending("name")
+            participantsQuery.findObjectsInBackgroundWithBlock {
+                (participants: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    println("retrieved \(participants!.count) participants")
+                    self.roster = participants
+                    self.emails.removeAll(keepCapacity: false)
+                    self.selectedEmails.removeAll(keepCapacity: false)
+                    self.cellShown = [Bool](count: participants!.count, repeatedValue: false)
+                    self.tableView.reloadData()
+                } else {
+                    //failure
+                    println("There was an error fetching the roster.")
+                }
+            }
+        }
     }
 
     @IBAction func emailButtonPressed(sender: AnyObject) {
@@ -102,7 +126,7 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
         if roster != nil {
             return roster!.count
         } else {
-            return defaultData.count
+            return 0
         }
         
     }
@@ -111,7 +135,16 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
         let cell = tableView.dequeueReusableCellWithIdentifier("RosterCell", forIndexPath: indexPath) as! UITableViewCell
 
         if roster != nil {
-            
+            var participant = roster![indexPath.row] as! PFObject
+            cell.textLabel?.text = participant["name"] as? String
+            if let eduEmail = participant["email"] as? String {
+                cell.detailTextLabel?.text = eduEmail
+                emails.append(eduEmail)
+            } else {
+                let fbEmail = participant["username"] as? String
+                cell.detailTextLabel?.text = fbEmail
+                emails.append(fbEmail!)
+            }
         } else {
             let person = defaultData[indexPath.row]
             cell.textLabel?.text = person[0]
@@ -124,7 +157,14 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if roster != nil {
-            
+            var participant = roster![indexPath.row] as! PFObject
+            if let eduEmail = participant["email"] as? String {
+                selectedEmails.append(eduEmail)
+            } else {
+                let fbEmail = participant["username"] as? String
+                selectedEmails.append(fbEmail!)
+            }
+
         } else {
             let person = defaultData[indexPath.row]
             selectedEmails.append(person[1])
@@ -143,6 +183,15 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
                 selectedEmails.removeAtIndex(index)
             }
         }
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if cellShown![indexPath.row] {
+            return
+        }
+        cellShown![indexPath.row] = true
+        cell.alpha = 0
+        UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
     }
     
     func emailVerificationAlert() {

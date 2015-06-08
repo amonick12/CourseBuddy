@@ -670,6 +670,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 let vc = storyboard.instantiateViewControllerWithIdentifier("RosterNav") as! RosterNavViewController
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let root = vc.visibleViewController as! RosterViewController
+                root.selectedCourse = self.selectedCourse
                 root.courseCode = selectedCourseCode
                 root.verified = verified
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
