@@ -1082,6 +1082,7 @@
                     <size key="freeformSize" width="300" height="300"/>
                     <connections>
                         <outlet property="doneButton" destination="Kek-mp-25c" id="vg8-xA-XRy"/>
+                        <outlet property="navBarItem" destination="c5C-Sk-JzT" id="vIx-a1-dzi"/>
                         <outlet property="postTextView" destination="dr4-Dl-SWo" id="9ui-dE-8dP"/>
                     </connections>
                 </viewController>

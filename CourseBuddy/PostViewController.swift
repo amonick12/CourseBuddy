@@ -9,13 +9,17 @@
 import UIKit
 
 protocol PostDelegate {
-    func postTextEntered(content: String)
+    func postTextEntered(content: String, type: String)
 }
 
 class PostViewController: UIViewController, UITextViewDelegate {
 
     var delegate: PostDelegate?
+    var postType: String?
     
+    var contentToUpdate: String?
+    
+    @IBOutlet weak var navBarItem: UINavigationItem!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet var postTextView: UITextView!
     var senderButton: UIBarButtonItem?
@@ -23,12 +27,34 @@ class PostViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if postType != nil {
+            switch postType! {
+                case "POST":
+                    navBarItem.title = "Compose Post"
+                    postTextView.text = "Compose a new post here"
+                case "COMMENT":
+                    navBarItem.title = "Comment"
+                    postTextView.text = "Comment on post here"
+                case "UPDATE":
+                    navBarItem.title = "Update"
+                    postTextView.text = contentToUpdate
+                default:
+                    navBarItem.title = "Compose Post"
+                    postTextView.text = "Compose a new post here"
+            }
+        } else {
+            postType = "POST"
+        }
         postTextView.textColor = UIColor.lightGrayColor()
     }
 
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.textColor == UIColor.lightGrayColor() {
-            textView.text = ""
+            if let type = postType {
+                if type != "UPDATE" {
+                    textView.text = ""
+                }
+            }
             textView.textColor = UIColor.darkGrayColor()
         }
     }
@@ -39,9 +65,9 @@ class PostViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func doneButtonPressed(sender: UIBarButtonItem) {
         let content = postTextView.text
-        if content != "" && content != "Compose a new post here" {
+        if content != "" && content != "Compose a new post here" || content == "Comment on post here" {
             self.dismissViewControllerAnimated(true, completion: nil)
-            self.delegate?.postTextEntered(content)
+            self.delegate?.postTextEntered(content, type: postType!)
         }
     }
     

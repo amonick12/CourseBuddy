@@ -41,6 +41,7 @@ class ViewController: UIViewController {
     var defaultDescription: String = "\nWelcome to CourseBuddy, the mobile online collaboration app for University Courses\n"
     
     var selectedPostIndex: Int?
+    var currentPostType: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -309,39 +310,198 @@ extension ViewController: UniversitySelectorDelegate {
 }
 
 extension ViewController: PostDelegate {
-    func postTextEntered(content: String) {
+    func postTextEntered(content: String, type: String) {
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-        var type: String?
-        let postAction = UIAlertAction(title: "Post", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
-            self.createPost(content, type: "post")
-        })
-        alertController.addAction(postAction)
         
-        let importantAction = UIAlertAction(title: "Post as Important", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
-            self.createPost(content, type: "important")
-        })
-        alertController.addAction(importantAction)
-        
-        let anonAction = UIAlertAction(title: "Post as Anonymous", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
-            self.createPost(content, type: "anon")
-        })
-        alertController.addAction(anonAction)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (alert: UIAlertAction!) in
-            // do nothing
-        })
-        alertController.addAction(cancelAction)
-        
-        alertController.popoverPresentationController?.barButtonItem = postButton
-        presentViewController(alertController, animated: true, completion: nil)
-
+        switch type {
+        case "POST":
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            var type: String?
+            let postAction = UIAlertAction(title: "Post", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+                self.createPost(content, type: "post")
+            })
+            alertController.addAction(postAction)
+            
+            let importantAction = UIAlertAction(title: "Post as Important", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+                self.createPost(content, type: "important")
+            })
+            alertController.addAction(importantAction)
+            
+            let anonAction = UIAlertAction(title: "Post as Anonymous", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+                self.createPost(content, type: "anon")
+            })
+            alertController.addAction(anonAction)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (alert: UIAlertAction!) in
+                // do nothing
+            })
+            alertController.addAction(cancelAction)
+            
+            alertController.popoverPresentationController?.barButtonItem = postButton
+            presentViewController(alertController, animated: true, completion: nil)
+        case "COMMENT":
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            var type: String?
+            let postAction = UIAlertAction(title: "Comment", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+                self.createCommentOnPost(self.selectedPostIndex!, content: content, type: "regular")
+            })
+            alertController.addAction(postAction)
+            
+            let anonAction = UIAlertAction(title: "Comment as Anonymous", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+                self.createCommentOnPost(self.selectedPostIndex!, content: content, type: "anon")
+            })
+            alertController.addAction(anonAction)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (alert: UIAlertAction!) in
+                // do nothing
+            })
+            alertController.addAction(cancelAction)
+            
+            alertController.popoverPresentationController?.barButtonItem = postButton
+            presentViewController(alertController, animated: true, completion: nil)
+        case "UPDATE":
+            self.updateDescription(content)
+        default:
+            println("unknown post type")
+        }
+        currentPostType = nil
     }
     func createPost(content: String, type: String) {
-        println(content)
-        println(type)
+        var anon: Bool?
+        if type == "anon" {
+            anon = true
+        } else {
+            anon = false
+        }
+        
+        if (content == "") {
+            
+        } else {
+            //make post
+            var newPost = PFObject(className:"Post")
+            
+            newPost["poster"] = PFUser.currentUser()?["name"] as! String
+            newPost["content"] = content
+            newPost["courseId"] = selectedCourseCode
+            
+            let participants = newPost.relationForKey("participants")
+            participants.addObject(PFUser.currentUser()!)
+            
+            if anon == true {
+                newPost["anon"] = true
+            } else {
+                newPost["anon"] = false
+            }
+            newPost.saveInBackgroundWithBlock {
+                (succeeded: Bool, error: NSError?) -> Void in
+                //set course to post relation
+                var course = self.selectedCourse as! PFObject
+                var postsRelation: PFRelation = course.relationForKey("posts")
+                postsRelation.addObject(newPost)
+                course.saveInBackgroundWithBlock {
+                    (succeeded: Bool, error: NSError?) -> Void in
+                    if succeeded {
+                        self.loadPosts()
+                        
+                        //create push
+                        
+//                        let userType = PFUser.currentUser()["userType"] as String
+//                        if userType == "Student" {
+//                            //pushQuery.whereKey("classmatesComment", equalTo: true)
+//                            self.studentPostPush(anon)
+//                        } else {
+//                            self.instructorPostPush(anon)
+//                            
+//                        }
+                    } else { println("error making post relation") }
+                }
+            }
+        }
     }
+    func createCommentOnPost(atIndex: Int, content: String, type: String) {
+        var anon: Bool?
+        if type == "anon" {
+            anon = true
+        } else {
+            anon = false
+        }
+        if let post = postObjects![atIndex] as? PFObject {
+//            let poster = post["poster"] as String
+//            let courseId = selectedCourseId
+//            let objectId = (selectedCourse as PFObject).objectId as String
+//            var uniqueIdentifier = ""
+//            if !isCourse {
+//                uniqueIdentifier = objectId
+//            } else {
+//                uniqueIdentifier = courseId + "-" + objectId
+//            }
+//            let posterName = PFUser.currentUser()["name"] as String
+//            var commentCount = post["numberOfComments"] as Int
+//            commentCount++
+//            post["numberOfComments"] = commentCount
+            
+            var comments = [String]()
+            if post["comments"] as? [String] != nil {
+                comments = post["comments"] as! [String]
+                comments.append(content)
+            } else {
+                comments = [content]
+            }
+            post["comments"] = comments
+            
+            var commentPosters = [String]()
+            if post["commentPosters"] as? [String] != nil {
+                commentPosters = post["commentPosters"] as! [String]
+                commentPosters.append(PFUser.currentUser()?["name"] as! String)
+            } else {
+                commentPosters = [PFUser.currentUser()?["name"] as! String]
+            }
+            post["commentPosters"] = commentPosters
+            
+            var commentDates = [NSDate]()
+            if post["commentDates"] as? [NSDate] != nil {
+                commentDates = post["commentDates"] as! [NSDate]
+                commentDates.append(NSDate())
+            } else {
+                commentDates = [NSDate()]
+            }
+            post["commentDates"] = commentDates
+            
+            var commentsAnon = [Bool]()
+            if post["commentsAnon"] as? [Bool] != nil {
+                commentsAnon = post["commentsAnon"] as! [Bool]
+                commentsAnon.append(anon!)
+            } else {
+                commentsAnon = [anon!]
+            }
+            post["commentsAnon"] = commentsAnon
+            
+            let participants = post.relationForKey("participants")
+            participants.addObject(PFUser.currentUser()!)
+            
+            post.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError?) -> Void in
+                if succeeded {
+                    println("post saved with new comment")
+                    self.loadPosts()
+                    
+                    //self.commentPush(participants, anon: anon)
+                    
+                }
+            })
+        }
+    }
+    func updateDescription(updatedContent: String) {
+        println("Update description: \(discussionDescription)\n to: \(updatedContent)")
+        var course = selectedCourse as! PFObject
+        course["description"] = updatedContent
+        course.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            if error == nil {
+                self.loadPosts()
+            }
+        }
+    }
+
 }
 
 extension ViewController: UIGestureRecognizerDelegate {
@@ -425,12 +585,19 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
     }
     
     @IBAction func postButtonPressed(sender: UIBarButtonItem) {
+        if sender == postButton {
+            currentPostType = "POST"
+        }
         if checkUniversity(sender) {
             if checkIfCourseIsSelected(sender) {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("Post") as! PostViewController
                 vc.delegate = self
                 vc.senderButton = sender
+                vc.postType = currentPostType
+                if currentPostType == "UPDATE" {
+                    vc.contentToUpdate = discussionDescription
+                }
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -665,6 +832,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        if post != nil {
+//            if indexPath.section != 0 {
+//                if posts![indexPath.section-1].comments.count == 0 {
+//                    return 40.0
+//                }
+//            }
+//        }
+//        return UITableViewAutomaticDimension
+//    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if posts != nil {
             return posts!.count + 1
@@ -678,7 +856,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return 1
         } else {
             if posts != nil {
-                return posts![section-1].comments.count
+                if posts![section-1].comments.count == 0 {
+                    return 1
+                } else {
+                    return posts![section-1].comments.count
+                }
             } else {
                 return 2
             }
@@ -720,11 +902,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("CommentCell", forIndexPath: indexPath) as! CommentCell
             if posts != nil {
-                let post = posts![indexPath.section-1]
-                let comment = post.comments[indexPath.row]
-                cell.commentContentLabel.text = comment.content
-                cell.nameLabel.text = comment.poster
-                cell.dateLabel.text = Helper().timeAgoSinceDate(comment.date, numericDates: true)
+                if posts![indexPath.section-1].comments.count == 0 {
+                    cell.commentContentLabel.textAlignment = NSTextAlignment.Center
+                    cell.commentContentLabel.text = "Add Comment"
+                    cell.nameLabel.hidden = true
+                    cell.dateLabel.hidden = true
+                } else {
+                    let post = posts![indexPath.section-1]
+                    let comment = post.comments[indexPath.row]
+                    cell.commentContentLabel.text = comment.content
+                    cell.commentContentLabel.textAlignment = NSTextAlignment.Left
+                    cell.nameLabel.text = comment.poster
+                    cell.dateLabel.text = Helper().timeAgoSinceDate(comment.date, numericDates: true)
+                    cell.nameLabel.hidden = false
+                    cell.dateLabel.hidden = false
+                }
             } else {
                 let comment = post.comments[indexPath.row]
                 cell.commentContentLabel.text = comment.content
@@ -743,14 +935,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 // update description
                 if discussionDescription != nil {
                     println("Update: \(discussionDescription!)")
+                    currentPostType = "UPDATE"
                 } else {
                     println("Update: \(defaultDescription)")
                 }
+                postButtonPressed(scheduleBarButton)
+
             } else {
                 // comment on post with index: indexPath.section
                 selectedPostIndex = indexPath.section-1
                 println(selectedPostIndex)
+                currentPostType = "COMMENT"
+                postButtonPressed(scheduleBarButton)
+
             }
+
         } else {
             println(indexPath.section)
             postButtonPressed(postButton)
@@ -785,10 +984,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
 //                let post = posts![indexPath.section-1]
 //                var comment = post.comments[indexPath.row]
-                if posts![indexPath.section-1].comments[indexPath.row].shown {
-                    return
+                if posts![indexPath.section-1].comments.count == 0 {
+                    // Add Comment Cell
+                } else {
+                    if posts![indexPath.section-1].comments[indexPath.row].shown {
+                        return
+                    }
+                    posts![indexPath.section-1].comments[indexPath.row].shown = true
                 }
-                posts![indexPath.section-1].comments[indexPath.row].shown = true
                 cell.alpha = 0
                 UIView.animateWithDuration(1.0, animations: { cell.alpha = 1 })
             }
@@ -821,18 +1024,6 @@ extension UIViewController {    //load data functions
     }
     
     func loadGroups() {
-        
-    }
-    
-    func createNewPost(content: String, type: String) {
-        
-    }
-    
-    func createCommentOnPost(atIndex: Int, content: String, type: String) {
-        
-    }
-    
-    func updateDescription(updatedContent: String) {
         
     }
     
