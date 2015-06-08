@@ -274,8 +274,8 @@ extension ViewController: ScheduleDelegate {
         }
         courseCodes.removeAtIndex(atIndex)
         courses?.removeAtIndex(atIndex)
-        courseToDelete.saveEventually()
-        PFUser.currentUser()!.saveEventually()
+        courseToDelete.saveInBackgroundWithBlock(nil)
+        PFUser.currentUser()!.saveInBackgroundWithBlock(nil)
     }
 }
 
@@ -380,10 +380,14 @@ extension ViewController: PostDelegate {
         } else {
             //make post
             var newPost = PFObject(className:"Post")
-            
-            newPost["poster"] = PFUser.currentUser()?["name"] as! String
+            if anon! {
+                newPost["poster"] = "Anonymous"
+            } else {
+                newPost["poster"] = PFUser.currentUser()?["name"] as! String
+            }
             newPost["content"] = content
             newPost["courseId"] = selectedCourseCode
+            newPost["user"] = PFUser.currentUser()
             
             let participants = newPost.relationForKey("participants")
             participants.addObject(PFUser.currentUser()!)
@@ -453,9 +457,17 @@ extension ViewController: PostDelegate {
             var commentPosters = [String]()
             if post["commentPosters"] as? [String] != nil {
                 commentPosters = post["commentPosters"] as! [String]
-                commentPosters.append(PFUser.currentUser()?["name"] as! String)
+                if anon! {
+                    commentPosters.append("Anonymous")
+                } else {
+                    commentPosters.append(PFUser.currentUser()?["name"] as! String)
+                }
             } else {
-                commentPosters = [PFUser.currentUser()?["name"] as! String]
+                if anon! {
+                    commentPosters.append("Anonymous")
+                } else {
+                    commentPosters.append(PFUser.currentUser()?["name"] as! String)
+                }
             }
             post["commentPosters"] = commentPosters
             
