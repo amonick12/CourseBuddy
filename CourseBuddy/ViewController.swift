@@ -675,6 +675,10 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             if checkIfCourseIsSelected(sender) {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("DocNav") as! DocNavViewController
+                let root = vc.visibleViewController as! DocumentsViewController
+                root.filePath = "/\(university!)/\(selectedCourseCode!)/"
+                root.university = university
+                root.courseCode = selectedCourseCode
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
