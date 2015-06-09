@@ -1062,7 +1062,7 @@
                                                 <action selector="closeButtonPressed:" destination="FyR-mT-36M" id="i69-2k-ECS"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" image="right" id="Kek-mp-25c">
+                                        <barButtonItem key="rightBarButtonItem" image="forward_arrow" id="Kek-mp-25c">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="doneButtonPressed:" destination="FyR-mT-36M" id="RiT-mr-h0l"/>
@@ -2258,6 +2258,7 @@
         <image name="courses" width="32" height="32"/>
         <image name="document" width="32" height="32"/>
         <image name="dropbox" width="32" height="32"/>
+        <image name="forward_arrow" width="32" height="32"/>
         <image name="image" width="32" height="32"/>
         <image name="image_file" width="100" height="100"/>
         <image name="mail" width="32" height="32"/>
@@ -2266,7 +2267,6 @@
         <image name="profile" width="32" height="32"/>
         <image name="reminder" width="32" height="32"/>
         <image name="resource" width="32" height="32"/>
-        <image name="right" width="32" height="32"/>
         <image name="roster" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

@@ -23,7 +23,8 @@ class ViewController: UIViewController {
     var courseCodes = [String]()    //for showing in schedule
     var selectedCourse: AnyObject?  //current course
     var selectedCourseCode: String? //for navigation bar
-
+    var selectedObject: AnyObject?  //can be course, instructor, or group for discussion
+    
     var name: String?
     var email: String?
     var verified: Bool?
@@ -34,6 +35,9 @@ class ViewController: UIViewController {
     var postObjects: [AnyObject]?
     var posts: [Post]?
     var discussionDescription: String?
+    
+    var instructorObjects: [AnyObject]?
+    var groupObjects: [AnyObject]?
     
     var comment1: Comment!
     var comment2: Comment!
@@ -127,25 +131,61 @@ class ViewController: UIViewController {
         }
     }
     
+    func loadInstructors() {
+        if selectedCourse != nil {
+            let courseObject = selectedCourse as! PFObject
+            var instructorQuery: PFQuery = courseObject.relationForKey("instructors").query()!
+            instructorQuery.orderByAscending("createdAt")
+            instructorQuery.findObjectsInBackgroundWithBlock {
+                (instructors: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    println("retrieved \(instructors!.count) instructors")
+                    self.instructorObjects = instructors
+                    
+                } else {
+                    //failure
+                    println("There was an error fetching the instructors.")
+                }
+            }
+        }
+    }
+    
+    func loadGroups() {
+        if selectedCourse != nil {
+            let courseObject = selectedCourse as! PFObject
+            var groupQuery: PFQuery = courseObject.relationForKey("groups").query()!
+            groupQuery.orderByAscending("createdAt")
+            groupQuery.findObjectsInBackgroundWithBlock {
+                (groups: [AnyObject]?, error: NSError?) -> Void in
+                if error == nil {
+                    println("retrieved \(groups!.count) groups")
+                    self.groupObjects = groups
+                    
+                } else {
+                    //failure
+                    println("There was an error fetching the groups.")
+                }
+            }
+        }
+    }
+    
     func loadPosts() {
         println("get posts for \(selectedCourseCode)")
-        if selectedCourseCode != nil {
-            let courseObject = selectedCourse as! PFObject
-            var postsQuery: PFQuery = courseObject.relationForKey("posts").query()!
+        if selectedObject != nil {
+            let object = selectedObject as! PFObject
+            //let object = selectedCourse as! PFObject
+            var postsQuery: PFQuery = object.relationForKey("posts").query()!
             postsQuery.orderByDescending("createdAt")
             postsQuery.findObjectsInBackgroundWithBlock {
                 (postObjects: [AnyObject]?, error: NSError?) -> Void in
                 if error == nil {
-                    
-                    if let description = courseObject["description"] as? String {
+                    if let description = object["description"] as? String {
                         self.discussionDescription = description
                     } else {
                         self.discussionDescription = self.defaultDescription
                     }
-                    
                     println("retrieved \(postObjects!.count) posts")
                     self.postObjects = postObjects
-                    //self.posts?.removeAll(keepCapacity: false)
                     var tempPosts = [Post]()
                     if let postObjects = postObjects as? [PFObject] {
                         for post in postObjects {
@@ -182,15 +222,23 @@ class ViewController: UIViewController {
             }
         }
     }
-
 }
 
 extension ViewController: ScheduleDelegate {
     func didSelectCourseCode(index: Int) {
         selectedCourseCode = courseCodes[index]
         selectedCourse = courses![index]
+        selectedObject = courses![index]
         println("selected course: \(selectedCourseCode)")
+//        let course = selectedObject as! PFObject
+//        if let description = course["description"] as? String {
+//            self.discussionDescription = description
+//        } else {
+//            self.discussionDescription = self.defaultDescription
+//        }
         loadPosts()
+        loadInstructors()
+        loadGroups()
         self.navigationItem.title = selectedCourseCode!.uppercaseString
         let font = UIFont(name: "GeezaPro-Bold", size: 23)
         if let font = font {
@@ -211,21 +259,34 @@ extension ViewController: ScheduleDelegate {
             query.whereKey("university", equalTo: self.university!)
             query.whereKey("courseId", equalTo: courseCode)
             var newCourse = query.getFirstObject()
+//            query.getFirstObjectInBackgroundWithBlock {
+//                (object: PFObject?, error: NSError?) -> Void in
+//                if error != nil || object == nil {
+//                    println("The getFirstObject request failed.")
+//                    var newCourse = PFObject(className: "Course") as PFObject
+//                    newCourse["courseId"] = courseCode
+//                    newCourse["creator"] = PFUser.currentUser()
+//                    newCourse["university"] = self.university
+//                    newCourse["description"] = "\(courseCode) Discussion\n\nAdd Course Name Here"
+//                    addDefaultData(newCourse, courseId: courseCode)
+//
+//                } else {
+//                    // The find succeeded.
+//                    println("Successfully retrieved the object.")
+//                }
+//            }
             if newCourse == nil {
-                newCourse = PFObject(className: "Course") as PFObject
+                newCourse = PFObject(className: "Course")
                 newCourse!["courseId"] = courseCode
-                newCourse!["creator"] = PFUser.currentUser()
+                //newCourse!["creator"] = PFUser.currentUser()!
                 newCourse!["university"] = self.university
-                newCourse!["description"] = "\n\(courseCode) Discussion\n\nAdd Course Name Here\n"
+                newCourse!["description"] = "\(courseCode) Discussion\n\nAdd Course Name Here"
                 addDefaultData(newCourse!, courseId: courseCode)
             }
             var participants: PFRelation = newCourse!.relationForKey("participants")
             participants.addObject(PFUser.currentUser()!)
-            newCourse!.saveInBackgroundWithBlock({ (succeeded, error) -> Void in
-                //add channel to installation
-//                let uniqueIdentifier = courseId + "-" + newClass.objectId
-//                PFInstallation.currentInstallation().addUniqueObject(uniqueIdentifier, forKey: "channels")
-//                PFInstallation.currentInstallation().saveInBackground()
+            newCourse!.saveInBackgroundWithBlock({
+                (succeeded, error) -> Void in
                 schedule.addObject(newCourse!)
                 PFUser.currentUser()!.saveInBackgroundWithBlock {
                     (succeeded: Bool, error: NSError?) -> Void in
@@ -233,10 +294,12 @@ extension ViewController: ScheduleDelegate {
                         println("user saved new course: \(courseCode)")
                         self.selectedCourseCode = courseCode
                         self.selectedCourse = newCourse
+                        self.selectedObject = newCourse
                         self.loadSchedule()
                         self.loadPosts()
-//                        self.loadInstructors()
-//                        self.loadGroups()
+                        self.loadInstructors()
+                        self.loadGroups()
+                        
                         self.navigationItem.title = courseCode.uppercaseString
                         let font = UIFont(name: "GeezaPro-Bold", size: 23)
                         if let font = font {
@@ -267,6 +330,8 @@ extension ViewController: ScheduleDelegate {
             posts = nil
             discussionDescription = nil
             selectedCourseCode = nil
+            selectedCourse = nil
+            selectedObject = nil
             tableView.reloadData()
             self.navigationItem.title = "CourseBuddy"
             let font = UIFont(name: "Noteworthy-Light", size: 23)
@@ -289,8 +354,9 @@ extension ViewController: ProfileDelegate {
         university = nil
         universityID = nil
         selectedCourseCode = nil
+        selectedCourse = nil
+        selectedObject = nil
         checkUser()
-        //clear course data
         self.navigationItem.title = "CourseBuddy"
         let font = UIFont(name: "Noteworthy-Light", size: 23)
         if let font = font {
@@ -306,7 +372,7 @@ extension ViewController: UniversitySelectorDelegate {
         if let user = PFUser.currentUser() {
             user["university"] = university
             user["universityID"] = id
-            user.saveEventually()
+            user.saveInBackground()
             scheduleButtonPressed(scheduleBarButton)
         }
     }
@@ -316,7 +382,6 @@ extension ViewController: PostDelegate {
     func postTextEntered(content: String, type: String) {
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        
         switch type {
         case "POST":
             let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
@@ -395,10 +460,11 @@ extension ViewController: PostDelegate {
             newPost.saveInBackgroundWithBlock {
                 (succeeded: Bool, error: NSError?) -> Void in
                 //set course to post relation
-                var course = self.selectedCourse as! PFObject
-                var postsRelation: PFRelation = course.relationForKey("posts")
+                //var course = self.selectedCourse as! PFObject
+                var object = self.selectedObject as! PFObject
+                var postsRelation: PFRelation = object.relationForKey("posts")
                 postsRelation.addObject(newPost)
-                course.saveInBackgroundWithBlock {
+                object.saveInBackgroundWithBlock {
                     (succeeded: Bool, error: NSError?) -> Void in
                     if succeeded {
                         self.loadPosts()
@@ -454,9 +520,10 @@ extension ViewController: PostDelegate {
         }
     }
     func updateDescription(updatedContent: String) {
-        var course = selectedCourse as! PFObject
-        course["description"] = updatedContent
-        course.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+        var object = selectedObject as! PFObject
+        //var course = selectedCourse as! PFObject
+        object["description"] = updatedContent
+        object.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             if error == nil {
                 self.loadPosts()
             }
@@ -575,6 +642,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 let vc = storyboard.instantiateViewControllerWithIdentifier("InstructorsNav") as! InstructorsNavViewController
                 let root = vc.visibleViewController as! InstructorsTableViewController
                 root.delegate = self
+                root.instructors = instructorObjects
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -591,6 +659,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 let vc = storyboard.instantiateViewControllerWithIdentifier("GroupsNav") as! GroupsNavViewController
                 let root = vc.visibleViewController as! GroupsTableViewController
                 root.delegate = self
+                root.groups = groupObjects
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -701,27 +770,98 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
 }
 
 extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
-    func didSelectGroup(named: String) {
-        println(named)
+    func didSelectGroup(atIndex: Int) {
+        if let groups = groupObjects as? [PFObject] {
+            let group = groups[atIndex]
+            selectedObject = group
+            loadPosts()
+        }
+        
     }
     func didAddNewGroup(named: String, description: String?) {
         let groupName = named
-        println(groupName)
-        if let groupDescription = description {
-            println(groupDescription)
+        var newGroup = PFObject(className: "Group") as PFObject
+        newGroup["name"] = groupName
+        newGroup["creator"] = PFUser.currentUser()
+        newGroup["courseId"] = selectedCourseCode
+        if description != nil && description != "" {
+            newGroup["description"] = "\(selectedCourseCode!)\n\n\(groupName) Discussion \n\n\(description)"
+        } else {
+            newGroup["description"] = "\(selectedCourseCode!)\n\n\(groupName) Discussion"
+        }
+        var post = PFObject(className: "Post")
+        post["poster"] = "CourseBuddy"
+        post["content"] = "This is a specific discussion for \(groupName) within \(selectedCourseCode!)"
+        post["courseId"] = selectedCourseCode
+        post["anon"] = false
+        post.saveInBackgroundWithBlock { (succeeded: Bool, error: NSError?) -> Void in
+            var postsRelation: PFRelation = newGroup.relationForKey("posts")
+            postsRelation.addObject(post)
+            var course = self.selectedCourse as! PFObject
+            newGroup.saveInBackgroundWithBlock{
+                (succeeded: Bool, error: NSError?) -> Void in
+                if succeeded {
+                    self.selectedObject = newGroup
+                    self.loadPosts()
+                    var groupRelation: PFRelation = course.relationForKey("groups")
+                    groupRelation.addObject(newGroup)
+                    course.saveInBackgroundWithBlock{
+                        (succeeded: Bool, error: NSError?) -> Void in
+                        if succeeded {
+                            self.loadGroups()
+                        }
+                    }
+                }
+            }
         }
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
-    func didSelectInstructor(named: String) {
-        println(named)
+    func didSelectInstructor(atIndex: Int) {
+        if let instructors = instructorObjects as? [PFObject] {
+            let instructor = instructors[atIndex]
+            selectedObject = instructor
+            loadPosts()
+            
+        }
     }
     func didAddNewInstructor(named: String, description: String?) {
         let instructorName = named
-        println(instructorName)
-        if let instructorDescription = description {
-            println(instructorDescription)
+        var newInstructor = PFObject(className: "Instructor") as PFObject
+        newInstructor["name"] = instructorName
+        newInstructor["creator"] = PFUser.currentUser()
+        newInstructor["courseId"] = selectedCourseCode
+        if description != nil && description != "" {
+            newInstructor["description"] = "\(selectedCourseCode!)\n\n\(instructorName) Discussion\n\n\(description)"
+        } else {
+            newInstructor["description"] = "\(selectedCourseCode!)\n\n\(instructorName) Discussion"
         }
+        var post = PFObject(className: "Post")
+        post["poster"] = "CourseBuddy"
+        post["content"] = "This is a specific discussion for \(instructorName) within \(selectedCourseCode!)"
+        post["courseId"] = selectedCourseCode
+        post["anon"] = false
+        post.saveInBackgroundWithBlock { (succeeded: Bool, error: NSError?) -> Void in
+            var postsRelation: PFRelation = newInstructor.relationForKey("posts")
+            postsRelation.addObject(post)
+            var course = self.selectedCourse as! PFObject
+            newInstructor.saveInBackgroundWithBlock{
+                (succeeded: Bool, error: NSError?) -> Void in
+                if succeeded {
+                    self.selectedObject = newInstructor
+                    self.loadPosts()
+                    var instructorRelation: PFRelation = course.relationForKey("instructors")
+                    instructorRelation.addObject(newInstructor)
+                    course.saveInBackgroundWithBlock{
+                        (succeeded: Bool, error: NSError?) -> Void in
+                        if succeeded {
+                            self.loadInstructors()
+                        }
+                    }
+                }
+            }
+        }
+        
         self.navigationController?.setToolbarHidden(false, animated: true)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
@@ -772,7 +912,7 @@ extension ViewController: PFLogInViewControllerDelegate {
                             PFUser.currentUser()?.email = fbEmail
                             PFUser.currentUser()?["domain"] = domain
                         }
-                        PFUser.currentUser()?.saveEventually(nil)
+                        PFUser.currentUser()?.saveInBackground()
                     }
                 }
             })
@@ -799,17 +939,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewAutomaticDimension
         }
     }
-    
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        if post != nil {
-//            if indexPath.section != 0 {
-//                if posts![indexPath.section-1].comments.count == 0 {
-//                    return 40.0
-//                }
-//            }
-//        }
-//        return UITableViewAutomaticDimension
-//    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if posts != nil {
@@ -986,31 +1115,6 @@ class DescriptionCell: UITableViewCell {
 
 extension UIViewController {    //load data functions
     
-    
-    func loadInstructors() {
-        
-    }
-    
-    func loadGroups() {
-        
-    }
-    
-    func getResources() {
-        
-    }
-    
-    func getNotes() {
-        
-    }
-    
-    func getImages() {
-        
-    }
-    
-    func getRoster() {
-        
-    }
-    
     func addDefaultData(course: PFObject, courseId: String) {
         var post = PFObject(className: "Post")
         post["poster"] = "CourseBuddy"
@@ -1039,9 +1143,8 @@ extension UIViewController {    //load data functions
         //make document to explain the purpose of documents
         var image0 = PFObject(className: "Document")
         image0["poster"] = "CourseBuddy"
-        image0["title"] = "Take a Picture of Written Notes"
+        image0["title"] = "Share Written Notes"
         image0["courseId"] = courseId
-        image0["user"] = PFUser.currentUser()
         let stickyImage = UIImage(named: "stickynote")
         //save image to file
         let imageData0 = UIImagePNGRepresentation(stickyImage)
@@ -1057,7 +1160,6 @@ extension UIViewController {    //load data functions
         image1["poster"] = "CourseBuddy"
         image1["title"] = "Share a Screenhot"
         image1["courseId"] = courseId
-        image1["user"] = PFUser.currentUser()
         let screenshot = UIImage(named: "screenshot")
         //save image to file
         let imageData1 = UIImagePNGRepresentation(screenshot)
@@ -1072,14 +1174,12 @@ extension UIViewController {    //load data functions
         var newInstructor = PFObject(className: "Instructor") as PFObject
         newInstructor["name"] = "CourseBuddy"
         newInstructor["courseId"] = courseId
-        newInstructor["creator"] = PFUser.currentUser()
         let instructorMessage = "This is the default instructor discussion to teach you about CourseBuddy Instructors!"
-        newInstructor["message"] = instructorMessage
+        newInstructor["description"] = instructorMessage
 
         var instructorPost = PFObject(className: "Post")
         instructorPost["poster"] = "CourseBuddy"
         instructorPost["content"] = "CourseBuddy Instructors"
-        instructorPost["courseId"] = courseId
         instructorPost["anon"] = true
         var instructorComments = [String]()
         instructorComments.append("If you don't see your instructor for " + courseId.uppercaseString + " when you tap the X on CourseBuddy to go back to the list of instructors, simply enter their name to start a discussion specific to events happening in their classes")
@@ -1109,17 +1209,14 @@ extension UIViewController {    //load data functions
         }
         
         //make default group named Study Group with posts explaining the purpose of groups
-        var newGroup = PFObject(className: "Group") as PFObject
+        var newGroup = PFObject(className: "Group")
         newGroup["name"] = "Study Group"
-        newGroup["creator"] = PFUser.currentUser()
-        newGroup["courseId"] = courseId
         let groupMessage = "This is a specfic discussion for a study group within " + courseId.uppercaseString + "\n\nTap here to add a Group Description"
-        newGroup["message"] = groupMessage
+        newGroup["description"] = groupMessage
         
         var groupPost = PFObject(className: "Post")
         groupPost["poster"] = "CourseBuddy"
         groupPost["content"] = "CourseBuddy Groups"
-        groupPost["courseId"] = courseId
         groupPost["anon"] = true
         var groupComments = [String]()
         groupComments.append("Make a small group within " + courseId.uppercaseString + " by tapping the X on Study Group and adding a new one of your choice")
@@ -1151,11 +1248,9 @@ extension UIViewController {    //load data functions
         //make default note explaining the purpose of notes
         var newNote = PFObject(className: "Note") as PFObject
         newNote["creatorName"] = "CourseBuddy"
-        newNote["creator"] = PFUser.currentUser()
         newNote["title"] = "First Note"
         newNote["content"] = "Collaborate on the same content with you classmates here\n"
         newNote["ups"] = 0
-        newNote["course"] = course as PFObject
         newNote.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             var notesRelation: PFRelation = course.relationForKey("notes")
             notesRelation.addObject(newNote)
@@ -1167,11 +1262,7 @@ extension UIViewController {    //load data functions
 
         var newResource = PFObject(className: "Resource")
         newResource["title"] = "Google"
-        newResource["sharedTitle"] = "Google"
         newResource["url"] = "http://google.com"
-        newResource["poster"] = PFUser.currentUser()
-        newResource["course"] = course as PFObject
-        newResource["posterName"] = "CourseBuddy"
         newResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             resourceRelation.addObject(newResource)
             course.saveInBackground()
@@ -1179,11 +1270,7 @@ extension UIViewController {    //load data functions
         
         var anotherResource = PFObject(className: "Resource")
         anotherResource["title"] = "Wikipedia"
-        anotherResource["sharedTitle"] = "Wikipedia"
         anotherResource["url"] = "http://wikipedia.org"
-        anotherResource["poster"] = PFUser.currentUser()
-        anotherResource["courseId"] = courseId
-        anotherResource["posterName"] = "CourseBuddy"
         anotherResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             resourceRelation.addObject(anotherResource)
             course.saveInBackground()

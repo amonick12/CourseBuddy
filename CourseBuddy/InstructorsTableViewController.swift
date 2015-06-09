@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Parse
 
 protocol InstructorTableDelegate {
-    func didSelectInstructor(named: String)
+    func didSelectInstructor(atIndex: Int)
     func didAddNewInstructor(named: String, description: String?)
 }
 
@@ -63,14 +64,15 @@ class InstructorsTableViewController: UITableViewController, AddInstructorDelega
         if instructors != nil {
             return instructors!.count
         } else {
-            return defaultData.count
+            return 0
         }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("InstructorCell", forIndexPath: indexPath) as! InstructorCell
         if instructors != nil {
-
+            var instructor = instructors![indexPath.row] as! PFObject
+            cell.instructorLabel.text = instructor["name"] as? String
         } else {
             cell.instructorLabel.text = defaultData[indexPath.row]
         }
@@ -80,9 +82,8 @@ class InstructorsTableViewController: UITableViewController, AddInstructorDelega
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if instructors != nil {
-            
-        } else {
-            delegate?.didSelectInstructor(defaultData[indexPath.row])
+            delegate?.didSelectInstructor(indexPath.row)
+
         }
         dismissViewControllerAnimated(true, completion: nil)
     }

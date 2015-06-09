@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Parse
 
 protocol GroupsTableDelegate {
-    func didSelectGroup(named: String)
+    func didSelectGroup(atIndex: Int)
     func didAddNewGroup(named: String, description: String?)
 }
 
@@ -63,7 +64,7 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
         if groups != nil {
             return groups!.count
         } else {
-            return defaultData.count
+            return 0
         }
     }
 
@@ -71,7 +72,8 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("GroupCell", forIndexPath: indexPath) as! GroupCell
 
         if groups != nil {
-            
+            var group = groups![indexPath.row] as! PFObject
+            cell.groupLabel.text = group["name"] as? String
         } else {
             cell.groupLabel.text = defaultData[indexPath.row]
         }
@@ -81,9 +83,7 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if groups != nil {
-            
-        } else {
-            delegate?.didSelectGroup(defaultData[indexPath.row])
+            delegate?.didSelectGroup(indexPath.row)
         }
         dismissViewControllerAnimated(true, completion: nil)
     }
