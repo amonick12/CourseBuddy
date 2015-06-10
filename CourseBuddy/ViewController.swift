@@ -469,6 +469,7 @@ extension ViewController: PostDelegate {
             if anon == true {
                 newPost["anon"] = true
             } else { newPost["anon"] = false }
+            let poster = PFUser.currentUser()!["name"] as! String
             newPost.saveInBackgroundWithBlock {
                 (succeeded: Bool, error: NSError?) -> Void in
                 //set course to post relation
@@ -480,7 +481,11 @@ extension ViewController: PostDelegate {
                     (succeeded: Bool, error: NSError?) -> Void in
                     if succeeded {
                         self.loadPosts()
-                        //create push
+                        if type == "important" {
+                            self.sendImportantPushNotification(poster)
+                        } else {
+                            self.sendPostPushNotification(poster, anon: anon!)
+                        }
                     } else { println("error making post relation") }
                 }
             }
@@ -522,11 +527,13 @@ extension ViewController: PostDelegate {
                 commentsAnon.append(anon!)
             } else { commentsAnon = [anon!] }
             post["commentsAnon"] = commentsAnon
+            let poster = PFUser.currentUser()!["name"] as! String
             let participants = post.relationForKey("participants")
             participants.addObject(PFUser.currentUser()!)
             post.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError?) -> Void in
                 if succeeded {
                     self.loadPosts()
+                    self.sendCommentPushNotification(poster, anon: anon!, post: post)
                 }
             })
         }
@@ -1129,18 +1136,82 @@ class DescriptionCell: UITableViewCell {
     @IBOutlet weak var descriptLabel: UILabel!
 }
 
-extension UIViewController {    //load data functions
+extension ViewController {    //load data functions
     
-    func sendPostPushNotification() {
-        
+    func sendPostPushNotification(poster: String, anon: Bool) {
+        if let object = selectedObject as? PFObject {
+            let name = object["name"] as! String
+            let channel = object.objectId!
+            let pushQuery = PFInstallation.query()!
+            pushQuery.whereKey("channels", equalTo: channel)
+            pushQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
+            let participantQuery = object.relationForKey("wantsPostNotifications").query()!
+            pushQuery.whereKey("user", matchesQuery: participantQuery)
+            var poster = poster
+            if anon {
+                poster = "Someone"
+            }
+            let message = "\(poster) posted in \(name) Discussion"
+            let data = [
+                "alert" : message,
+                "badge" : "Increment",
+                "sounds" : "cheering.caf"
+            ]
+            let push = PFPush()
+            push.setQuery(pushQuery)
+            push.setData(data)
+            push.sendPushInBackground()
+        }
     }
     
-    func sendImportantPushNotification() {
-        
+    func sendImportantPushNotification(poster: String) {
+        if let object = selectedObject as? PFObject {
+            let name = object["name"] as! String
+            let channel = object.objectId!
+            let pushQuery = PFInstallation.query()!
+            pushQuery.whereKey("channels", equalTo: channel)
+            pushQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
+            let participantQuery = object.relationForKey("wantsImportantPostNotifications").query()!
+            pushQuery.whereKey("user", matchesQuery: participantQuery)
+            let message = "\(poster) posted in \(name) Discussion as Important"
+            let data = [
+                "alert" : message,
+                "badge" : "Increment",
+                "sounds" : "cheering.caf"
+            ]
+            let push = PFPush()
+            push.setQuery(pushQuery)
+            push.setData(data)
+            push.sendPushInBackground()
+        }
     }
     
-    func sendCommentPushNotification() {
-        
+    func sendCommentPushNotification(poster: String, anon: Bool, post: PFObject) {
+        if let object = selectedObject as? PFObject {
+            let name = object["name"] as! String
+            let channel = object.objectId!
+            let pushQuery = PFInstallation.query()!
+            pushQuery.whereKey("channels", equalTo: channel)
+            pushQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
+            let participantQuery = post.relationForKey("participants").query()!
+            pushQuery.whereKey("user", matchesQuery: participantQuery)
+            let notificationQuery = object.relationForKey("wantsCommentNotifications").query()!
+            pushQuery.whereKey("user", matchesQuery: notificationQuery)
+            var poster = poster
+            if anon {
+                poster = "Someone"
+            }
+            let message = "\(poster) commented on a post in \(name) Discussion that your involved in"
+            let data = [
+                "alert" : message,
+                "badge" : "Increment",
+                "sounds" : "cheering.caf"
+            ]
+            let push = PFPush()
+            push.setQuery(pushQuery)
+            push.setData(data)
+            push.sendPushInBackground()
+        }
     }
     
     func addDefaultData(course: PFObject, courseId: String) {

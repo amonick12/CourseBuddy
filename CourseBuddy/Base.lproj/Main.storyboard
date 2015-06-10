@@ -1648,7 +1648,7 @@
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone Posts in Discussion" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rgq-my-1eX">
-                                                    <rect key="frame" x="20" y="8" width="171" height="53"/>
+                                                    <rect key="frame" x="15" y="8" width="171" height="53"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="171" id="1e5-nv-r3Z"/>
                                                         <constraint firstAttribute="height" constant="53" id="Fp2-pe-OXh"/>
@@ -1661,9 +1661,9 @@
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="Rgq-my-1eX" secondAttribute="centerY" id="5Ig-mB-Id9"/>
                                                 <constraint firstItem="Rgq-my-1eX" firstAttribute="bottom" secondItem="qqb-nl-4bx" secondAttribute="bottomMargin" id="5KR-S9-fqd"/>
-                                                <constraint firstItem="Rgq-my-1eX" firstAttribute="leading" secondItem="qqb-nl-4bx" secondAttribute="leadingMargin" constant="12" id="DJ8-PL-SXY"/>
+                                                <constraint firstItem="Rgq-my-1eX" firstAttribute="leading" secondItem="qqb-nl-4bx" secondAttribute="leadingMargin" constant="7" id="DJ8-PL-SXY"/>
                                                 <constraint firstAttribute="centerY" secondItem="zNr-ab-KRU" secondAttribute="centerY" id="Gbk-bK-FWw"/>
-                                                <constraint firstItem="zNr-ab-KRU" firstAttribute="leading" secondItem="Rgq-my-1eX" secondAttribute="trailing" constant="45" id="WFA-8X-SKY"/>
+                                                <constraint firstItem="zNr-ab-KRU" firstAttribute="leading" secondItem="Rgq-my-1eX" secondAttribute="trailing" constant="50" id="WFA-8X-SKY"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="zNr-ab-KRU" secondAttribute="trailing" constant="7" id="XCc-ms-Cxz"/>
                                                 <constraint firstItem="zNr-ab-KRU" firstAttribute="top" secondItem="qqb-nl-4bx" secondAttribute="topMargin" constant="11" id="jUB-P2-lQN"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="zNr-ab-KRU" secondAttribute="bottom" constant="11" id="o9n-8z-XnM"/>
@@ -1677,10 +1677,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone Posts in Discussion as Important" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hss-ga-FgY">
-                                                    <rect key="frame" x="20" y="8" width="198" height="53"/>
+                                                    <rect key="frame" x="15" y="8" width="213" height="53"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="53" id="7RR-I0-rVd"/>
-                                                        <constraint firstAttribute="width" constant="198" id="qsE-dL-jaF"/>
+                                                        <constraint firstAttribute="width" constant="213" id="qsE-dL-jaF"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -1698,10 +1698,10 @@
                                                 </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="SS7-oe-etK" firstAttribute="leading" secondItem="hss-ga-FgY" secondAttribute="trailing" constant="18" id="PTg-rI-hJ8"/>
+                                                <constraint firstItem="SS7-oe-etK" firstAttribute="leading" secondItem="hss-ga-FgY" secondAttribute="trailing" constant="8" id="PTg-rI-hJ8"/>
                                                 <constraint firstAttribute="centerY" secondItem="hss-ga-FgY" secondAttribute="centerY" id="R8v-NL-ycp"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="SS7-oe-etK" secondAttribute="bottom" constant="11" id="USM-0g-YJU"/>
-                                                <constraint firstItem="hss-ga-FgY" firstAttribute="leading" secondItem="fx0-Rx-68z" secondAttribute="leadingMargin" constant="12" id="VBf-X6-toq"/>
+                                                <constraint firstItem="hss-ga-FgY" firstAttribute="leading" secondItem="fx0-Rx-68z" secondAttribute="leadingMargin" constant="7" id="VBf-X6-toq"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="SS7-oe-etK" secondAttribute="trailing" constant="7" id="cEJ-Pr-YOU"/>
                                                 <constraint firstAttribute="centerY" secondItem="SS7-oe-etK" secondAttribute="centerY" id="cQR-nP-NqM"/>
                                                 <constraint firstItem="hss-ga-FgY" firstAttribute="top" secondItem="fx0-Rx-68z" secondAttribute="topMargin" id="eoX-GH-ESG"/>
@@ -1716,7 +1716,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Someone Comments on Your Post" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEi-Zv-Drl">
-                                                    <rect key="frame" x="20" y="8" width="184" height="53"/>
+                                                    <rect key="frame" x="15" y="8" width="184" height="53"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="184" id="arv-Zr-dK4"/>
                                                         <constraint firstAttribute="height" constant="53" id="vcU-qW-Ykt"/>
@@ -1740,12 +1740,12 @@
                                                 <constraint firstAttribute="centerY" secondItem="UEi-Zv-Drl" secondAttribute="centerY" id="15v-Bv-fEx"/>
                                                 <constraint firstItem="tv3-dw-Rtp" firstAttribute="top" secondItem="vaS-Fc-WpU" secondAttribute="topMargin" constant="11" id="3X2-0P-Bm2"/>
                                                 <constraint firstItem="UEi-Zv-Drl" firstAttribute="bottom" secondItem="vaS-Fc-WpU" secondAttribute="bottomMargin" id="Pmk-gM-xoR"/>
-                                                <constraint firstItem="tv3-dw-Rtp" firstAttribute="leading" secondItem="UEi-Zv-Drl" secondAttribute="trailing" constant="32" id="U5C-aA-eTS"/>
+                                                <constraint firstItem="tv3-dw-Rtp" firstAttribute="leading" secondItem="UEi-Zv-Drl" secondAttribute="trailing" constant="37" id="U5C-aA-eTS"/>
                                                 <constraint firstItem="UEi-Zv-Drl" firstAttribute="top" secondItem="vaS-Fc-WpU" secondAttribute="topMargin" id="UFA-hL-Guo"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="tv3-dw-Rtp" secondAttribute="trailing" constant="7" id="VMs-Tx-pWm"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="tv3-dw-Rtp" secondAttribute="bottom" constant="11" id="WHy-t8-3KA"/>
                                                 <constraint firstAttribute="centerY" secondItem="tv3-dw-Rtp" secondAttribute="centerY" id="dsz-F9-Znf"/>
-                                                <constraint firstItem="UEi-Zv-Drl" firstAttribute="leading" secondItem="vaS-Fc-WpU" secondAttribute="leadingMargin" constant="12" id="pQ0-yw-EgD"/>
+                                                <constraint firstItem="UEi-Zv-Drl" firstAttribute="leading" secondItem="vaS-Fc-WpU" secondAttribute="leadingMargin" constant="7" id="pQ0-yw-EgD"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
