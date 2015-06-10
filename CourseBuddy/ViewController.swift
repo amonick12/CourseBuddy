@@ -18,7 +18,8 @@ class ViewController: UIViewController {
     //var commentShown: [Bool]?
     @IBOutlet weak var postButton: UIBarButtonItem!
     @IBOutlet weak var scheduleBarButton: UIBarButtonItem!
-    
+    var loadingView: UIView = UIView()
+
     var courses: [AnyObject]?       //for querying objects
     var courseCodes = [String]()    //for showing in schedule
     var selectedCourse: AnyObject?  //current course
@@ -64,7 +65,7 @@ class ViewController: UIViewController {
     }
     
     func setDefaultPost() {
-        comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Select Notifications\n\t• Have Focused Discussions", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, shown: false)
+        comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Course Discussions\n\t• Specific Discussions\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Configure Notifications", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, shown: false)
         comment1 = Comment(content: "Check out all the ways to promote social learning for each course on your schedule in the menu above", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true, shown: false)
         post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2], shown: false)
     }
@@ -254,27 +255,19 @@ extension ViewController: ScheduleDelegate {
     func newCourseAdded(courseCode: String) {
         println("new course to be added: \(courseCode)")
         if courseCode != "" && university != nil && checkForRepeatedCourse(courseCode) == false {
+            
+            var activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+            activityView.color = Helper().colorWithRGBHex(0x00c853, alpha: 0.9)
+            
+            activityView.center = self.view.center
+            activityView.startAnimating()
+            
+            self.view.addSubview(activityView)
             var query = PFQuery(className: "Course")
             var schedule: PFRelation = PFUser.currentUser()!.relationForKey("schedule")
             query.whereKey("university", equalTo: self.university!)
             query.whereKey("courseId", equalTo: courseCode)
             var newCourse = query.getFirstObject()
-//            query.getFirstObjectInBackgroundWithBlock {
-//                (object: PFObject?, error: NSError?) -> Void in
-//                if error != nil || object == nil {
-//                    println("The getFirstObject request failed.")
-//                    var newCourse = PFObject(className: "Course") as PFObject
-//                    newCourse["courseId"] = courseCode
-//                    newCourse["creator"] = PFUser.currentUser()
-//                    newCourse["university"] = self.university
-//                    newCourse["description"] = "\(courseCode) Discussion\n\nAdd Course Name Here"
-//                    addDefaultData(newCourse, courseId: courseCode)
-//
-//                } else {
-//                    // The find succeeded.
-//                    println("Successfully retrieved the object.")
-//                }
-//            }
             if newCourse == nil {
                 newCourse = PFObject(className: "Course")
                 newCourse!["courseId"] = courseCode
@@ -299,6 +292,7 @@ extension ViewController: ScheduleDelegate {
                         self.loadPosts()
                         self.loadInstructors()
                         self.loadGroups()
+                        activityView.stopAnimating()
                         
                         self.navigationItem.title = courseCode.uppercaseString
                         let font = UIFont(name: "GeezaPro-Bold", size: 23)
@@ -313,6 +307,7 @@ extension ViewController: ScheduleDelegate {
         } else {
             //display alert
             println("invalid course code: \(courseCode)")
+            
         }
     }
     func didDeleteCourse(atIndex: Int) {
@@ -676,9 +671,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("DocNav") as! DocNavViewController
                 let root = vc.visibleViewController as! DocumentsViewController
-                root.filePath = "/\(university!)/\(selectedCourseCode!)/"
-                root.university = university
-                root.courseCode = selectedCourseCode
+                root.selectedCourse = self.selectedCourse
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -789,7 +782,7 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         newGroup["creator"] = PFUser.currentUser()
         newGroup["courseId"] = selectedCourseCode
         if description != nil && description != "" {
-            newGroup["description"] = "\(selectedCourseCode!)\n\n\(groupName) Discussion \n\n\(description)"
+            newGroup["description"] = "\(selectedCourseCode!)\n\n\(groupName) Discussion \n\n\(description!)"
         } else {
             newGroup["description"] = "\(selectedCourseCode!)\n\n\(groupName) Discussion"
         }
@@ -836,7 +829,7 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         newInstructor["creator"] = PFUser.currentUser()
         newInstructor["courseId"] = selectedCourseCode
         if description != nil && description != "" {
-            newInstructor["description"] = "\(selectedCourseCode!)\n\n\(instructorName) Discussion\n\n\(description)"
+            newInstructor["description"] = "\(selectedCourseCode!)\n\n\(instructorName) Discussion\n\n\(description!)"
         } else {
             newInstructor["description"] = "\(selectedCourseCode!)\n\n\(instructorName) Discussion"
         }
@@ -1123,7 +1116,7 @@ extension UIViewController {    //load data functions
         var post = PFObject(className: "Post")
         post["poster"] = "CourseBuddy"
         post["content"] = "Here are some things you can do within CourseBuddy \(courseId.uppercaseString)"
-        post["courseId"] = courseId
+        //post["courseId"] = courseId
         post["anon"] = false
         var comments = ["Create an anonymous post to ask a question or start a converstation", "Tap a post to add a comment", "Share a screenshot of \(courseId.uppercaseString) related content", "Have discussions specific to your instructor for course assignments and reminders", "Start a group discussion to communicate with your classmates on group projects outside of class", "Email classmates and instructors from within the roster section of the app", "Contribute to shared notes related to \(courseId.uppercaseString) with your classmates", "Share a resource related to \(courseId.uppercaseString) by simply copying and pasting a URL", "Configure your notifications to be alerted of activity in your CourseBuddy courses"]
         var commentPosters = [String]()
@@ -1144,40 +1137,56 @@ extension UIViewController {    //load data functions
             course.saveInBackground()
         }
         
-        //make document to explain the purpose of documents
+        //parse files
+        var document = PFObject(className: "File")
+        let filename = "Getting Started.rtf"
+        let mimeType = "application/rtf"
+        let sourcePath = NSBundle.mainBundle().pathForResource("Getting Started", ofType: "rtf")
+        let data = NSFileManager.defaultManager().contentsAtPath(sourcePath!)
+        document["filename"] = filename
+        document["mimeType"] = mimeType
+        document["file"] = PFFile(name: filename, data: data!, contentType: mimeType)
+        let documentRelation: PFRelation = course.relationForKey("files")
+        document.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            documentRelation.addObject(document)
+            course.saveInBackgroundWithBlock(nil)
+        }
+        
+        //parse images
+        let imageRelation: PFRelation = course.relationForKey("documents")
+
         var image0 = PFObject(className: "Document")
         image0["poster"] = "CourseBuddy"
         image0["title"] = "Share Written Notes"
-        image0["courseId"] = courseId
+        //image0["courseId"] = courseId
         let stickyImage = UIImage(named: "stickynote")
         //save image to file
         let imageData0 = UIImagePNGRepresentation(stickyImage)
         let imageFile0 = PFFile(name: "stickynote.png", data: imageData0)
         image0["image"] = imageFile0
-        let docRelation: PFRelation = course.relationForKey("documents")
         image0.saveInBackgroundWithBlock { (succeeded, error) -> Void in
-            docRelation.addObject(image0)
+            imageRelation.addObject(image0)
             course.saveInBackground()
         }
         
         var image1 = PFObject(className: "Document")
         image1["poster"] = "CourseBuddy"
         image1["title"] = "Share a Screenhot"
-        image1["courseId"] = courseId
+        //image1["courseId"] = courseId
         let screenshot = UIImage(named: "screenshot")
         //save image to file
         let imageData1 = UIImagePNGRepresentation(screenshot)
         let imageFile1 = PFFile(name: "screenshot.png", data: imageData1)
         image1["image"] = imageFile1
         image1.saveInBackgroundWithBlock { (succeeded, error) -> Void in
-            docRelation.addObject(image1)
+            imageRelation.addObject(image1)
             course.saveInBackground()
         }
         
         //make instructor named CourseBuddy with posts explaining the purpose of instructors
         var newInstructor = PFObject(className: "Instructor") as PFObject
         newInstructor["name"] = "CourseBuddy"
-        newInstructor["courseId"] = courseId
+        //newInstructor["courseId"] = courseId
         let instructorMessage = "This is the default instructor discussion to teach you about CourseBuddy Instructors!"
         newInstructor["description"] = instructorMessage
 
@@ -1202,6 +1211,7 @@ extension UIViewController {    //load data functions
         instructorPost["commentPosters"] = instructorCommentPosters
         instructorPost["commentDates"] = instructorCommentDates
         instructorPost["commentsAnon"] = instructorCommentsAnon
+        //instructorPost["courseId"] = courseId
         instructorPost.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             var instructorPostsRelation: PFRelation = newInstructor.relationForKey("posts")
             instructorPostsRelation.addObject(instructorPost)
@@ -1217,7 +1227,8 @@ extension UIViewController {    //load data functions
         newGroup["name"] = "Study Group"
         let groupMessage = "This is a specfic discussion for a study group within " + courseId.uppercaseString + "\n\nTap here to add a Group Description"
         newGroup["description"] = groupMessage
-        
+        //newGroup["courseId"] = courseId
+
         var groupPost = PFObject(className: "Post")
         groupPost["poster"] = "CourseBuddy"
         groupPost["content"] = "CourseBuddy Groups"
@@ -1239,6 +1250,7 @@ extension UIViewController {    //load data functions
         groupPost["commentPosters"] = groupCommentPosters
         groupPost["commentDates"] = groupCommentDates
         groupPost["commentsAnon"] = groupCommentsAnon
+        //groupPost["courseId"] = courseId
         groupPost.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             var groupPostsRelation: PFRelation = newGroup.relationForKey("posts")
             groupPostsRelation.addObject(groupPost)
@@ -1255,6 +1267,7 @@ extension UIViewController {    //load data functions
         newNote["title"] = "First Note"
         newNote["content"] = "Collaborate on the same content with you classmates here\n"
         newNote["ups"] = 0
+        //newNote["courseId"] = courseId
         newNote.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             var notesRelation: PFRelation = course.relationForKey("notes")
             notesRelation.addObject(newNote)
@@ -1265,8 +1278,9 @@ extension UIViewController {    //load data functions
         let resourceRelation: PFRelation = course.relationForKey("resources")
 
         var newResource = PFObject(className: "Resource")
-        newResource["title"] = "Google"
-        newResource["url"] = "http://google.com"
+        newResource["title"] = "Wolfram Alpha"
+        newResource["url"] = "http://www.wolframalpha.com"
+        //newResource["courseId"] = courseId
         newResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             resourceRelation.addObject(newResource)
             course.saveInBackground()
@@ -1275,10 +1289,36 @@ extension UIViewController {    //load data functions
         var anotherResource = PFObject(className: "Resource")
         anotherResource["title"] = "Wikipedia"
         anotherResource["url"] = "http://wikipedia.org"
+        //anotherResource["courseId"] = courseId
         anotherResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             resourceRelation.addObject(anotherResource)
             course.saveInBackground()
         }
+    }
+    
+    func showActivityIndicatory(uiView: UIView) {
+//        var container: UIView = UIView()
+//        container.frame = uiView.frame
+//        container.center = uiView.center
+//        container.backgroundColor = Helper().colorWithRGBHex(0x00c853, alpha: 0.3)
+        
+        var loadingView: UIView = UIView()
+        loadingView.frame = CGRectMake(0, 0, 80, 80)
+        loadingView.center = uiView.center
+        loadingView.backgroundColor = Helper().colorWithRGBHex(0x00c853, alpha: 0.7)
+        loadingView.clipsToBounds = true
+        loadingView.layer.cornerRadius = 10
+        
+        var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
+        actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
+        actInd.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.WhiteLarge
+        actInd.center = CGPointMake(loadingView.frame.size.width / 2,
+            loadingView.frame.size.height / 2);
+        loadingView.addSubview(actInd)
+        //container.addSubview(loadingView)
+        uiView.addSubview(loadingView)
+        actInd.startAnimating()
     }
 }
 

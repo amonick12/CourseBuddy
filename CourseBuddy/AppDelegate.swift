@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let appKey = "5xvrorolpwgr6kv"
         let appSecret = "lloe2ix3agsjlw3"
         
+        //let dropboxSession = DBSession(appKey: appKey, appSecret: appSecret, root: kDBRootAppFolder)
         let dropboxSession = DBSession(appKey: appKey, appSecret: appSecret, root: kDBRootAppFolder)
         DBSession.setSharedSession(dropboxSession)
         

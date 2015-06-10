@@ -385,7 +385,7 @@
         <!--Doc Nav View Controller-->
         <scene sceneID="Ldp-lr-5L9">
             <objects>
-                <navigationController storyboardIdentifier="DocNav" id="3f9-Df-sJz" customClass="DocNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DocNav" toolbarHidden="NO" id="3f9-Df-sJz" customClass="DocNavViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bie-nv-y0M">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -396,8 +396,13 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="CX4-Cm-fWh">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </toolbar>
                     <connections>
-                        <segue destination="8Dg-z5-tzu" kind="relationship" relationship="rootViewController" id="awD-2Z-gos"/>
+                        <segue destination="DQS-g7-LiT" kind="relationship" relationship="rootViewController" id="7tY-Ym-6FR"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sw1-pC-1Fp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -610,31 +615,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQs-jX-Obv">
-                                <rect key="frame" x="0.0" y="540" width="300" height="60"/>
-                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="1sU-j4-HsB"/>
-                                    <constraint firstAttribute="height" constant="60" id="7SW-2U-4Tf"/>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="Vrt-dv-uWu"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="spg-Gt-OdY"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="doneButtonPressed:" destination="Dtb-Ax-qtx" eventType="touchUpInside" id="auQ-BT-DKk"/>
-                                </connections>
-                            </button>
-                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_file" translatesAutoresizingMaskIntoConstraints="NO" id="E8f-EG-JbD">
-                                <rect key="frame" x="0.0" y="110" width="300" height="422"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="1tE-Q9-lbj" appends="YES" id="5gh-6V-wxt"/>
-                                </connections>
-                            </imageView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Image Description" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="zRC-3c-4lP">
                                 <rect key="frame" x="16" y="52" width="268" height="50"/>
                                 <color key="tintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -649,6 +629,31 @@
                                     <outlet property="delegate" destination="Dtb-Ax-qtx" id="ykK-a4-inf"/>
                                 </connections>
                             </textField>
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_file" translatesAutoresizingMaskIntoConstraints="NO" id="E8f-EG-JbD">
+                                <rect key="frame" x="0.0" y="110" width="300" height="422"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="1tE-Q9-lbj" appends="YES" id="5gh-6V-wxt"/>
+                                </connections>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQs-jX-Obv">
+                                <rect key="frame" x="0.0" y="540" width="300" height="60"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="70" id="1sU-j4-HsB"/>
+                                    <constraint firstAttribute="height" constant="60" id="7SW-2U-4Tf"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="Vrt-dv-uWu"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="spg-Gt-OdY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="Upload">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="Dtb-Ax-qtx" eventType="touchUpInside" id="auQ-BT-DKk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -820,6 +825,20 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iw9-kg-hGT">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Dmh-Ih-mdQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="Upload">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="confirmButtonPressed:" destination="DSl-HE-OYY" eventType="touchUpInside" id="knF-0y-VYT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -827,13 +846,17 @@
                             <constraint firstAttribute="trailing" secondItem="srm-i6-gOR" secondAttribute="trailing" id="7Ru-2Q-AvM"/>
                             <constraint firstAttribute="trailing" secondItem="Ogb-De-EFf" secondAttribute="trailing" id="7ZN-ka-Lpi"/>
                             <constraint firstItem="srm-i6-gOR" firstAttribute="top" secondItem="Vpu-VY-MXT" secondAttribute="top" constant="44" id="OSN-rZ-iTV"/>
+                            <constraint firstItem="Uxa-lp-IUG" firstAttribute="top" secondItem="Iw9-kg-hGT" secondAttribute="bottom" id="R32-bV-EN6"/>
                             <constraint firstItem="srm-i6-gOR" firstAttribute="bottom" secondItem="Uxa-lp-IUG" secondAttribute="top" id="RV0-Ef-i1s"/>
                             <constraint firstItem="srm-i6-gOR" firstAttribute="leading" secondItem="Vpu-VY-MXT" secondAttribute="leading" id="anm-ae-b38"/>
+                            <constraint firstItem="Iw9-kg-hGT" firstAttribute="leading" secondItem="Vpu-VY-MXT" secondAttribute="leading" id="eG1-mv-qDg"/>
                             <constraint firstItem="Ogb-De-EFf" firstAttribute="top" secondItem="Vpu-VY-MXT" secondAttribute="top" id="xDw-s4-OVH"/>
+                            <constraint firstAttribute="trailing" secondItem="Iw9-kg-hGT" secondAttribute="trailing" id="zJf-Cg-Z20"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="confirmButton" destination="Iw9-kg-hGT" id="Mwe-o6-18r"/>
                         <outlet property="navBar" destination="Ogb-De-EFf" id="vzv-Oa-z4P"/>
                         <outlet property="navTitle" destination="7hF-88-AXn" id="0hv-GW-JZi"/>
                         <outlet property="webView" destination="srm-i6-gOR" id="leY-Hh-clZ"/>
@@ -843,10 +866,10 @@
             </objects>
             <point key="canvasLocation" x="-678" y="2472"/>
         </scene>
-        <!--Documents-->
+        <!--Add Document-->
         <scene sceneID="b4A-d2-VpX">
             <objects>
-                <tableViewController storyboardIdentifier="Documents" providesPresentationContextTransitionStyle="YES" id="8Dg-z5-tzu" customClass="DocumentsViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AddDocuments" providesPresentationContextTransitionStyle="YES" id="8Dg-z5-tzu" customClass="AddDocumentsViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8Ox-MB-UbJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -860,7 +883,7 @@
                             <color key="trackTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </progressView>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocumentCell" textLabel="lZ7-iP-lmm" rowHeight="60" style="IBUITableViewCellStyleDefault" id="n0T-kd-vgu">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddDocumentCell" textLabel="lZ7-iP-lmm" rowHeight="60" style="IBUITableViewCellStyleDefault" id="n0T-kd-vgu">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="n0T-kd-vgu" id="Edy-gK-L2i">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -880,30 +903,34 @@
                             <outlet property="delegate" destination="8Dg-z5-tzu" id="cmv-9P-Uam"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Documents" id="8h6-Ql-02m">
-                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="edP-eC-VPE">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ud0-ST-dPa"/>
+                        <barButtonItem title="Connect with Dropbox" id="sJv-5G-uKw">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="cancelButtonPressed:" destination="8Dg-z5-tzu" id="v8A-i6-heH"/>
+                                <action selector="connectButtonPressed:" destination="8Dg-z5-tzu" id="aUr-c4-VT0"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="dropbox" id="zkN-fR-9I2">
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nNM-29-fp3"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Add Document" id="8h6-Ql-02m">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="stop" id="zkN-fR-9I2">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="connectButtonPressed:" destination="8Dg-z5-tzu" id="2tp-m4-xQi"/>
+                                <action selector="cancelButtonPressed:" destination="8Dg-z5-tzu" id="D3h-8o-ef4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="connectButton" destination="zkN-fR-9I2" id="ana-7F-xF6"/>
+                        <outlet property="connectButton" destination="sJv-5G-uKw" id="wWR-Pc-Uo1"/>
                         <outlet property="progressBar" destination="DtM-zS-D5H" id="d23-Na-Sib"/>
                         <segue destination="DSl-HE-OYY" kind="presentation" identifier="showFileSegue" id="4ZN-Gu-vfY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebU-fD-o4N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-678" y="1756"/>
+            <point key="canvasLocation" x="-1328" y="2472"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="Fpe-LH-pQb">
@@ -1118,19 +1145,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" translucent="NO" id="OVf-gn-ugj">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="prominent" prompt="First Select Your University" placeholder="Search Universities" translucent="NO" id="1ga-mE-NCc">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="barTintColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <textAttributes key="titleTextAttributes">
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </textAttributes>
-                            <items>
-                                <navigationItem title="Universities" prompt="First Select Your University" id="Kkk-nW-Wa8"/>
-                            </items>
-                        </navigationBar>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="Ao2-QC-Yre" id="JPa-uP-VWI"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="UniversityCell" textLabel="Mo4-e0-ncc" rowHeight="80" style="IBUITableViewCellStyleDefault" id="etK-nQ-VcE">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -1153,6 +1178,9 @@
                         </connections>
                     </tableView>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="searchBar" destination="1ga-mE-NCc" id="LMy-SW-f3T"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qE5-mq-vcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1719,8 +1747,8 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Iax-bS-n6a"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <state key="normal" title="Confirm">
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="Upload">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1789,7 +1817,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="9pD-Cq-ab7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1880,22 +1908,6 @@
                                     <outlet property="delegate" destination="2wt-wu-1tv" id="54W-N8-4aC"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8I1-df-rMK">
-                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
-                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="OFx-3m-iJa"/>
-                                    <constraint firstAttribute="height" constant="60" id="iFH-A6-Tyq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="doneButtonPressed:" destination="2wt-wu-1tv" eventType="touchUpInside" id="a5S-6S-whk"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="Start New Note Here" translatesAutoresizingMaskIntoConstraints="NO" id="QzX-gN-EUz">
                                 <rect key="frame" x="16" y="94" width="568" height="428"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1907,6 +1919,22 @@
                                     <outlet property="delegate" destination="2wt-wu-1tv" id="lyg-wQ-hRd"/>
                                 </connections>
                             </textView>
+                            <button opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8I1-df-rMK">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="OFx-3m-iJa"/>
+                                    <constraint firstAttribute="height" constant="60" id="iFH-A6-Tyq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="Upload">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="2wt-wu-1tv" eventType="touchUpInside" id="a5S-6S-whk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2252,12 +2280,65 @@
             </objects>
             <point key="canvasLocation" x="3018" y="1054"/>
         </scene>
+        <!--Documents-->
+        <scene sceneID="daT-W3-UwD">
+            <objects>
+                <tableViewController storyboardIdentifier="Documents" providesPresentationContextTransitionStyle="YES" id="DQS-g7-LiT" customClass="DocumentsViewController" customModule="CourseBuddy" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wtp-wr-qwj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocumentCell" textLabel="pBh-7m-Ucf" rowHeight="60" style="IBUITableViewCellStyleDefault" id="ow9-wa-I1B">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ow9-wa-I1B" id="shX-fY-juc">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pBh-7m-Ucf">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="DQS-g7-LiT" id="40b-6i-UI7"/>
+                            <outlet property="delegate" destination="DQS-g7-LiT" id="Ml9-Yn-dae"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Documents" id="3b0-Ns-DMH">
+                        <barButtonItem key="backBarButtonItem" title=" " id="HBG-aV-UKw"/>
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="YtL-Jg-iVD">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="closeButtonPressed:" destination="DQS-g7-LiT" id="ubX-Bj-0wy"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="20w-Gg-WIU">
+                            <connections>
+                                <segue destination="8Dg-z5-tzu" kind="show" identifier="addDocumentSegue" id="jUl-i8-BzF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="DSl-HE-OYY" kind="presentation" identifier="showFileSegue" id="RZc-Zd-IOe"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="73r-c9-tu4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-678" y="1748"/>
+        </scene>
     </scenes>
     <resources>
         <image name="add" width="32" height="32"/>
         <image name="courses" width="32" height="32"/>
         <image name="document" width="32" height="32"/>
-        <image name="dropbox" width="32" height="32"/>
         <image name="forward_arrow" width="32" height="32"/>
         <image name="image" width="32" height="32"/>
         <image name="image_file" width="100" height="100"/>
@@ -2270,6 +2351,7 @@
         <image name="roster" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="4ZN-Gu-vfY"/>
         <segue reference="WZc-lM-SOC"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

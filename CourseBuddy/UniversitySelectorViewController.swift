@@ -14,15 +14,15 @@ protocol UniversitySelectorDelegate {
     func userSelectedUniversity(named: String, id: String)
 }
 
-class UniversitySelectorViewController: UITableViewController {
+class UniversitySelectorViewController: UITableViewController, UISearchBarDelegate {
 
+    @IBOutlet weak var searchBar: UISearchBar!
     var delegate: UniversitySelectorDelegate?
     var geoPoint: AnyObject?
     var universities: [AnyObject]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -34,6 +34,16 @@ class UniversitySelectorViewController: UITableViewController {
             }
         }
         getUniversities("")
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        getUniversities(searchBar.text)
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        getUniversities(searchBar.text)
+        searchBar.resignFirstResponder()
     }
     
     func getUniversities(searchBarText: String) {

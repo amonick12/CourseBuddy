@@ -30,6 +30,7 @@ class AddCourseViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         if courseTextField.text != "" {
+            view.resignFirstResponder()
             dismissViewControllerAnimated(true, completion: nil)
             delegate?.newCourseAdded(courseTextField.text.stringByReplacingOccurrencesOfString(" ", withString: ""))
         }

@@ -23,6 +23,7 @@
 		001C9B701B236A61007262F9 /* iPhone intro.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 001C9B6E1B236A61007262F9 /* iPhone intro.pdf */; };
 		001C9B731B236BA1007262F9 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B721B236BA1007262F9 /* Comment.swift */; };
 		001C9B751B236BB2007262F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B741B236BB2007262F9 /* Post.swift */; };
+		001C9B7A1B27AAB0007262F9 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001C9B791B27AAB0007262F9 /* DocumentsViewController.swift */; };
 		005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429461B1E4D1600EA737C /* AppDelegate.swift */; };
 		005429491B1E4D1600EA737C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005429481B1E4D1600EA737C /* ViewController.swift */; };
 		0054294C1B1E4D1600EA737C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0054294A1B1E4D1600EA737C /* Main.storyboard */; };
@@ -69,7 +70,7 @@
 		005C58F51B20BE8A00EC06CD /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58F41B20BE8A00EC06CD /* GroupsTableViewController.swift */; };
 		005C58F71B20BE9A00EC06CD /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C58F61B20BE9A00EC06CD /* PostViewController.swift */; };
 		00C8A4451B1E7C6B00D6F273 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */; };
-		00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */; };
+		00C8A4481B1E9E8800D6F273 /* AddDocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4471B1E9E8800D6F273 /* AddDocumentsViewController.swift */; };
 		00C8A44A1B1E9EAA00D6F273 /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */; };
 		00C8A44C1B1E9EC800D6F273 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A44B1B1E9EC800D6F273 /* NotesViewController.swift */; };
 		00C8A44E1B1E9EFC00D6F273 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8A44D1B1E9EFC00D6F273 /* ImagesViewController.swift */; };
@@ -104,6 +105,7 @@
 		001C9B6E1B236A61007262F9 /* iPhone intro.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "iPhone intro.pdf"; path = "../../../iPhone intro.pdf"; sourceTree = "<group>"; };
 		001C9B721B236BA1007262F9 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		001C9B741B236BB2007262F9 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		001C9B791B27AAB0007262F9 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		005429411B1E4D1600EA737C /* CourseBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CourseBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		005429451B1E4D1600EA737C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005429461B1E4D1600EA737C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -155,7 +157,7 @@
 		005C58F41B20BE8A00EC06CD /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		005C58F61B20BE9A00EC06CD /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		00C8A4441B1E7C6B00D6F273 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
+		00C8A4471B1E9E8800D6F273 /* AddDocumentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDocumentsViewController.swift; sourceTree = "<group>"; };
 		00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
 		00C8A44B1B1E9EC800D6F273 /* NotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		00C8A44D1B1E9EFC00D6F273 /* ImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
@@ -207,11 +209,12 @@
 			isa = PBXGroup;
 			children = (
 				005C58EB1B209B1F00EC06CD /* AddCourseViewController.swift */,
-				001C9B551B21D962007262F9 /* AddInstructorViewController.swift */,
-				001C9B571B21D96E007262F9 /* AddGroupViewController.swift */,
+				00C8A4471B1E9E8800D6F273 /* AddDocumentsViewController.swift */,
 				001C9B611B22280E007262F9 /* AddResourceViewController.swift */,
 				001C9B631B22281A007262F9 /* AddNoteViewController.swift */,
 				001C9B651B222824007262F9 /* AddImageViewController.swift */,
+				001C9B551B21D962007262F9 /* AddInstructorViewController.swift */,
+				001C9B571B21D96E007262F9 /* AddGroupViewController.swift */,
 			);
 			name = AddContentVCs;
 			sourceTree = "<group>";
@@ -375,7 +378,7 @@
 		00C8A4461B1E95F800D6F273 /* MenuFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				00C8A4471B1E9E8800D6F273 /* DocumentsViewController.swift */,
+				001C9B791B27AAB0007262F9 /* DocumentsViewController.swift */,
 				00C8A4491B1E9EAA00D6F273 /* ResourcesViewController.swift */,
 				00C8A44B1B1E9EC800D6F273 /* NotesViewController.swift */,
 				005C58DE1B1FDB6800EC06CD /* NoteDetailViewController.swift */,
@@ -509,7 +512,7 @@
 				00C8A4501B1E9F1E00D6F273 /* RosterViewController.swift in Sources */,
 				00C8A44C1B1E9EC800D6F273 /* NotesViewController.swift in Sources */,
 				005C58DB1B1F921F00EC06CD /* FileViewController.swift in Sources */,
-				00C8A4481B1E9E8800D6F273 /* DocumentsViewController.swift in Sources */,
+				00C8A4481B1E9E8800D6F273 /* AddDocumentsViewController.swift in Sources */,
 				001C9B731B236BA1007262F9 /* Comment.swift in Sources */,
 				005C58F31B20BE7F00EC06CD /* InstructorsTableViewController.swift in Sources */,
 				00C8A4521B1E9F3500D6F273 /* NotificationsViewController.swift in Sources */,
@@ -517,6 +520,7 @@
 				005C58F51B20BE8A00EC06CD /* GroupsTableViewController.swift in Sources */,
 				001C9B561B21D962007262F9 /* AddInstructorViewController.swift in Sources */,
 				005429471B1E4D1600EA737C /* AppDelegate.swift in Sources */,
+				001C9B7A1B27AAB0007262F9 /* DocumentsViewController.swift in Sources */,
 				005C58E41B1FEEAC00EC06CD /* DocNavViewController.swift in Sources */,
 				0054296F1B1E784300EA737C /* ScheduleViewController.swift in Sources */,
 				005C58DD1B1FC58900EC06CD /* WebViewController.swift in Sources */,

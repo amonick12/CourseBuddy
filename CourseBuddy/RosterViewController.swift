@@ -87,7 +87,7 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
         mailComposerVC.mailComposeDelegate = self
         mailComposerVC.setToRecipients(selectedEmails)
         mailComposerVC.setMessageBody("\n\n\nSent from CourseBuddy \(courseCode!)", isHTML: false)
-        var userEmail = PFUser.currentUser()?.email
+        var userEmail = PFUser.currentUser()?.username
         mailComposerVC.setBccRecipients([userEmail!])
         //mailComposerVC.navigationBar.tintColor = UIColor.whiteColor()
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
