@@ -15,6 +15,7 @@ protocol AddResourceDelegate {
 class AddResourceViewController: UIViewController, UITextFieldDelegate, WebViewDelegate {
 
     var delegate: AddResourceDelegate?
+    var selectedCourse: AnyObject?
     
     @IBOutlet weak var resourceTitleTextField: UITextField!
     @IBOutlet weak var urlTextField: UITextField!
@@ -38,6 +39,7 @@ class AddResourceViewController: UIViewController, UITextFieldDelegate, WebViewD
         vc.resourceTitle = resourceTitle
         vc.address = url
         vc.addingResource = true
+        vc.selectedCourse = self.selectedCourse
         vc.delegate = self
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
     }

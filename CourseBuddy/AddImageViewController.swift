@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 protocol AddImageDelegate {
     func imageToAdd(newImage: UIImage, description: String)
@@ -15,6 +16,7 @@ protocol AddImageDelegate {
 class AddImageViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
 
     var delegate: AddImageDelegate?
+    var selectedCourse: AnyObject?
     
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var imageDescription: UITextField!
@@ -27,7 +29,10 @@ class AddImageViewController: UIViewController, UITextViewDelegate, UIImagePicke
     override func viewDidLoad() {
         super.viewDidLoad()
         doneButton.hidden = true
-        
+        if let course = selectedCourse as? PFObject {
+            let courseCode = course["courseId"] as! String
+            doneButton.setTitle("Share with \(courseCode)", forState: .Normal)
+        }
         
         defaultImage = UIImage(named: "image_file")
     }
@@ -48,6 +53,7 @@ class AddImageViewController: UIViewController, UITextViewDelegate, UIImagePicke
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         imageView.image = image
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
         selectedImage = image
         imageSelected = true
         doneButton.hidden = false
@@ -57,6 +63,7 @@ class AddImageViewController: UIViewController, UITextViewDelegate, UIImagePicke
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         imageSelected = false
+        imageView.contentMode = UIViewContentMode.Center
         imageView.image = defaultImage
         selectedImage = nil
     }

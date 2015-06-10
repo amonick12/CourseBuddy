@@ -29,7 +29,13 @@ class DocumentsViewController: UITableViewController, AddDocumentsDelegate {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        tableView.rowHeight = 60.0
         loadDocuments()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.toolbarHidden = true
     }
     
     func loadDocuments() {

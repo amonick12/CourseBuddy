@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 protocol WebViewDelegate {
     func newResourceConfirmed()
@@ -22,17 +23,22 @@ class WebViewController: UIViewController {
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var webView: UIWebView!
     
+    var selectedCourse: AnyObject?
     var resourceTitle: String?
     var address: String?
     var addingResource: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         confirmButton.hidden = true
         if let adding = addingResource {
             if adding {
-                confirmButton.hidden = false
+                if let course = selectedCourse as? PFObject {
+                    let courseCode = course["courseId"] as! String
+                    confirmButton.setTitle("Share with \(courseCode)", forState: .Normal)
+                    confirmButton.hidden = false
+                }
             }
         }
         

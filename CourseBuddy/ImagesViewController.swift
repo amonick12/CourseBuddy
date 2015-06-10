@@ -103,6 +103,7 @@ class ImagesViewController: UICollectionViewController, AddImageDelegate {
         } else if segue.identifier == "addImageSegue" {
             let vc = segue.destinationViewController as! AddImageViewController
             vc.delegate = self
+            vc.selectedCourse = self.selectedCourse
         }
     }
 

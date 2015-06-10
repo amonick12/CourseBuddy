@@ -122,6 +122,7 @@ class ViewController: UIViewController {
                             //println(course.objectId)
                             println(course["courseId"])
                             self.courseCodes.append(course["courseId"] as! String)
+                            self.addCourseAsChannel(course.objectId!)
                         }
                     }
                 } else {
@@ -130,6 +131,19 @@ class ViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func addCourseAsChannel(channelID: String) {
+        let currentInstallation = PFInstallation.currentInstallation()
+        currentInstallation.addUniqueObject(channelID, forKey: "channels")
+        currentInstallation["user"] = PFUser.currentUser()!
+        currentInstallation.saveInBackground()
+    }
+    
+    func removeCourseAsChannel(channelID: String) {
+        let currentInstallation = PFInstallation.currentInstallation()
+        currentInstallation.removeObject(channelID, forKey: "channels")
+        currentInstallation.saveInBackground()
     }
     
     func loadInstructors() {
@@ -271,6 +285,7 @@ extension ViewController: ScheduleDelegate {
             if newCourse == nil {
                 newCourse = PFObject(className: "Course")
                 newCourse!["courseId"] = courseCode
+                newCourse!["name"] = courseCode
                 //newCourse!["creator"] = PFUser.currentUser()!
                 newCourse!["university"] = self.university
                 newCourse!["description"] = "\(courseCode) Discussion\n\nAdd Course Name Here"
@@ -314,6 +329,8 @@ extension ViewController: ScheduleDelegate {
         println("Delete course at index: \(atIndex)")
         println("Course to delete: \(courseCodes[atIndex])")
         var courseToDelete: PFObject = courses![atIndex] as! PFObject
+        //remove channel
+        removeCourseAsChannel(courseToDelete.objectId!)
         let schedule = PFUser.currentUser()?.relationForKey("schedule")
         schedule!.removeObject(courseToDelete)
         let participants = courseToDelete.relationForKey("participants")
@@ -752,6 +769,8 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
             if checkIfCourseIsSelected(sender) {
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = storyboard.instantiateViewControllerWithIdentifier("NotificationsNav") as! NotificationsNavViewController
+                let root = vc.visibleViewController as! NotificationsViewController
+                root.selectedObject = self.selectedObject
                 vc.modalPresentationStyle = UIModalPresentationStyle.Popover
                 let popover: UIPopoverPresentationController = vc.popoverPresentationController!
                 popover.barButtonItem = sender
@@ -1111,6 +1130,18 @@ class DescriptionCell: UITableViewCell {
 }
 
 extension UIViewController {    //load data functions
+    
+    func sendPostPushNotification() {
+        
+    }
+    
+    func sendImportantPushNotification() {
+        
+    }
+    
+    func sendCommentPushNotification() {
+        
+    }
     
     func addDefaultData(course: PFObject, courseId: String) {
         var post = PFObject(className: "Post")

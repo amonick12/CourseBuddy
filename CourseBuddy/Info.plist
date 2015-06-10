@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location will only be used to find the closest Universities</string>
+	<string>Your location will only be used to find the closest universities</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>me.coursebuddy.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>me.coursebuddy.CourseBuddy</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

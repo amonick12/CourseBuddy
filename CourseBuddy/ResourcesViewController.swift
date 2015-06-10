@@ -60,6 +60,7 @@ class ResourcesViewController: UITableViewController, AddResourceDelegate {
         else if segue.identifier == "addResourceSegue" {
             if let destination = segue.destinationViewController as? AddResourceViewController {
                 destination.delegate = self
+                destination.selectedCourse = self.selectedCourse
             }
         }
     }

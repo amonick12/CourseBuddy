@@ -19,6 +19,7 @@ class FileViewController: UIViewController {
     var delegate: FileViewDelegate?
     var selectedCourse: AnyObject?
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var navTitle: UINavigationItem!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var webView: UIWebView!
@@ -32,6 +33,7 @@ class FileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicator.hidden = true
         if let course = selectedCourse as? PFObject {
             let courseCode = course["courseId"] as! String
             confirmButton.setTitle("Share with \(courseCode)", forState: .Normal)
@@ -64,6 +66,10 @@ class FileViewController: UIViewController {
     @IBAction func confirmButtonPressed(sender: AnyObject) {
 
         if selectedCourse != nil {
+            
+            confirmButton.setTitle("", forState: .Normal)
+            activityIndicator.hidden = false
+            activityIndicator.startAnimating()
             var newDocument = PFObject(className: "File")
             newDocument["filename"] = filename
             newDocument["mimeType"] = mimeType
