@@ -52,7 +52,6 @@ class UniversitySelectorViewController: UITableViewController, UISearchBarDelega
             query.whereKey("name", containsString: searchBarText)
         }
         //query.orderByDescending("numOfUsers")
-        //query.addAscendingOrder("name")
         //query.orderByDescending("name")
         //query.whereKeyDoesNotExist("geopoint")
         //query.limit = 1000
@@ -60,6 +59,8 @@ class UniversitySelectorViewController: UITableViewController, UISearchBarDelega
             let point = geoPoint as! PFGeoPoint
             query.whereKeyExists("geopoint")
             query.whereKey("geopoint", nearGeoPoint: point)
+        } else {
+            query.addAscendingOrder("name")
         }
         query.findObjectsInBackgroundWithBlock {
             (universities: [AnyObject]?, error: NSError?) -> Void in
@@ -67,6 +68,10 @@ class UniversitySelectorViewController: UITableViewController, UISearchBarDelega
                 self.universities = universities
                 // The find succeeded.
                 NSLog("Successfully retrieved \(universities!.count) universities.")
+                if universities!.count == 0 {
+                    //show alert
+                    self.showAlert()
+                }
                 // Do something with the found objects
                 self.tableView.reloadData()
             } else {
@@ -75,6 +80,47 @@ class UniversitySelectorViewController: UITableViewController, UISearchBarDelega
         }
     }
 
+    func showAlert() {
+        let alertController = UIAlertController(title: "Make sure you spelled the university name correctly", message: "If you think your university is missing, enter the name below for confirmation", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alertController.addTextFieldWithConfigurationHandler({(txtField: UITextField!) in
+            txtField.placeholder = "Your University Name"
+        })
+        
+        let deleteAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive, handler: {(alert :UIAlertAction!) in
+            println("Delete button tapped")
+        })
+        alertController.addAction(deleteAction)
+        
+        let okAction = UIAlertAction(title: "Send", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+            println("OK button tapped")
+            if let textField = alertController.textFields?.first as? UITextField {
+                println(textField.text)
+                if textField.text != "" {
+                    var feedback = PFObject(className: "Feedback")
+                    feedback["feedback"] = "university missing named: \(textField.text)"
+                    feedback["user"] = PFUser.currentUser()!
+                    feedback.saveInBackground()
+                    self.confirmAlert()
+                }
+            }
+            
+        })
+        alertController.addAction(okAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func confirmAlert() {
+        let alertController = UIAlertController(title: "Sent", message: "We will contact you at \(PFUser.currentUser()!.username!) when we confirm your university is missing", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
+            println("OK button tapped")
+            
+        })
+        alertController.addAction(okAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -117,6 +163,9 @@ class UniversitySelectorViewController: UITableViewController, UISearchBarDelega
             let okAction = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in
                 println("Confirm button tapped")
                 self.dismissViewControllerAnimated(true, completion: nil)
+                let relation = selectedUniversity.relationForKey("participants") as PFRelation
+                relation.addObject(PFUser.currentUser()!)
+                selectedUniversity.saveInBackground()
                 self.delegate?.userSelectedUniversity(univName, id: univID!)
             })
             alertController.addAction(okAction)

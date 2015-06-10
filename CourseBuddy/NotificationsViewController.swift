@@ -84,7 +84,6 @@ class NotificationsViewController: UITableViewController {
             })
         }
         
-        
     }
     
     @IBAction func postSwitchChanged(sender: UISwitch) {

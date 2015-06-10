@@ -222,7 +222,7 @@ class RosterViewController: UITableViewController, MFMailComposeViewControllerDe
                             PFUser.currentUser()?.email = email
                             PFUser.currentUser()?["domain"] = domain
                             PFUser.currentUser()?.saveInBackground()
-                            let sentAlert = UIAlertController(title: "Verification Sent", message: "Check your .edu email inbox", preferredStyle: .Alert)
+                            let sentAlert = UIAlertController(title: "Verification Sent", message: "Check your inbox at \(email)", preferredStyle: .Alert)
                             sentAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
                             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
                             self.presentViewController(sentAlert, animated: true, completion: nil)

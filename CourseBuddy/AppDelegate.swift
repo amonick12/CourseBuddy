@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+//import ParseCrashReporting
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
+        
+        //ParseCrashReporting.enable();
         Parse.setApplicationId("mqEr9uffiuVDYO78EilxSqW3uyCNmsvSoPGUVjka", clientKey: "E2wb5H05DVZbqe8qwphg7limlHUEajarnIPozH10")
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
@@ -44,13 +46,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         installation.saveInBackground()
     }
     
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        PFPush.handlePush(userInfo)
+    }
+    
     func application(application: UIApplication,
         openURL url: NSURL,
         sourceApplication: String?,
         annotation: AnyObject?) -> Bool {
             
             println("return from \(sourceApplication)")
-            println("annotation: \(annotation)")
             
             switch sourceApplication! {
             case "com.facebook.Facebook", "com.apple.mobilesafari":
@@ -74,6 +79,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
+        let currentInstallation = PFInstallation.currentInstallation()
+        if currentInstallation.badge != 0 {
+            currentInstallation.badge = 0
+            currentInstallation.saveEventually()
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {

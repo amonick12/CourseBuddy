@@ -65,7 +65,7 @@ class ViewController: UIViewController {
     }
     
     func setDefaultPost() {
-        comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Course Discussions\n\t• Specific Discussions\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Configure Notifications", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, shown: false)
+        comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Course Discussion\n\t• Specific Discussions\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Configure Notifications", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, shown: false)
         comment1 = Comment(content: "Check out all the ways to promote social learning for each course on your schedule in the menu above", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true, shown: false)
         post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2], shown: false)
     }
@@ -122,7 +122,10 @@ class ViewController: UIViewController {
                             //println(course.objectId)
                             println(course["courseId"])
                             self.courseCodes.append(course["courseId"] as! String)
-                            self.addCourseAsChannel(course.objectId!)
+                            //self.addCourseAsChannel(course.objectId!)
+                            let currentInstallation = PFInstallation.currentInstallation()
+                            currentInstallation["user"] = PFUser.currentUser()!
+                            currentInstallation.saveInBackground()
                         }
                     }
                 } else {
@@ -330,7 +333,7 @@ extension ViewController: ScheduleDelegate {
         println("Course to delete: \(courseCodes[atIndex])")
         var courseToDelete: PFObject = courses![atIndex] as! PFObject
         //remove channel
-        removeCourseAsChannel(courseToDelete.objectId!)
+        //removeCourseAsChannel(courseToDelete.objectId!)
         let schedule = PFUser.currentUser()?.relationForKey("schedule")
         schedule!.removeObject(courseToDelete)
         let participants = courseToDelete.relationForKey("participants")
@@ -368,6 +371,8 @@ extension ViewController: ProfileDelegate {
         selectedCourseCode = nil
         selectedCourse = nil
         selectedObject = nil
+        courses = nil
+        courseCodes.removeAll(keepCapacity: false)
         checkUser()
         self.navigationItem.title = "CourseBuddy"
         let font = UIFont(name: "Noteworthy-Light", size: 23)
@@ -1140,10 +1145,11 @@ extension ViewController {    //load data functions
     
     func sendPostPushNotification(poster: String, anon: Bool) {
         if let object = selectedObject as? PFObject {
+            println("send post push")
             let name = object["name"] as! String
-            let channel = object.objectId!
+            //let channel = object.objectId!
             let pushQuery = PFInstallation.query()!
-            pushQuery.whereKey("channels", equalTo: channel)
+            //pushQuery.whereKey("channels", equalTo: channel)
             pushQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
             let participantQuery = object.relationForKey("wantsPostNotifications").query()!
             pushQuery.whereKey("user", matchesQuery: participantQuery)
@@ -1165,15 +1171,16 @@ extension ViewController {    //load data functions
     }
     
     func sendImportantPushNotification(poster: String) {
+        println("send important post push")
         if let object = selectedObject as? PFObject {
             let name = object["name"] as! String
-            let channel = object.objectId!
+            //let channel = object.objectId!
             let pushQuery = PFInstallation.query()!
-            pushQuery.whereKey("channels", equalTo: channel)
+            //pushQuery.whereKey("channels", equalTo: channel)
             pushQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
             let participantQuery = object.relationForKey("wantsImportantPostNotifications").query()!
             pushQuery.whereKey("user", matchesQuery: participantQuery)
-            let message = "\(poster) posted in \(name) Discussion as Important"
+            let message = "\(poster) posted as important in \(name) Discussion"
             let data = [
                 "alert" : message,
                 "badge" : "Increment",
@@ -1187,11 +1194,12 @@ extension ViewController {    //load data functions
     }
     
     func sendCommentPushNotification(poster: String, anon: Bool, post: PFObject) {
+        println("send comment push")
         if let object = selectedObject as? PFObject {
             let name = object["name"] as! String
-            let channel = object.objectId!
+            //let channel = object.objectId!
             let pushQuery = PFInstallation.query()!
-            pushQuery.whereKey("channels", equalTo: channel)
+            //pushQuery.whereKey("channels", equalTo: channel)
             pushQuery.whereKey("user", notEqualTo: PFUser.currentUser()!)
             let participantQuery = post.relationForKey("participants").query()!
             pushQuery.whereKey("user", matchesQuery: participantQuery)
