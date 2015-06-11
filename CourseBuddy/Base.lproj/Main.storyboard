@@ -233,10 +233,10 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QD7-bO-oz5">
                                                     <rect key="frame" x="20" y="0.0" width="560" height="82"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zY8-cc-on1">
-                                                            <rect key="frame" x="12" y="55" width="76" height="21"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="rmS-Fb-YvM">
+                                                            <rect key="frame" x="484" y="55" width="68" height="21"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="21" id="PHL-b2-2BC"/>
+                                                                <constraint firstAttribute="height" constant="21" id="Iaj-5C-xYH"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -248,10 +248,10 @@
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmS-Fb-YvM">
-                                                            <rect key="frame" x="472" y="55" width="68" height="21"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zY8-cc-on1">
+                                                            <rect key="frame" x="10" y="55" width="76" height="21"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="21" id="Iaj-5C-xYH"/>
+                                                                <constraint firstAttribute="height" constant="21" id="PHL-b2-2BC"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -263,8 +263,8 @@
                                                         <constraint firstItem="rmS-Fb-YvM" firstAttribute="top" secondItem="Xix-VD-eNc" secondAttribute="bottom" constant="20" id="41u-NH-3LN"/>
                                                         <constraint firstItem="Xix-VD-eNc" firstAttribute="top" secondItem="QD7-bO-oz5" secondAttribute="top" constant="8" id="4OI-wj-9cF"/>
                                                         <constraint firstAttribute="bottom" secondItem="rmS-Fb-YvM" secondAttribute="bottom" constant="6" id="HDJ-GD-iJk"/>
-                                                        <constraint firstAttribute="trailing" secondItem="rmS-Fb-YvM" secondAttribute="trailing" constant="20" id="Hu2-QJ-bHT"/>
-                                                        <constraint firstItem="zY8-cc-on1" firstAttribute="leading" secondItem="QD7-bO-oz5" secondAttribute="leading" constant="12" id="NiL-AA-L0z"/>
+                                                        <constraint firstAttribute="trailing" secondItem="rmS-Fb-YvM" secondAttribute="trailing" constant="8" id="Hu2-QJ-bHT"/>
+                                                        <constraint firstItem="zY8-cc-on1" firstAttribute="leading" secondItem="QD7-bO-oz5" secondAttribute="leading" constant="10" id="NiL-AA-L0z"/>
                                                         <constraint firstItem="Xix-VD-eNc" firstAttribute="leading" secondItem="QD7-bO-oz5" secondAttribute="leading" constant="12" id="Wvl-c7-UD9"/>
                                                         <constraint firstItem="zY8-cc-on1" firstAttribute="top" secondItem="Xix-VD-eNc" secondAttribute="bottom" constant="20" id="as0-C1-jbc"/>
                                                         <constraint firstAttribute="trailing" secondItem="Xix-VD-eNc" secondAttribute="trailing" constant="20" id="ceI-Az-a32"/>
@@ -361,6 +361,7 @@
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="notificationButton" destination="slc-0b-C9R" id="bsG-IS-kSR"/>
                         <outlet property="postButton" destination="vXJ-wg-dxI" id="72B-O3-Dp0"/>
                         <outlet property="scheduleBarButton" destination="WNj-KL-UTr" id="NR5-Kb-B9D"/>
                         <outlet property="tableView" destination="rpm-c5-kxi" id="BOM-I7-We4"/>
@@ -1211,12 +1212,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ppq-nh-oOI" id="Ha9-tj-WiE">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i72-oF-zkN">
-                                            <rect key="frame" x="260" y="14" width="32" height="32"/>
-                                            <state key="normal" image="notification-green">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Instructor Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Mwx-g6-XUN">
                                             <rect key="frame" x="16" y="8" width="236" height="43"/>
                                             <constraints>
@@ -1226,15 +1221,24 @@
                                             <color key="textColor" red="0.17254901959999999" green="0.84705882349999995" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i72-oF-zkN">
+                                            <rect key="frame" x="250" y="2" width="50" height="56"/>
+                                            <state key="normal" image="notification-green">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="notificationButtonPressed:" destination="Ppq-nh-oOI" eventType="touchUpInside" id="RfC-vZ-fOS"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="i72-oF-zkN" firstAttribute="leading" secondItem="Mwx-g6-XUN" secondAttribute="trailing" constant="8" id="KLy-KP-MIl"/>
+                                        <constraint firstItem="i72-oF-zkN" firstAttribute="leading" secondItem="Mwx-g6-XUN" secondAttribute="trailing" constant="-2" id="KLy-KP-MIl"/>
                                         <constraint firstAttribute="bottom" secondItem="Mwx-g6-XUN" secondAttribute="bottom" constant="8" id="bML-vQ-xcw"/>
-                                        <constraint firstItem="i72-oF-zkN" firstAttribute="leading" secondItem="Mwx-g6-XUN" secondAttribute="trailing" constant="8" id="cq4-0f-mI2"/>
-                                        <constraint firstAttribute="bottom" secondItem="i72-oF-zkN" secondAttribute="bottom" constant="13" id="e4i-YS-blP"/>
+                                        <constraint firstItem="i72-oF-zkN" firstAttribute="leading" secondItem="Mwx-g6-XUN" secondAttribute="trailing" constant="-2" id="cq4-0f-mI2"/>
+                                        <constraint firstAttribute="bottom" secondItem="i72-oF-zkN" secondAttribute="bottom" constant="1" id="e4i-YS-blP"/>
                                         <constraint firstItem="Mwx-g6-XUN" firstAttribute="leading" secondItem="Ha9-tj-WiE" secondAttribute="leading" constant="16" id="kOf-1c-y2U"/>
-                                        <constraint firstItem="i72-oF-zkN" firstAttribute="top" secondItem="Ha9-tj-WiE" secondAttribute="top" constant="14" id="kc8-yX-qfw"/>
-                                        <constraint firstAttribute="trailing" secondItem="i72-oF-zkN" secondAttribute="trailing" constant="8" id="sVv-mr-hgF"/>
+                                        <constraint firstItem="i72-oF-zkN" firstAttribute="top" secondItem="Ha9-tj-WiE" secondAttribute="top" constant="2" id="kc8-yX-qfw"/>
+                                        <constraint firstAttribute="trailing" secondItem="i72-oF-zkN" secondAttribute="trailing" id="sVv-mr-hgF"/>
                                         <constraint firstItem="Mwx-g6-XUN" firstAttribute="top" secondItem="Ha9-tj-WiE" secondAttribute="top" constant="8" id="u6K-dg-u6D"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -1538,20 +1542,23 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZRN-db-ztY">
-                                            <rect key="frame" x="260" y="14" width="32" height="32"/>
+                                            <rect key="frame" x="250" y="2" width="50" height="56"/>
                                             <state key="normal" image="notification-green">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="notificationButtonPressed:" destination="kdf-A1-WZc" eventType="touchUpInside" id="xbr-mE-kqQ"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="ZRN-db-ztY" firstAttribute="leading" secondItem="Oa7-13-qy3" secondAttribute="trailing" constant="8" id="GGV-mN-tcp"/>
-                                        <constraint firstItem="ZRN-db-ztY" firstAttribute="top" secondItem="aVI-T0-YNs" secondAttribute="top" constant="14" id="cCx-oY-0XP"/>
+                                        <constraint firstItem="ZRN-db-ztY" firstAttribute="leading" secondItem="Oa7-13-qy3" secondAttribute="trailing" constant="-2" id="GGV-mN-tcp"/>
+                                        <constraint firstItem="ZRN-db-ztY" firstAttribute="top" secondItem="aVI-T0-YNs" secondAttribute="top" constant="2" id="cCx-oY-0XP"/>
                                         <constraint firstItem="Oa7-13-qy3" firstAttribute="top" secondItem="aVI-T0-YNs" secondAttribute="top" constant="8" id="ilR-Ed-W34"/>
-                                        <constraint firstItem="ZRN-db-ztY" firstAttribute="leading" secondItem="Oa7-13-qy3" secondAttribute="trailing" constant="8" id="mFa-O6-ppV"/>
+                                        <constraint firstItem="ZRN-db-ztY" firstAttribute="leading" secondItem="Oa7-13-qy3" secondAttribute="trailing" constant="-2" id="mFa-O6-ppV"/>
                                         <constraint firstItem="Oa7-13-qy3" firstAttribute="leading" secondItem="aVI-T0-YNs" secondAttribute="leading" constant="16" id="mn8-3j-jbU"/>
-                                        <constraint firstAttribute="bottom" secondItem="ZRN-db-ztY" secondAttribute="bottom" constant="13" id="ryX-wu-pqm"/>
-                                        <constraint firstAttribute="trailing" secondItem="ZRN-db-ztY" secondAttribute="trailing" constant="8" id="tnq-NG-P01"/>
+                                        <constraint firstAttribute="bottom" secondItem="ZRN-db-ztY" secondAttribute="bottom" constant="1" id="ryX-wu-pqm"/>
+                                        <constraint firstAttribute="trailing" secondItem="ZRN-db-ztY" secondAttribute="trailing" id="tnq-NG-P01"/>
                                         <constraint firstAttribute="bottom" secondItem="Oa7-13-qy3" secondAttribute="bottom" constant="8" id="xb5-sk-2bO"/>
                                     </constraints>
                                 </tableViewCellContentView>

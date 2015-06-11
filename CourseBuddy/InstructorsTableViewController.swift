@@ -12,19 +12,39 @@ import Parse
 protocol InstructorTableDelegate {
     func didSelectInstructor(atIndex: Int)
     func didAddNewInstructor(named: String, description: String?)
+    func didSelectInstructorNotifications(controller: InstructorsTableViewController, atIndex: Int)
+}
+
+protocol InstructorCellDelegate {
+    func notificationButtonPressed(atIndex: Int, selected: Bool)
 }
 
 class InstructorCell: UITableViewCell {
     @IBOutlet weak var instructorLabel: UILabel!
     @IBOutlet var notificationButton: UIButton!
+    
+    var atIndex: Int?
+    var delegate: InstructorCellDelegate?
+    
+    @IBAction func notificationButtonPressed(sender: UIButton) {
+        if notificationButton.selected {
+            notificationButton.setImage(UIImage(named: "notification-green"), forState: UIControlState.Normal)
+        } else {
+            notificationButton.setImage(UIImage(named: "notification-green-filled"), forState: UIControlState.Selected)
+        }
+        notificationButton.selected = !notificationButton.selected
+        delegate?.notificationButtonPressed(atIndex!, selected: notificationButton.selected)
+    }
+    
 }
 
-class InstructorsTableViewController: UITableViewController, AddInstructorDelegate {
+class InstructorsTableViewController: UITableViewController, AddInstructorDelegate, InstructorCellDelegate {
 
     var delegate: InstructorTableDelegate?
     
     let defaultData = ["Professor Chaos", "Stephen Hawking"]
     var instructors: [AnyObject]?
+    var instructorNotifications: [Bool]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +59,11 @@ class InstructorsTableViewController: UITableViewController, AddInstructorDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    func notificationButtonPressed(atIndex: Int, selected: Bool) {
+        println("notification button pressed at index: \(atIndex), selected: \(selected)")
+        delegate?.didSelectInstructorNotifications(self, atIndex: atIndex)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -73,6 +98,12 @@ class InstructorsTableViewController: UITableViewController, AddInstructorDelega
         if instructors != nil {
             var instructor = instructors![indexPath.row] as! PFObject
             cell.instructorLabel.text = instructor["name"] as? String
+            cell.atIndex = indexPath.row
+            cell.delegate = self
+//            if instructorNotifications![indexPath.row] {
+//                cell.notificationButton.selected = true
+//                cell.notificationButton.setImage(UIImage(named: "notification-green-filled"), forState: .Selected)
+//            }
         } else {
             cell.instructorLabel.text = defaultData[indexPath.row]
         }

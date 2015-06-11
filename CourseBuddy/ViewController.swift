@@ -12,6 +12,7 @@ import ParseUI
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var notificationButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     //var postShown: [Bool]?
     var descriptionShown: Bool?
@@ -38,7 +39,9 @@ class ViewController: UIViewController {
     var discussionDescription: String?
     
     var instructorObjects: [AnyObject]?
+    var instructorNotifications: [Bool]?
     var groupObjects: [AnyObject]?
+    var groupNotifications: [Bool]?
     
     var comment1: Comment!
     var comment2: Comment!
@@ -67,7 +70,7 @@ class ViewController: UIViewController {
     func setDefaultPost() {
         comment2 = Comment(content: "Here are some things you can do in each course:\n\t• Course Discussion\n\t• Specific Discussions\n\t• Share Files\n\t• Share Webpages\n\t• Share Notes\n\t• Share Images\n\t• Email Classmates\n\t• Configure Notifications", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, shown: false)
         comment1 = Comment(content: "Check out all the ways to promote social learning for each course on your schedule in the menu above", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: true, shown: false)
-        post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a discussion with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2], shown: false)
+        post = Post(content: "After you select your university and input the course codes from your schedule, you will be connected in a virtual social learning enviroment with your classmates and professors", courseCode: "coursebuddy", poster: "CourseBuddy", date: NSDate(), anon: false, important: false, comments: [comment1, comment2], shown: false)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -160,6 +163,58 @@ class ViewController: UIViewController {
                     println("retrieved \(instructors!.count) instructors")
                     self.instructorObjects = instructors
                     
+                    //get notification settings
+//                    let objects = instructors as! [PFObject]
+//                    var index = 0
+//                    for object in objects {
+//                        var postNotification: Bool?
+//                        var importantNotification: Bool?
+//                        var commentNotificaiton: Bool?
+//                        //relation name = wantPostNotifications
+//                        var wantsPostNotificationsQuery: PFQuery = object.relationForKey("wantsPostNotifications").query()!
+//                        wantsPostNotificationsQuery.whereKey("objectId", equalTo: PFUser.currentUser()!.objectId!)
+//                        wantsPostNotificationsQuery.getFirstObjectInBackgroundWithBlock({ (object, error) -> Void in
+//                            if error == nil {
+//                                println("user is in relation to recieve post notifications")
+//                                postNotification = true
+//                            } else {
+//                                println("user not in relation to recieve post notifications")
+//                                postNotification = false
+//                            }
+//                            //relation name = wantsImportantPostNotifications
+//                            var wantsImportantPostNotificationsQuery: PFQuery = object!.relationForKey("wantsImportantPostNotifications").query()!
+//                            wantsImportantPostNotificationsQuery.whereKey("objectId", equalTo: PFUser.currentUser()!.objectId!)
+//                            wantsImportantPostNotificationsQuery.getFirstObjectInBackgroundWithBlock({ (object, error) -> Void in
+//                                if error == nil {
+//                                    println("user is in relation to recieve important post notifications")
+//                                    importantNotification = true
+//                                } else {
+//                                    println("user not in relation to recieve important post notifications")
+//                                    importantNotification = false
+//                                }
+//                                //relation name = wantsCommentNotifications
+//                                var wantsCommentNotificationsQuery: PFQuery = object!.relationForKey("wantsCommentNotifications").query()!
+//                                wantsCommentNotificationsQuery.whereKey("objectId", equalTo: PFUser.currentUser()!.objectId!)
+//                                wantsCommentNotificationsQuery.getFirstObjectInBackgroundWithBlock({ (object, error) -> Void in
+//                                    if error == nil {
+//                                        println("user is in relation to recieve comment notifications")
+//                                        commentNotificaiton = true
+//                                    } else {
+//                                        println("user not in relation to recieve comment notifications")
+//                                        commentNotificaiton = false
+//                                    }
+//                                    
+//                                    if postNotification! || importantNotification! || commentNotificaiton! {
+//                                        self.instructorNotifications![index] = true
+//                                    } else {
+//                                        self.instructorNotifications![index] = false
+//                                    }
+//                                    index++
+//                                })
+//                            })
+//                        })
+//                    }
+                    
                 } else {
                     //failure
                     println("There was an error fetching the instructors.")
@@ -248,12 +303,6 @@ extension ViewController: ScheduleDelegate {
         selectedCourse = courses![index]
         selectedObject = courses![index]
         println("selected course: \(selectedCourseCode)")
-//        let course = selectedObject as! PFObject
-//        if let description = course["description"] as? String {
-//            self.discussionDescription = description
-//        } else {
-//            self.discussionDescription = self.defaultDescription
-//        }
         loadPosts()
         loadInstructors()
         loadGroups()
@@ -806,6 +855,16 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         }
         
     }
+    func didSelectGroupNotifications(controller: GroupsTableViewController, atIndex: Int) {
+        if let groups = groupObjects as? [PFObject] {
+            let group = groups[atIndex]
+            selectedObject = group
+            loadPosts()
+            controller.dismissViewControllerAnimated(true, completion: nil)
+            self.notificationsButtonPressed(notificationButton)
+        }
+    }
+
     func didAddNewGroup(named: String, description: String?) {
         let groupName = named
         var newGroup = PFObject(className: "Group") as PFObject
@@ -822,6 +881,21 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         post["content"] = "This is a specific discussion for \(groupName) within \(selectedCourseCode!)"
         post["courseId"] = selectedCourseCode
         post["anon"] = false
+        
+        var groupComments = [String]()
+        groupComments.append("Configure your notification settings for when you would like to be alerted in this discussion")
+        var groupCommentPosters = [String]()
+        groupCommentPosters.append("CourseBuddy")
+        var groupCommentDates = [NSDate]()
+        groupCommentDates.append(NSDate())
+        var groupCommentsAnon = [Bool]()
+        groupCommentsAnon.append(true)
+        
+        post["comments"] = groupComments
+        post["commentPosters"] = groupCommentPosters
+        post["commentDates"] = groupCommentDates
+        post["commentsAnon"] = groupCommentsAnon
+        
         post.saveInBackgroundWithBlock { (succeeded: Bool, error: NSError?) -> Void in
             var postsRelation: PFRelation = newGroup.relationForKey("posts")
             postsRelation.addObject(post)
@@ -853,6 +927,16 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
             
         }
     }
+    func didSelectInstructorNotifications(controller: InstructorsTableViewController, atIndex: Int) {
+        if let instructors = instructorObjects as? [PFObject] {
+            let instructor = instructors[atIndex]
+            selectedObject = instructor
+            loadPosts()
+            controller.dismissViewControllerAnimated(true, completion: nil)
+            self.notificationsButtonPressed(notificationButton)
+        }
+    }
+
     func didAddNewInstructor(named: String, description: String?) {
         let instructorName = named
         var newInstructor = PFObject(className: "Instructor") as PFObject
@@ -869,6 +953,21 @@ extension ViewController: GroupsTableDelegate, InstructorTableDelegate {
         post["content"] = "This is a specific discussion for \(instructorName) within \(selectedCourseCode!)"
         post["courseId"] = selectedCourseCode
         post["anon"] = false
+        
+        var instructorComments = [String]()
+        instructorComments.append("Configure your notification settings for when you would like to be alerted in this discussion")
+        var instructorCommentPosters = [String]()
+        instructorCommentPosters.append("CourseBuddy")
+        var instructorCommentDates = [NSDate]()
+        instructorCommentDates.append(NSDate())
+        var instructorCommentsAnon = [Bool]()
+        instructorCommentsAnon.append(true)
+        
+        post["comments"] = instructorComments
+        post["commentPosters"] = instructorCommentPosters
+        post["commentDates"] = instructorCommentDates
+        post["commentsAnon"] = instructorCommentsAnon
+        
         post.saveInBackgroundWithBlock { (succeeded: Bool, error: NSError?) -> Void in
             var postsRelation: PFRelation = newInstructor.relationForKey("posts")
             postsRelation.addObject(post)
@@ -1225,10 +1324,22 @@ extension ViewController {    //load data functions
     func addDefaultData(course: PFObject, courseId: String) {
         var post = PFObject(className: "Post")
         post["poster"] = "CourseBuddy"
-        post["content"] = "Here are some things you can do within CourseBuddy \(courseId.uppercaseString)"
-        //post["courseId"] = courseId
         post["anon"] = false
-        var comments = ["Create an anonymous post to ask a question or start a converstation", "Tap a post to add a comment", "Share a screenshot of \(courseId.uppercaseString) related content", "Have discussions specific to your instructor for course assignments and reminders", "Start a group discussion to communicate with your classmates on group projects outside of class", "Email classmates and instructors from within the roster section of the app", "Contribute to shared notes related to \(courseId.uppercaseString) with your classmates", "Share a resource related to \(courseId.uppercaseString) by simply copying and pasting a URL", "Configure your notifications to be alerted of activity in your CourseBuddy courses"]
+        post["content"] = "Here are some things you can do within CourseBuddy \(courseId)"
+        var comments = [
+            "Create a post to ask a question or start a converstation",
+            "Submit a post or comment as anonymous if you don't want your name associated with it",
+            "Submit posts as important to distinguish them from normal posts",
+            "If you don't see your course instructor in the Instructors List, add their name to start a discussion specifically for homework questions in their classes",
+            "Add a group to the Groups List to have discussions about group projects or study groups within \(courseId)",
+            "Connect to Dropbox to share documents related to \(courseId)",
+            "Share a webpage as a resource for \(courseId) by pasting a URL",
+            "Contribute to shared notes related to \(courseId) with your classmates",
+            "Share a screenshot from your device of \(courseId) related content",
+            "Email classmates and instructors quickly inside the roster for targeted communication",
+            "Configure your notifications to be alerted of activity in \(courseId) discussion and specific discussions within \(courseId)"
+        ]
+        
         var commentPosters = [String]()
         var commentDates = [NSDate]()
         var commentsAnon = [Bool]()
@@ -1297,25 +1408,29 @@ extension ViewController {    //load data functions
         var newInstructor = PFObject(className: "Instructor") as PFObject
         newInstructor["name"] = "CourseBuddy"
         //newInstructor["courseId"] = courseId
-        let instructorMessage = "This is the default instructor discussion to teach you about CourseBuddy Instructors!"
+        let instructorMessage = "\(courseId)\n\nCourseBuddy Discussion"
         newInstructor["description"] = instructorMessage
 
         var instructorPost = PFObject(className: "Post")
         instructorPost["poster"] = "CourseBuddy"
-        instructorPost["content"] = "CourseBuddy Instructors"
+        instructorPost["content"] = "This is the default Instructor Discussion for \(courseId)"
         instructorPost["anon"] = true
         var instructorComments = [String]()
-        instructorComments.append("If you don't see your instructor for " + courseId.uppercaseString + " when you tap the X on CourseBuddy to go back to the list of instructors, simply enter their name to start a discussion specific to events happening in their classes")
-        instructorComments.append("Encourage your instructor to join to get notifications from them about reminders and homework help")
+        instructorComments.append("Go back to the Instructor List and select or add your instructor for \(courseId) for a more targeted discussion")
+        instructorComments.append("TAs and Tutors can also be added for targeted discussions within \(courseId)")
+        instructorComments.append("Notifications can be configured for each Instructor Discussions within \(courseId)")
         var instructorCommentPosters = [String]()
+        instructorCommentPosters.append("CourseBuddy")
         instructorCommentPosters.append("CourseBuddy")
         instructorCommentPosters.append("CourseBuddy")
         var instructorCommentDates = [NSDate]()
         instructorCommentDates.append(NSDate())
         instructorCommentDates.append(NSDate())
+        instructorCommentDates.append(NSDate())
         var instructorCommentsAnon = [Bool]()
         instructorCommentsAnon.append(false)
-        instructorCommentsAnon.append(true)
+        instructorCommentsAnon.append(false)
+        instructorCommentsAnon.append(false)
         
         instructorPost["comments"] = instructorComments
         instructorPost["commentPosters"] = instructorCommentPosters
@@ -1335,17 +1450,17 @@ extension ViewController {    //load data functions
         //make default group named Study Group with posts explaining the purpose of groups
         var newGroup = PFObject(className: "Group")
         newGroup["name"] = "Study Group"
-        let groupMessage = "This is a specfic discussion for a study group within " + courseId.uppercaseString + "\n\nTap here to add a Group Description"
+        let groupMessage = "\(courseId)\n\nStudy Group\n\nTap here to add a Group Description"
         newGroup["description"] = groupMessage
         //newGroup["courseId"] = courseId
 
         var groupPost = PFObject(className: "Post")
         groupPost["poster"] = "CourseBuddy"
-        groupPost["content"] = "CourseBuddy Groups"
+        groupPost["content"] = "This is a Study Group Discussion for \(courseId)"
         groupPost["anon"] = true
         var groupComments = [String]()
-        groupComments.append("Make a small group within " + courseId.uppercaseString + " by tapping the X on Study Group and adding a new one of your choice")
-        groupComments.append("Then tell your classmates within your group the name of your new group to have discussions and get notified of new activity")
+        groupComments.append("For any group within \(courseId), add a group discussion for out-of-the-classroom communication")
+        groupComments.append("Select when you want to be notified for each group you are involved in")
         var groupCommentPosters = [String]()
         groupCommentPosters.append("CourseBuddy")
         groupCommentPosters.append("CourseBuddy")

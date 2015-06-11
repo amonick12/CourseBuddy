@@ -15,8 +15,9 @@ class LoginViewController: PFLogInViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = Helper().colorWithRGBHex(0x00c853, alpha: 0.9)
-
-        // Do any additional setup after loading the view.
+        let logoView = UIImageView(image: UIImage(named:"cb_logo.png"))
+        self.logInView!.logo = logoView
+        self.logInView?.logo?.contentMode = UIViewContentMode.ScaleAspectFit
     }
 
     override func didReceiveMemoryWarning() {

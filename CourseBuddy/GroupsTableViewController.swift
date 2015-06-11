@@ -12,14 +12,34 @@ import Parse
 protocol GroupsTableDelegate {
     func didSelectGroup(atIndex: Int)
     func didAddNewGroup(named: String, description: String?)
+    func didSelectGroupNotifications(controller: GroupsTableViewController, atIndex: Int)
+
+}
+
+protocol GroupCellDelegate {
+    func notificationButtonPressed(atIndex: Int, selected: Bool)
 }
 
 class GroupCell: UITableViewCell {
     @IBOutlet weak var groupLabel: UILabel!
     @IBOutlet var notificationButton: UIButton!
+    
+    var atIndex: Int?
+    var delegate: GroupCellDelegate?
+    
+    @IBAction func notificationButtonPressed(sender: UIButton) {
+        if notificationButton.selected {
+            notificationButton.setImage(UIImage(named: "notification-green"), forState: UIControlState.Normal)
+        } else {
+            notificationButton.setImage(UIImage(named: "notification-green-filled"), forState: UIControlState.Selected)
+        }
+        notificationButton.selected = !notificationButton.selected
+        delegate?.notificationButtonPressed(atIndex!, selected: notificationButton.selected)
+    }
+    
 }
 
-class GroupsTableViewController: UITableViewController, AddGroupDelegate {
+class GroupsTableViewController: UITableViewController, AddGroupDelegate, GroupCellDelegate {
 
     var delegate: GroupsTableDelegate?
     
@@ -36,6 +56,11 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    func notificationButtonPressed(atIndex: Int, selected: Bool) {
+        println("notification button pressed at index: \(atIndex), selected: \(selected)")
+        delegate?.didSelectGroupNotifications(self, atIndex: atIndex)
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let vc = segue.destinationViewController as! AddGroupViewController
         vc.delegate = self
@@ -74,6 +99,8 @@ class GroupsTableViewController: UITableViewController, AddGroupDelegate {
         if groups != nil {
             var group = groups![indexPath.row] as! PFObject
             cell.groupLabel.text = group["name"] as? String
+            cell.atIndex = indexPath.row
+            cell.delegate = self
         } else {
             cell.groupLabel.text = defaultData[indexPath.row]
         }
