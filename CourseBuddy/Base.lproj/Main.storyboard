@@ -1574,6 +1574,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Groups" id="pMm-je-SHF">
+                        <barButtonItem key="backBarButtonItem" title=" " id="gQR-xY-zKN"/>
                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="su9-Wj-fUP">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>

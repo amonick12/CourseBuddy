@@ -1327,7 +1327,7 @@ extension ViewController {    //load data functions
         post["anon"] = false
         post["content"] = "Here are some things you can do within CourseBuddy \(courseId)"
         var comments = [
-            "Create a post to ask a question or start a converstation",
+            "Create a post to ask a question or start a conversation",
             "Submit a post or comment as anonymous if you don't want your name associated with it",
             "Submit posts as important to distinguish them from normal posts",
             "If you don't see your course instructor in the Instructors List, add their name to start a discussion specifically for homework questions in their classes",
@@ -1376,23 +1376,37 @@ extension ViewController {    //load data functions
         //parse images
         let imageRelation: PFRelation = course.relationForKey("documents")
 
-        var image0 = PFObject(className: "Document")
-        image0["poster"] = "CourseBuddy"
-        image0["title"] = "Share Written Notes"
-        //image0["courseId"] = courseId
-        let stickyImage = UIImage(named: "stickynote")
+//        var image0 = PFObject(className: "Document")
+//        image0["poster"] = "CourseBuddy"
+//        image0["title"] = "Share Written Notes"
+//        //image0["courseId"] = courseId
+//        let stickyImage = UIImage(named: "stickynote")
+//        //save image to file
+//        let imageData0 = UIImagePNGRepresentation(stickyImage)
+//        let imageFile0 = PFFile(name: "stickynote.png", data: imageData0)
+//        image0["image"] = imageFile0
+//        image0.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+//            imageRelation.addObject(image0)
+//            course.saveInBackground()
+//        }
+        
+        var image = PFObject(className: "Document")
+        image["poster"] = "CourseBuddy"
+        image["title"] = "Share Written Notes"
+        //image1["courseId"] = courseId
+        let sticky = UIImage(named: "stickynote")
         //save image to file
-        let imageData0 = UIImagePNGRepresentation(stickyImage)
-        let imageFile0 = PFFile(name: "stickynote.png", data: imageData0)
-        image0["image"] = imageFile0
-        image0.saveInBackgroundWithBlock { (succeeded, error) -> Void in
-            imageRelation.addObject(image0)
+        let imageData = UIImagePNGRepresentation(sticky)
+        let imageFile = PFFile(name: "stickynote.png", data: imageData)
+        image["image"] = imageFile
+        image.saveInBackgroundWithBlock { (succeeded, error) -> Void in
+            imageRelation.addObject(image)
             course.saveInBackground()
         }
         
         var image1 = PFObject(className: "Document")
         image1["poster"] = "CourseBuddy"
-        image1["title"] = "Share a Screenhot"
+        image1["title"] = "Share a Screenshot"
         //image1["courseId"] = courseId
         let screenshot = UIImage(named: "screenshot")
         //save image to file
@@ -1504,7 +1518,7 @@ extension ViewController {    //load data functions
 
         var newResource = PFObject(className: "Resource")
         newResource["title"] = "Wolfram Alpha"
-        newResource["url"] = "http://www.wolframalpha.com"
+        newResource["url"] = "http://wolframalpha.com"
         //newResource["courseId"] = courseId
         newResource.saveInBackgroundWithBlock { (succeeded, error) -> Void in
             resourceRelation.addObject(newResource)
@@ -1521,30 +1535,6 @@ extension ViewController {    //load data functions
         }
     }
     
-    func showActivityIndicatory(uiView: UIView) {
-//        var container: UIView = UIView()
-//        container.frame = uiView.frame
-//        container.center = uiView.center
-//        container.backgroundColor = Helper().colorWithRGBHex(0x00c853, alpha: 0.3)
-        
-        var loadingView: UIView = UIView()
-        loadingView.frame = CGRectMake(0, 0, 80, 80)
-        loadingView.center = uiView.center
-        loadingView.backgroundColor = Helper().colorWithRGBHex(0x00c853, alpha: 0.7)
-        loadingView.clipsToBounds = true
-        loadingView.layer.cornerRadius = 10
-        
-        var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
-        actInd.frame = CGRectMake(0.0, 0.0, 40.0, 40.0);
-        actInd.activityIndicatorViewStyle =
-            UIActivityIndicatorViewStyle.WhiteLarge
-        actInd.center = CGPointMake(loadingView.frame.size.width / 2,
-            loadingView.frame.size.height / 2);
-        loadingView.addSubview(actInd)
-        //container.addSubview(loadingView)
-        uiView.addSubview(loadingView)
-        actInd.startAnimating()
-    }
 }
 
 
